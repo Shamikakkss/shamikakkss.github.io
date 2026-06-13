@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://shamikakkss.github.io/sitemap.xml
+
+# Crawl delay hint (optional, respected by some bots)
+Crawl-delay: 5
