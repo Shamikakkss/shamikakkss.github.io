@@ -1041,6 +1041,186 @@
       font-size: 0.75rem;
     }
 
+    /* ─── PROJECT GALLERY (arrow carousel + lightbox) ─── */
+    #gallery {
+      padding: 20px 0 100px;
+    }
+
+    .gallery-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .gallery-track-wrap {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .gallery-track {
+      display: flex;
+      align-items: stretch;
+      gap: 20px;
+      transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.35, 1);
+      will-change: transform;
+    }
+
+    .gallery-slide {
+      flex-shrink: 0;
+      width: 280px; /* fallback; actual width is set by JS so exactly N cards fit, no partial card visible */
+      height: 340px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .gallery-slide:hover {
+      border-color: rgba(110, 231, 183, 0.35);
+      transform: translateY(-4px);
+    }
+
+    .gallery-slide-image {
+      position: absolute;
+      inset: 0;
+      background: var(--surface2);
+    }
+
+    .gallery-slide-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-slide-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 40px 18px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 20%, transparent 100%);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .gallery-slide:hover .gallery-slide-overlay,
+    .gallery-slide:focus-visible .gallery-slide-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gallery-slide-tag {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .gallery-slide-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .gallery-nav-btn {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(17, 17, 24, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      font-size: 1rem;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    .gallery-nav-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .gallery-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Lightbox */
+    .gallery-lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 8, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 40px;
+    }
+
+    .gallery-lightbox.is-open {
+      display: flex;
+    }
+
+    .gallery-lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+    }
+
+    .gallery-lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .gallery-lightbox-close:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    @media (max-width: 700px) {
+      .gallery-slide {
+        height: 250px;
+      }
+
+      .gallery-nav-btn {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
     /* ─── EDUCATION ─── */
     #education {
       background: var(--surface);
@@ -1552,7 +1732,7 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="Sachintha Shyamika.pdf" download class="nav-cta"><i class="fas fa-download"></i> Download CV</a>
+    <a href="Sachintha_Shyamika_CV.pdf" download class="nav-cta"><i class="fas fa-download"></i> Download CV</a>
     <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
   </nav>
 
@@ -1802,7 +1982,8 @@
           </div>
           <h3>Freelance Creative Service Management System - User Side</h3>
           <p class="project-desc">User-side final year project for managing creative service orders, tracking progress,
-            and improving client communication. Built as a full-stack solution with a firebase backend.</p>
+            and improving client communication. Built as a full-stack solution with a PHP/MySQL backend and Android
+            admin support.</p>
           <div class="project-tech">
             <span class="tech-tag">PHP</span>
             <span class="tech-tag">MySQL</span>
@@ -1831,7 +2012,7 @@
             <span class="tech-tag">Firebase</span>
             <span class="tech-tag">JavaScript</span>
           </div>
-          <p class="project-link-row"><a class="project-link" href="https://github.com/Shamikakkss" target="_blank" rel="noopener noreferrer">View My GitHub</a></p>
+          <!-- <p class="project-link-row"><a class="project-link" href="https://github.com/Shamikakkss/RuuGraphics---User" target="_blank" rel="noopener noreferrer">View Project Files</a></p> -->
         </div>
 
         <div class="project-card reveal">
@@ -1872,8 +2053,6 @@
             <span class="tech-tag">JavaScript</span>
             <span class="tech-tag">Responsive</span>
           </div>
-          <p class="project-link-row"><a class="project-link" href="https://shamikakkss.me/RuuGraphics/" target="_blank"
-              rel="noopener noreferrer">Visit Live Portfolio</a></p>
         </div>
 
         <div class="project-card reveal">
@@ -1960,13 +2139,12 @@
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
             <i class="fas fa-arrow-up-right-from-square"></i> Visit My Fiverr Profile
           </a>
-
+          
         </div>
       </div>
 
       <div class="exp-card reveal" itemscope itemtype="https://schema.org/WorkExperience" style="margin-top:24px;">
-        <div class="exp-icon"
-          style="background: linear-gradient(135deg, var(--primary-dim), rgba(110,231,183,0.02)); border-color: rgba(110,231,183,0.2); color: var(--primary);">
+        <div class="exp-icon" style="background: linear-gradient(135deg, var(--primary-dim), rgba(110,231,183,0.02)); border-color: rgba(110,231,183,0.2); color: var(--primary);">
           <i class="fas fa-laptop-code"></i>
         </div>
         <div>
@@ -1974,16 +2152,11 @@
           <h3 class="exp-title">Full-Stack Web Developer</h3>
           <p class="exp-company">Freelance &amp; Academic Projects · Remote / Sri Lanka</p>
           <ul class="exp-achievements">
-            <li>Built <strong>RuuGraphics</strong> end-to-end — a full-stack order management system with
-              Firebase/Firestore, real-time tracking, admin dashboard, PayHere payments, and Supabase storage.</li>
-            <li>Developed <strong>PHP/MySQL CRUD systems</strong> — including a Fund Management System and a Student
-              Management System with reporting and transactions.</li>
-            <li>Built <strong>responsive, SEO-optimised websites</strong> with clean, performance-focused front-end
-              code.</li>
-            <li>Implemented <strong>OTP authentication</strong>, real-time chat, and API integrations (Firebase,
-              Supabase, EmailJS) on live projects.</li>
-            <li>Comfortable across the <strong>full stack</strong> — database design, server logic, and client-ready UI.
-            </li>
+            <li>Built <strong>RuuGraphics</strong> end-to-end — a full-stack order management system with Firebase/Firestore, real-time tracking, admin dashboard, PayHere payments, and Supabase storage.</li>
+            <li>Developed <strong>PHP/MySQL CRUD systems</strong> — including a Fund Management System and a Student Management System with reporting and transactions.</li>
+            <li>Built <strong>responsive, SEO-optimised websites</strong> with clean, performance-focused front-end code.</li>
+            <li>Implemented <strong>OTP authentication</strong>, real-time chat, and API integrations (Firebase, Supabase, EmailJS) on live projects.</li>
+            <li>Comfortable across the <strong>full stack</strong> — database design, server logic, and client-ready UI.</li>
           </ul>
           <a href="https://github.com/Shamikakkss" target="_blank" rel="noopener noreferrer" class="btn-outline"
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
@@ -1993,6 +2166,37 @@
       </div>
     </div>
   </section>
+
+  <!-- PROJECT DESIGN GALLERY -->
+  <section id="gallery" aria-label="Sample Design Work">
+    <div class="section-inner" style="padding-bottom: 0;">
+      <div class="section-label">Sample Work</div>
+      <h2 class="section-title" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">Some of My Recent Work</h2>
+    </div>
+    <div class="section-inner" style="padding-top: 0;">
+      <div class="gallery-row">
+        <button class="gallery-nav-btn gallery-nav-prev" id="galleryPrev" aria-label="Previous">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="gallery-track-wrap">
+          <div class="gallery-track" id="galleryTrack">
+            <!-- Slides are loaded dynamically from Supabase Storage (see initGallery script below) -->
+          </div>
+        </div>
+        <button class="gallery-nav-btn gallery-nav-next" id="galleryNext" aria-label="Next">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="gallery-lightbox" id="galleryLightbox">
+    <button class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="galleryLightboxImg" src="" alt="Full-size design sample">
+  </div>
 
   <!-- EDUCATION -->
   <section id="education" aria-label="Education and Certifications">
@@ -2029,7 +2233,6 @@
             <div class="edu-period">2020 — 2023</div>
             <div class="edu-degree">G.C.E. Advanced Level</div>
             <div class="edu-institution">R/Balangoda Ananda Maithreya Central College</div>
-            <p style="font-size:0.83rem; color:var(--text-faint); margin-top:8px; font-weight:300;">Mathematics · Physics · Chemistry</p>
           </div>
         </div>
       </div>
@@ -2151,7 +2354,7 @@
               <i class="fas fa-paper-plane"></i> Send Message
             </button>
 
-            <a href="Sachintha Shyamika.pdf" download class="btn-outline"
+            <a href="Sachintha_Shyamika_CV.pdf" download class="btn-outline"
               style="align-self:flex-start; margin-top: 10px; text-align: center;">
               <i class="fas fa-download"></i> Download CV
             </a>
@@ -2263,6 +2466,195 @@
         submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       }
     });
+
+    // ── Project Design Gallery: images fetched from Supabase Storage ──
+    // Auto-scrolls right → left, center image scales up.
+    (async function initGallery() {
+      const track = document.getElementById('galleryTrack');
+      const prevBtn = document.getElementById('galleryPrev');
+      const nextBtn = document.getElementById('galleryNext');
+      const lightbox = document.getElementById('galleryLightbox');
+      const lightboxImg = document.getElementById('galleryLightboxImg');
+      const lightboxClose = document.getElementById('galleryLightboxClose');
+      if (!track) return;
+
+      const SUPABASE_URL = 'https://tvwxoexhhjgtqbhcfvwn.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d3hvZXhoaGpndHFiaGNmdnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5OTMwMTEsImV4cCI6MjA5OTU2OTAxMX0.-LmxwsMvjA_lEfzbGEAQlK4MTtwvwyi4uBP8UuKpt2I';
+      const BUCKET = 'gallery';
+
+      async function fetchImages() {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/storage/v1/object/list/${BUCKET}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ prefix: '', limit: 100, sortBy: { column: 'name', order: 'asc' } })
+          });
+
+          if (!res.ok) throw new Error(`Supabase list failed: ${res.status}`);
+          const files = await res.json();
+
+          return (files || [])
+            .filter(f => f.name && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name))
+            .map(f => ({ name: f.name, url: `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${f.name}` }));
+        } catch (err) {
+          console.error('Gallery load error:', err);
+          return null;
+        }
+      }
+
+      // Optional: put a "captions.json" file in the same bucket to give each
+      // image a custom title + small category tag, shown on hover, e.g.
+      // { "logo-1.jpg": { "title": "Legend Exteriors Identity", "description": "Logo Design" } }
+      async function fetchCaptions() {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/captions.json`, { cache: 'no-store' });
+          if (!res.ok) return {};
+          return await res.json();
+        } catch (err) {
+          return {};
+        }
+      }
+
+      function prettifyName(fileName) {
+        return fileName
+          .replace(/\.[^/.]+$/, '')
+          .replace(/[-_]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .replace(/\b\w/g, c => c.toUpperCase());
+      }
+
+      const [images, captions] = await Promise.all([fetchImages(), fetchCaptions()]);
+
+      if (images === null) {
+        track.innerHTML = `<div style="padding:20px; color:var(--text-faint); font-family:var(--font-mono); font-size:0.8rem;">Couldn't load gallery images right now.</div>`;
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+      }
+      if (images.length === 0) {
+        track.innerHTML = `<div style="padding:20px; color:var(--text-faint); font-family:var(--font-mono); font-size:0.8rem;">No images found in the "gallery" bucket yet.</div>`;
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+      }
+
+      // Build slides — duplicate the set once so the loop can wrap seamlessly
+      track.innerHTML = '';
+      function buildSlide(item) {
+        const meta = captions[item.name] || {};
+        const title = meta.title || prettifyName(item.name);
+        const tag = meta.description || meta.tag || '';
+
+        const slide = document.createElement('div');
+        slide.className = 'gallery-slide';
+        slide.tabIndex = 0;
+        slide.innerHTML = `
+          <div class="gallery-slide-image">
+            <img src="${item.url}" alt="${title}" loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--surface2), #1e1e2e)'; this.parentElement.querySelector('.gallery-slide-fallback').style.display='flex';">
+            <div class="gallery-slide-fallback"
+              style="display:none; position:absolute; inset:0; align-items:center; justify-content:center;">
+              <i class="fas fa-image" style="font-size:2rem; color:var(--text-faint);"></i>
+            </div>
+          </div>
+          <div class="gallery-slide-overlay">
+            ${tag ? `<div class="gallery-slide-tag">${tag}</div>` : ''}
+            <div class="gallery-slide-title">${title}</div>
+          </div>`;
+        slide.addEventListener('click', () => openLightbox(item.url));
+        return slide;
+      }
+      images.forEach(item => track.appendChild(buildSlide(item)));
+      images.forEach(item => track.appendChild(buildSlide(item))); // duplicate for seamless wrap
+
+      // ── Size cards so exactly N fit in the visible area — no partial/peeking card ──
+      const GAP = 20;
+      function visibleCount() {
+        const w = window.innerWidth;
+        if (w >= 1100) return 4;
+        if (w >= 760) return 3;
+        if (w >= 480) return 2;
+        return 1;
+      }
+      function applySlideSizing() {
+        const wrapWidth = track.parentElement.getBoundingClientRect().width;
+        const count = visibleCount();
+        const cardWidth = (wrapWidth - GAP * (count - 1)) / count;
+        track.querySelectorAll('.gallery-slide').forEach(s => {
+          s.style.width = `${cardWidth}px`;
+        });
+      }
+
+      // ── Continuous left-moving rotation, one slide at a time, every 3s ──
+      let offset = 0; // index into the doubled track
+      function slideWidth() {
+        const firstSlide = track.querySelector('.gallery-slide');
+        if (!firstSlide) return 300;
+        return firstSlide.getBoundingClientRect().width + GAP;
+      }
+
+      function render(withTransition = true) {
+        track.style.transition = withTransition ? 'transform 0.6s cubic-bezier(0.25, 0.8, 0.35, 1)' : 'none';
+        track.style.transform = `translateX(${-offset * slideWidth()}px)`;
+      }
+
+      function step() {
+        offset += 1;
+        render(true);
+
+        // Once we've scrolled past the first full set, snap back to the start
+        // instantly (on the duplicated, identical slide) so it loops forever.
+        if (offset >= images.length) {
+          setTimeout(() => {
+            offset = 0;
+            render(false);
+          }, 620);
+        }
+      }
+
+      let autoTimer = setInterval(step, 3000);
+
+      prevBtn.addEventListener('click', () => {
+        clearInterval(autoTimer);
+        offset = offset > 0 ? offset - 1 : images.length - 1;
+        render(true);
+        autoTimer = setInterval(step, 3000);
+      });
+      nextBtn.addEventListener('click', () => {
+        clearInterval(autoTimer);
+        step();
+        autoTimer = setInterval(step, 3000);
+      });
+      window.addEventListener('resize', () => {
+        applySlideSizing();
+        render(false);
+      });
+
+      applySlideSizing();
+      render(false);
+
+      // ── Lightbox (click image to view full size) ──
+      function openLightbox(url) {
+        lightboxImg.src = url;
+        lightbox.classList.add('is-open');
+      }
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightboxImg.src = '';
+      }
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+      });
+    })();
 
     // Mobile menu toggle
     let menuOpen = false;
