@@ -85,7 +85,7 @@
         "knowsAbout": [
           "Graphic Design", "Logo Design", "Brand Identity", "UI/UX Design",
           "Social Media Graphics", "Flyer Design", "Poster Design",
-          "Web Development", "PHP", "MySQL", "JavaScript", "HTML", "CSS",
+          "Web Development", "MERN Stack", "React.js", "Node.js", "Express.js", "MongoDB", "PHP", "MySQL", "JavaScript", "HTML", "CSS",
           "Firebase", "Firestore", "Supabase", "REST APIs", "Payment Gateway Integration",
           "Adobe Illustrator", "Adobe Photoshop", "Figma", "Canva",
           "AI Tools", "Prompt Engineering", "Cyber Security", "Full Stack Development"
@@ -193,7 +193,8 @@
   ═══════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -966,6 +967,73 @@
       letter-spacing: 0.04em;
     }
 
+    /* ─── FEATURED PROJECT HIGHLIGHT ─── */
+    .project-card.featured-project {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(17, 17, 24, 0.98), rgba(28, 20, 48, 0.75));
+      border: 1px solid rgba(167, 139, 250, 0.4);
+      box-shadow: 0 12px 40px rgba(167, 139, 250, 0.12);
+      position: relative;
+      overflow: hidden;
+      padding: 36px;
+    }
+
+    .project-card.featured-project::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent), var(--warm));
+    }
+
+    .project-card.featured-project:hover {
+      border-color: rgba(167, 139, 250, 0.7);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 55px rgba(167, 139, 250, 0.2);
+    }
+
+    .featured-badge {
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.25), rgba(110, 231, 183, 0.2));
+      color: #ffffff;
+      border: 1px solid rgba(167, 139, 250, 0.45);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 14px rgba(167, 139, 250, 0.25);
+    }
+
+    .featured-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 8px 0;
+      padding: 18px;
+      background: rgba(10, 10, 15, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+    }
+
+    .featured-feature-item {
+      font-size: 0.85rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .featured-feature-item i {
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    .featured-action-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
     /* ─── EXPERIENCE ─── */
     .exp-card {
       background: var(--surface);
@@ -1073,7 +1141,8 @@
 
     .gallery-slide {
       flex-shrink: 0;
-      width: 280px; /* fallback; actual width is set by JS so exactly N cards fit, no partial card visible */
+      width: 280px;
+      /* fallback; actual width is set by JS so exactly N cards fit, no partial card visible */
       height: 340px;
       border-radius: var(--radius);
       overflow: hidden;
@@ -1778,7 +1847,7 @@
           <div class="stat-label">Years Design</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">5+</div>
+          <div class="stat-num">6+</div>
           <div class="stat-label">Web Projects</div>
         </div>
         <div class="stat-item">
@@ -1806,7 +1875,8 @@
           </p>
           <p>Today, my focus is <strong>full-stack web development</strong>. I build with HTML, CSS, JavaScript, PHP,
             MySQL, Firebase/Firestore, and Supabase — and have hands-on experience with C# and Java from university. I'm
-            currently working on a live <strong>order management system</strong> for a real client as my final year project.
+            currently working on a live <strong>order management system</strong> for a real client as my final year
+            project.
           </p>
           <p>I'm actively pursuing <strong>cyber security</strong> alongside development, studying ethical hacking and
             network fundamentals to become a more well-rounded IT professional. I'm seeking an internship where I can
@@ -1818,7 +1888,8 @@
             <div class="highlight-icon hi-green"><i class="fas fa-laptop-code"></i></div>
             <div class="highlight-content">
               <h4>Full-Stack Developer</h4>
-              <p>PHP, MySQL, Firebase/Firestore, Supabase, HTML/CSS, JavaScript — building complete web applications end-to-end.</p>
+              <p>PHP, MySQL, Firebase/Firestore, Supabase, HTML/CSS, JavaScript — building complete web applications
+                end-to-end.</p>
             </div>
           </div>
           <div class="highlight-item">
@@ -1869,9 +1940,12 @@
           </div>
           <h3>Web Development</h3>
           <div class="skill-tags">
+            <span class="skill-tag">MERN Stack</span>
+            <span class="skill-tag">React.js</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">JavaScript</span>
             <span class="skill-tag">HTML5</span>
             <span class="skill-tag">CSS3</span>
-            <span class="skill-tag">JavaScript</span>
             <span class="skill-tag">PHP</span>
             <span class="skill-tag">MySQL</span>
             <span class="skill-tag">Responsive Design</span>
@@ -1885,12 +1959,15 @@
           </div>
           <h3>Backend & APIs</h3>
           <div class="skill-tags">
+            <span class="skill-tag">Express.js</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">JWT Auth</span>
             <span class="skill-tag">Firebase</span>
             <span class="skill-tag">Firestore</span>
             <span class="skill-tag">Supabase Storage</span>
             <span class="skill-tag">PayHere</span>
             <span class="skill-tag">EmailJS</span>
-            <span class="skill-tag">REST APIs</span>
             <span class="skill-tag">Binance API</span>
           </div>
         </div>
@@ -1992,51 +2069,78 @@
       </p>
 
       <div class="projects-grid">
-        <div class="project-card reveal">
+
+        <!-- FLAGSHIP FEATURED PROJECT: FINAL YEAR PROJECT -->
+        <div class="project-card featured-project reveal">
           <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-box-open"></i>
+            <div class="project-icon" style="background: var(--accent-dim); color: var(--accent); width: 54px; height: 54px; font-size: 1.3rem;">
+              <i class="fas fa-crown"></i>
             </div>
-            <span class="project-badge badge-active">Final Year Project</span>
+            <span class="project-badge featured-badge"><i class="fas fa-star" style="color: var(--warm); margin-right: 4px;"></i> Flagship Final Year Project</span>
           </div>
-          <h3>Freelance Creative Service Management System - User Side</h3>
-          <p class="project-desc">User-side final year project for managing creative service orders, tracking progress,
-            and improving client communication. Full-stack build with a Firebase/Firestore backend, Supabase Storage
-            for file delivery, PayHere payment gateway integration, and EmailJS order notifications.</p>
-          <div class="project-tech">
-            <span class="tech-tag">PHP</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Firebase/Firestore</span>
+          <h3 style="font-size: 1.35rem; color: #fff; margin-top: 4px;">Commercial Creative Service &amp; Order Management Platform</h3>
+          <p class="project-desc" style="font-size: 0.95rem;">
+            An <strong>industry-standard full-stack ERP &amp; Order Management System</strong> custom-built for a real commercial client (RuuGraphics) as my final year project at SLIATE. 
+            Successfully developed and presented as a complete production solution. Engineered to handle high-volume creative service orders, real-time client-admin communication, automated order workflows, secure cloud file delivery, and live revenue analytics.
+          </p>
+
+          <div class="featured-features-grid">
+            <div class="featured-feature-item"><i class="fas fa-bolt"></i> Real-Time Firestore Chat &amp; Status Timeline</div>
+            <div class="featured-feature-item"><i class="fas fa-credit-card"></i> PayHere Payment Gateway Integration</div>
+            <div class="featured-feature-item"><i class="fas fa-cloud-arrow-up"></i> Supabase Secure File Delivery Storage</div>
+            <div class="featured-feature-item"><i class="fas fa-envelope-circle-check"></i> EmailJS Automated Notifications</div>
+            <div class="featured-feature-item"><i class="fas fa-chart-line"></i> Admin Earnings &amp; Financial Analytics</div>
+            <div class="featured-feature-item"><i class="fas fa-shield-halved"></i> Role-Based Auth &amp; Order Security</div>
+          </div>
+
+          <div class="project-tech" style="gap: 8px;">
+            <span class="tech-tag" style="border-color: var(--accent); color: var(--accent); font-weight: 600;">Industry-Standard System</span>
+            <span class="tech-tag" style="border-color: var(--primary); color: var(--primary); font-weight: 600;">Completed</span>
+            <span class="tech-tag">Serverless Architecture</span>
+            <span class="tech-tag">JavaScript (ES6+)</span>
+            <span class="tech-tag">HTML5 / CSS3</span>
+            <span class="tech-tag">Firebase BaaS</span>
+            <span class="tech-tag">Cloud Firestore</span>
             <span class="tech-tag">Supabase Storage</span>
-            <span class="tech-tag">PayHere</span>
-            <span class="tech-tag">EmailJS</span>
-            <span class="tech-tag">Final Year Project</span>
+            <span class="tech-tag">PayHere Payment Gateway</span>
+            <span class="tech-tag">EmailJS Notifications</span>
+            <span class="tech-tag">OTP Authentication</span>
+            <span class="tech-tag">REST APIs</span>
+            <span class="tech-tag">Role-Based Security (RBAC)</span>
+            <span class="tech-tag">Real-Time Chat</span>
           </div>
-          <p class="project-link-row"><a class="project-link" href="http://shamikakkss.me/RuuGraphics---User/"
-              target="_blank" rel="noopener noreferrer">View Live Project</a></p>
+
+          <div class="featured-action-btns">
+            <a class="btn-primary" href="http://shamikakkss.me/RuuGraphics---User/" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.84rem;">
+              <i class="fas fa-external-link-alt"></i> Live User Portal
+            </a>
+            <a class="btn-outline" href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.84rem;">
+              <i class="fab fa-github"></i> Admin Dashboard Repository
+            </a>
+          </div>
         </div>
 
         <div class="project-card reveal">
           <div class="project-header">
-            <div class="project-icon" style="background: var(--accent-dim); color: var(--accent);">
-              <i class="fas fa-chart-line"></i>
+            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
+              <i class="fas fa-sitemap"></i>
             </div>
-            <span class="project-badge badge-active">Final Year Project</span>
+            <span class="project-badge badge-active">Ongoing Project</span>
           </div>
-          <h3>Freelance Creative Service Management System - Admin Side</h3>
-          <p class="project-desc">Admin dashboard for monitoring orders, handling client messages, managing support, and
-            keeping project activity organized in real time — including earnings calculation and a full Firestore-driven
-            order timeline.</p>
+          <h3>EkamuthuERP — Cloud Community &amp; Mutual Aid Management Platform</h3>
+          <p class="project-desc">A cloud-based ERP and mutual aid society management platform built on the MERN stack.
+            Designed for community organizations to streamline member profiles, monthly payment &amp; dues tracking, fund
+            allocation ledgers, contribution tracking, and automated financial reporting.</p>
           <div class="project-tech">
-            <span class="tech-tag">Order Dashboard</span>
-            <span class="tech-tag">Order Chat</span>
-            <span class="tech-tag">Support Chat</span>
-            <span class="tech-tag">Firebase</span>
-            <span class="tech-tag">Firestore</span>
-            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">MERN Stack</span>
+            <span class="tech-tag">React.js</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Express.js</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">REST APIs</span>
           </div>
-          <p class="project-link-row"><a class="project-link" href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank" rel="noopener noreferrer">View Project Files</a></p>
+          <p class="project-link-row"><a class="project-link" href="https://github.com/Shamikakkss/ekamuthu-erp"
+              target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a></p>
         </div>
 
         <div class="project-card reveal">
@@ -2188,12 +2292,13 @@
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
             <i class="fas fa-arrow-up-right-from-square"></i> Visit My Fiverr Profile
           </a>
-          
+
         </div>
       </div>
 
       <div class="exp-card reveal" itemscope itemtype="https://schema.org/WorkExperience" style="margin-top:24px;">
-        <div class="exp-icon" style="background: linear-gradient(135deg, var(--primary-dim), rgba(110,231,183,0.02)); border-color: rgba(110,231,183,0.2); color: var(--primary);">
+        <div class="exp-icon"
+          style="background: linear-gradient(135deg, var(--primary-dim), rgba(110,231,183,0.02)); border-color: rgba(110,231,183,0.2); color: var(--primary);">
           <i class="fas fa-laptop-code"></i>
         </div>
         <div>
@@ -2201,11 +2306,16 @@
           <h3 class="exp-title">Full-Stack Web Developer</h3>
           <p class="exp-company">Freelance &amp; Academic Projects · Remote / Sri Lanka</p>
           <ul class="exp-achievements">
-            <li>Built <strong>RuuGraphics</strong> end-to-end — a full-stack order management system with Firebase/Firestore, real-time tracking, admin dashboard, PayHere payments, and Supabase storage.</li>
-            <li>Developed <strong>PHP/MySQL CRUD systems</strong> — including a Fund Management System and a Student Management System with reporting and transactions.</li>
-            <li>Built <strong>responsive, SEO-optimised websites</strong> with clean, performance-focused front-end code.</li>
-            <li>Implemented <strong>OTP authentication</strong>, real-time chat, and API integrations (Firebase, Supabase, EmailJS, Binance API) on live projects.</li>
-            <li>Comfortable across the <strong>full stack</strong> — database design, server logic, and client-ready UI.</li>
+            <li>Built <strong>RuuGraphics</strong> end-to-end — a full-stack order management system with
+              Firebase/Firestore, real-time tracking, admin dashboard, PayHere payments, and Supabase storage.</li>
+            <li>Developed <strong>PHP/MySQL CRUD systems</strong> — including a Fund Management System and a Student
+              Management System with reporting and transactions.</li>
+            <li>Built <strong>responsive, SEO-optimised websites</strong> with clean, performance-focused front-end
+              code.</li>
+            <li>Implemented <strong>OTP authentication</strong>, real-time chat, and API integrations (Firebase,
+              Supabase, EmailJS, Binance API) on live projects.</li>
+            <li>Comfortable across the <strong>full stack</strong> — database design, server logic, and client-ready UI.
+            </li>
           </ul>
           <a href="https://github.com/Shamikakkss" target="_blank" rel="noopener noreferrer" class="btn-outline"
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
