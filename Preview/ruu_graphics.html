@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruu Graphics — Full-Stack Freelance Design Platform</title>
+  <meta name="description"
+    content="A full-stack real-time freelance graphic design ordering, direct chat, and delivery management system powered by Firebase, Supabase, and PayHere." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#c084fc',
+              500: '#a855f7',
+              600: '#9333ea',
+              700: '#7e22ce',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --primary: #a855f7;
+      --primary-cyan: #38bdf8;
+      --accent-pink: #ec4899;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Radial Background Glow */
+    .glow-bg {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1200px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, rgba(236, 72, 153, 0.08) 40%, rgba(56, 189, 248, 0.04) 60%, transparent 80%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-4px);
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Background Glow -->
+  <div class="glow-bg"></div>
+
+  <!-- Header Navigation -->
+  <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">
+          <i class="fa-solid fa-palette text-lg"></i>
+        </div>
+        <div>
+          <span class="text-base font-bold text-white tracking-tight">Ruu<span class="text-purple-400">Graphics</span></span>
+          <span class="block text-[10px] text-gray-400 -mt-1">Freelance Design Platform</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-gray-300">
+        <a href="#overview" class="hover:text-purple-400 transition">Overview</a>
+        <a href="#architecture" class="hover:text-purple-400 transition">Dual Architecture</a>
+        <a href="#features" class="hover:text-purple-400 transition">Core Features</a>
+        <a href="#workflow" class="hover:text-purple-400 transition">Process Workflow</a>
+        <a href="#tech" class="hover:text-purple-400 transition">Tech Stack</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <a href="https://shamikakkss.me/RuuGraphics---User/" target="_blank"
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 hover:bg-purple-500 text-white transition flex items-center gap-1.5 shadow-lg shadow-purple-600/20">
+          <i class="fa-solid fa-globe text-xs"></i>
+          <span>Live Demo</span>
+        </a>
+        <a href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank"
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-1.5">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span class="hidden sm:inline">Admin Repo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="overview" class="relative z-10 pt-16 pb-12 px-4 max-w-5xl mx-auto text-center sm:px-6">
+    <!-- Active Status Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold mb-6">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+      </span>
+      <span>Full-Stack Platform • Live User App & Admin Repo Available</span>
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+      Full-Stack Real-Time Freelance<br />
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-sky-400">
+        Graphic Design Order & Delivery Platform
+      </span>
+    </h1>
+
+    <p class="mt-4 text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+      A client-to-designer marketplace and management ecosystem engineered for <strong>Ruu Graphics</strong>. Features live portfolio browsing, package selection, EmailJS OTP registration, PayHere LKR card payments, real-time Firestore order chat, and single-click bulk file deliveries.
+    </p>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="https://shamikakkss.me/RuuGraphics---User/" target="_blank"
+        class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs shadow-lg shadow-purple-600/25 transition flex items-center gap-2">
+        <i class="fa-solid fa-rocket"></i>
+        <span>Explore Live User Portal</span>
+      </a>
+      <a href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank"
+        class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 font-semibold text-xs transition flex items-center gap-2">
+        <i class="fa-brands fa-github text-purple-400"></i>
+        <span>Admin Side GitHub Repo</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Key Metrics / Quick Stats -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 my-6">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-purple-400 text-xl mb-1"><i class="fa-solid fa-cloud"></i></div>
+        <div class="text-lg font-bold text-white">Firebase v10</div>
+        <div class="text-[11px] text-gray-400">Auth & Cloud Firestore</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-sky-400 text-xl mb-1"><i class="fa-solid fa-database"></i></div>
+        <div class="text-lg font-bold text-white">Supabase BaaS</div>
+        <div class="text-[11px] text-gray-400">Storage & Edge Functions</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-emerald-400 text-xl mb-1"><i class="fa-solid fa-credit-card"></i></div>
+        <div class="text-lg font-bold text-white">PayHere Gateway</div>
+        <div class="text-[11px] text-gray-400">LKR Online Payments</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-pink-400 text-xl mb-1"><i class="fa-solid fa-comments"></i></div>
+        <div class="text-lg font-bold text-white">Live Real-time Chat</div>
+        <div class="text-[11px] text-gray-400">Image Sharing & Messaging</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- System Dual-Side Architecture -->
+  <section id="architecture" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">System Dual Architecture</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        A multi-page application split into a Client-Facing Portal and a Centralized Admin Dashboard
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- User Portal Card -->
+      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-purple-500">
+        <div class="flex items-center justify-between mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-500/10 text-purple-400 text-xs font-bold">
+            <i class="fa-solid fa-users"></i> Client Side Portal
+          </div>
+          <span class="text-[11px] text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            Hosted & Live
+          </span>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">User Experience & Order Placement</h3>
+        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+          Allows clients to browse dynamic portfolios, register with EmailJS 6-digit OTP verification, select service tiers (Basic, Standard, Premium), pay online via PayHere or Bank Transfer, track progress via a live status stepper, and download deliverable `.zip` packages.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6">
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">HTML5/CSS3</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Tailwind CSS</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">JS ES Modules</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">JSZip</span>
+        </div>
+        <a href="https://shamikakkss.me/RuuGraphics---User/" target="_blank"
+          class="inline-flex items-center gap-2 text-xs font-semibold text-purple-400 hover:text-purple-300 transition">
+          <span>Launch Live User Portal</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+
+      <!-- Admin Panel Card -->
+      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-sky-500">
+        <div class="flex items-center justify-between mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-sky-500/10 text-sky-400 text-xs font-bold">
+            <i class="fa-solid fa-user-shield"></i> Designer Admin Dashboard
+          </div>
+          <span class="text-[11px] text-amber-400 font-semibold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+            Source Available
+          </span>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Order Pipeline & Content CMS</h3>
+        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+          Centralized control hub for Sachintha (the designer). Features whitelisted authentication, full order lifecycle management, bank slip audit, direct integration launcher for Photopea editor, file delivery uploader to Supabase, unified chat center, and portfolio CMS.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6">
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Firebase Whitelist</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Supabase Storage</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Photopea Integration</span>
+        </div>
+        <a href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank"
+          class="inline-flex items-center gap-2 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
+          <span>View Admin GitHub Repository</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Platform Modules -->
+  <section id="features" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Core System Capabilities</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        Engineered for end-to-end design ordering, payment verification, and client collaboration
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- Feature 1 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg mb-4">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">EmailJS OTP Authentication</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Secure user registration featuring real-time username uniqueness validation, profile image compression, and 6-digit OTP verification sent via EmailJS.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg mb-4">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Dual Payment Engine</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Integrated with PayHere Sri Lanka LKR gateway via server-side Supabase Edge Function hashes, plus manual bank slip upload with admin review portal.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-lg mb-4">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Real-Time Messaging</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Per-order chat channels and general support messaging powered by Firestore <code class="text-purple-300">onSnapshot</code> listeners with full image attachment support.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-lg mb-4">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Live Order Lifecycle Stepper</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Transparent 6-stage order tracking pipeline: Order Placed ➔ Payment Accepted ➔ Design in Progress ➔ Files Delivered ➔ Completed ➔ Review Posted.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-4">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Photopea Editor Integration</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Admin panel features a 1-click launcher into Photopea web editor, recording start timestamps and streamlining graphic design creation directly in-browser.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-lg mb-4">
+          <i class="fa-solid fa-file-zipper"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">1-Click Bulk Delivery (JSZip)</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Admin uploads multi-file deliverables to Supabase Storage; clients download individual files or compress all assets into a single `.zip` file using JSZip.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Workflow -->
+  <section id="workflow" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl font-bold text-white tracking-tight">5-Step Client-to-Designer Workflow</h2>
+      <p class="text-xs text-gray-400 mt-2">Smooth lifecycle from service selection to final deliverable download</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-8">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">1</div>
+          <div class="text-xs font-bold text-white mb-1">Select Service</div>
+          <div class="text-[11px] text-gray-400">Choose category &amp; pricing tier (Basic/Std/Prem)</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">2</div>
+          <div class="text-xs font-bold text-white mb-1">Place &amp; Pay</div>
+          <div class="text-[11px] text-gray-400">PayHere LKR online card or upload bank slip</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">3</div>
+          <div class="text-xs font-bold text-white mb-1">Design Phase</div>
+          <div class="text-[11px] text-gray-400">Admin starts work in Photopea with live countdown</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">4</div>
+          <div class="text-xs font-bold text-white mb-1">Chat &amp; Revise</div>
+          <div class="text-[11px] text-gray-400">Real-time messaging &amp; design sample previews</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">5</div>
+          <div class="text-xs font-bold text-white mb-1">ZIP Download</div>
+          <div class="text-[11px] text-gray-400">Approve deliverables, download `.zip` &amp; post review</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section id="tech" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl font-bold text-white tracking-tight">Technology Stack &amp; Cloud Services</h2>
+      <p class="text-xs text-gray-400 mt-2 mb-8">Modern Web Standards &amp; Serverless Infrastructure</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-brands fa-html5 text-orange-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">HTML5 / JS</div>
+          <div class="text-[10px] text-gray-500">ES Modules Architecture</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-solid fa-fire text-amber-500 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Firebase v10</div>
+          <div class="text-[10px] text-gray-500">Auth &amp; Cloud Firestore DB</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-solid fa-bolt text-emerald-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Supabase Storage</div>
+          <div class="text-[10px] text-gray-500">BaaS &amp; Edge Functions</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-solid fa-credit-card text-sky-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">PayHere Gateway</div>
+          <div class="text-[10px] text-gray-500">Sri Lanka LKR Payments</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-solid fa-envelope text-purple-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">EmailJS</div>
+          <div class="text-[10px] text-gray-500">6-Digit OTP Email Delivery</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-purple-500/40 transition">
+          <i class="fa-solid fa-file-zipper text-pink-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">JSZip Library</div>
+          <div class="text-[10px] text-gray-500">Client-Side Archiving</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-gray-800 bg-slate-950 py-8 px-4 text-center text-xs text-gray-400">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div>
+        <strong class="text-white">Ruu Graphics Platform</strong> — Freelance Graphic Design Order &amp; Delivery System
+      </div>
+      <div>
+        Developed by <a href="https://github.com/Shamikakkss" target="_blank" class="text-purple-400 hover:underline font-medium">Shamikakkss</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

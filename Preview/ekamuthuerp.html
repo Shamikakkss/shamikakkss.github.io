@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EkamuthuERP - Cloud-Based Community Mutual Aid & Death Donation ERP</title>
+  <meta name="description"
+    content="Streamlined Cloud ERP for Community Mutual Aid & Death Donation Societies." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --primary: #6366f1;
+      --primary-cyan: #38bdf8;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Background Glow */
+    .glow-bg {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1100px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(56, 189, 248, 0.08) 45%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-4px);
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Background Glow -->
+  <div class="glow-bg"></div>
+
+  <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">
+          <i class="fa-solid fa-hands-holding-child text-lg"></i>
+        </div>
+        <div>
+          <span class="text-base font-bold text-white tracking-tight">Ekamuthu<span class="text-indigo-400">ERP</span></span>
+          <span class="block text-[10px] text-gray-400 -mt-1">Mutual Aid ERP</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-gray-300">
+        <a href="#overview" class="hover:text-indigo-400 transition">Overview</a>
+        <a href="#features" class="hover:text-indigo-400 transition">Core Modules</a>
+        <a href="#workflow" class="hover:text-indigo-400 transition">Workflow</a>
+        <a href="#tech" class="hover:text-indigo-400 transition">Tech Stack</a>
+      </nav>
+
+      <!-- GitHub Link -->
+      <a href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
+        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-2">
+        <i class="fa-brands fa-github text-sm"></i>
+        <span class="hidden sm:inline">GitHub Repository</span>
+      </a>
+    </div>
+  </header>
+
+  <section id="overview" class="relative z-10 pt-16 pb-12 px-4 max-w-5xl mx-auto text-center sm:px-6">
+    <!-- Active Status Badge -->
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-6">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+      </span>
+      <span>System Under Active Development • Launching Soon</span>
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+      Community Mutual Aid & Death Donation<br />
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400">
+        Enterprise Resource Planning (ERP)
+      </span>
+    </h1>
+
+    <p class="mt-4 text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+      A streamlined cloud platform engineered for managing member subscriptions, calculating late fines automatically, verifying bank slip payments, processing death benefit claims, and generating official PDF receipts.
+    </p>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#features"
+        class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-lg shadow-indigo-600/20 transition flex items-center gap-2">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Explore Core Modules</span>
+      </a>
+      <a href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
+        class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 font-semibold text-xs transition flex items-center gap-2">
+        <i class="fa-brands fa-github text-indigo-400"></i>
+        <span>View Source Code</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 my-6">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-indigo-400 text-xl mb-1"><i class="fa-solid fa-user-shield"></i></div>
+        <div class="text-lg font-bold text-white">Role Access</div>
+        <div class="text-[11px] text-gray-400">Admin, Treasurer, Member</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-emerald-400 text-xl mb-1"><i class="fa-solid fa-calculator"></i></div>
+        <div class="text-lg font-bold text-white">Fine Engine</div>
+        <div class="text-[11px] text-gray-400">Rs. 100/mo Auto Fine</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-amber-400 text-xl mb-1"><i class="fa-solid fa-receipt"></i></div>
+        <div class="text-lg font-bold text-white">Bank Slips</div>
+        <div class="text-[11px] text-gray-400">1-Click Verification</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-purple-400 text-xl mb-1"><i class="fa-solid fa-file-pdf"></i></div>
+        <div class="text-lg font-bold text-white">PDF Receipts</div>
+        <div class="text-[11px] text-gray-400">Automated Billing</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Core System Modules</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        Designed for Treasurers, Admins, and Community Members
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- Feature 1 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-lg mb-4">
+          <i class="fa-solid fa-users-gear"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Member & Role Management</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Comprehensive registration tracking NIC details, phone numbers, and dependents with secure JWT multi-role permissions.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-4">
+          <i class="fa-solid fa-calculator"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Automated Late Fine Engine</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Automatically computes Rs. 100/- overdue fines per unpaid month with multi-month bulk subscription payment options.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg mb-4">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Bank Slip Verification Portal</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Self-service portal where members upload bank deposit receipts for instant Treasurer inspection and 1-click approvals.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-lg mb-4">
+          <i class="fa-solid fa-hand-holding-medical"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Death Benefit Claim Workflow</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Transparent claim submission and processing pipeline (Pending ➔ Approved ➔ Paid) for members and registered dependents.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg mb-4">
+          <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">PDF Receipt & Ledger Engine</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Generates official downloadable PDF receipts with transaction reference IDs alongside exportable society financial summaries.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 text-lg mb-4">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Financial Analytics</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Aggregated real-time metrics tracking monthly subscription totals, outstanding dues, fine collections, and approved claims.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="workflow" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl font-bold text-white tracking-tight">System Operational Workflow</h2>
+      <p class="text-xs text-gray-400 mt-2">5-step streamlined lifecycle for society members and treasurers</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-8">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">1</div>
+          <div class="text-xs font-bold text-white mb-1">Registration</div>
+          <div class="text-[11px] text-gray-400">Member profile & dependent setup</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">2</div>
+          <div class="text-xs font-bold text-white mb-1">Fine Calculation</div>
+          <div class="text-[11px] text-gray-400">Auto calculation of unpaid months</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">3</div>
+          <div class="text-xs font-bold text-white mb-1">Slip Upload</div>
+          <div class="text-[11px] text-gray-400">Member submits bank deposit slip</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">4</div>
+          <div class="text-xs font-bold text-white mb-1">Treasurer Audit</div>
+          <div class="text-[11px] text-gray-400">1-click slip verification</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">5</div>
+          <div class="text-xs font-bold text-white mb-1">PDF Receipt</div>
+          <div class="text-[11px] text-gray-400">Instant PDF download & ledger sync</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tech" class="py-12 px-4 max-w-5xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl font-bold text-white tracking-tight">Technology Stack & Architecture</h2>
+      <p class="text-xs text-gray-400 mt-2 mb-8">Full-stack technologies powering EkamuthuERP</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-brands fa-react text-sky-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">React 19</div>
+          <div class="text-[10px] text-gray-500">Frontend UI Framework</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-solid fa-palette text-indigo-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Tailwind CSS</div>
+          <div class="text-[10px] text-gray-500">Styling System</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-brands fa-node-js text-emerald-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Node / Express</div>
+          <div class="text-[10px] text-gray-500">RESTful API Backend</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-solid fa-database text-emerald-500 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">MongoDB Atlas</div>
+          <div class="text-[10px] text-gray-500">Cloud NoSQL Database</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-solid fa-key text-amber-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">JWT & Bcrypt</div>
+          <div class="text-[10px] text-gray-500">Secure Authentication</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-indigo-500/40 transition">
+          <i class="fa-solid fa-file-pdf text-purple-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">jsPDF Generator</div>
+          <div class="text-[10px] text-gray-500">Automated PDF Engine</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mt-auto border-t border-gray-800 bg-slate-950 py-8 px-4 text-center text-xs text-gray-400">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div>
+        <strong class="text-white">EkamuthuERP System</strong> — Community Mutual Aid & Death Donation ERP
+      </div>
+      <div>
+        Developed by <a href="https://github.com/Shamikakkss" target="_blank" class="text-indigo-400 hover:underline font-medium">Shamikakkss</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
