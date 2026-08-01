@@ -4,14 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workmate.lk — Premier On-Demand Skilled Worker Marketplace</title>
+  <title>Workmate.lk - Premier On-Demand Skilled Worker Marketplace</title>
   <meta name="description"
-    content="A location-based on-demand service marketplace connecting skilled workers with nearby clients in real time using Live GPS Navigation & SOS Dispatch." />
+    content="Location-based on-demand service marketplace connecting skilled workers with nearby clients in real time using Live GPS Navigation & SOS Dispatch." />
 
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -26,7 +27,6 @@
         extend: {
           colors: {
             brand: {
-              400: '#60a5fa',
               500: '#3b82f6',
               600: '#2563eb',
               700: '#1d4ed8',
@@ -34,7 +34,6 @@
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
           }
         }
       }
@@ -43,17 +42,14 @@
 
   <style>
     :root {
-      --bg-dark: #0b0f19;
-      --bg-card: rgba(17, 24, 39, 0.75);
-      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --bg-dark: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(51, 65, 85, 0.85);
       --border-color: rgba(255, 255, 255, 0.08);
       --primary: #3b82f6;
       --primary-cyan: #38bdf8;
-      --accent-indigo: #6366f1;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
     }
 
     body {
@@ -62,15 +58,15 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* Radial Background Glow */
+    /* Background Glow */
     .glow-bg {
       position: fixed;
       top: -10%;
       left: 50%;
       transform: translateX(-50%);
-      width: 1200px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, rgba(56, 189, 248, 0.08) 40%, rgba(99, 102, 241, 0.04) 60%, transparent 80%);
+      width: 1100px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(16, 185, 129, 0.08) 45%, transparent 70%);
       z-index: -1;
       pointer-events: none;
     }
@@ -95,7 +91,7 @@
       width: 80%;
       max-width: 300px;
       height: 100vh;
-      background: rgba(11, 15, 25, 0.98);
+      background: rgba(15, 23, 42, 0.98);
       backdrop-filter: blur(20px);
       border-left: 1px solid var(--border-color);
       display: flex;
@@ -129,11 +125,10 @@
   <!-- Navigation Backdrop & Mobile Menu -->
   <div class="nav-backdrop" id="workmateBackdrop" onclick="closeWorkmateNav()"></div>
   <div class="mobile-menu" id="workmateMobileMenu">
-    <a href="#overview" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Overview</a>
-    <a href="#architecture" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Architecture</a>
-    <a href="#features" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Core Features</a>
-    <a href="#workflow" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Process Workflow</a>
-    <a href="#tech" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Tech Stack</a>
+    <a href="#overview" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-sky-400">Overview</a>
+    <a href="#features" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-sky-400">Features</a>
+    <a href="#workflow" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-sky-400">Workflow</a>
+    <a href="#techstack" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-sky-400">Tech Stack</a>
     <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" onclick="closeWorkmateNav()" class="mt-4 px-4 py-2 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-center">
       <i class="fa-brands fa-github text-sm mr-1"></i> GitHub Repository
     </a>
@@ -142,38 +137,31 @@
   <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <a href="#" class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
+        <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold">
           <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
         </div>
         <div>
-          <span class="text-base font-bold text-white tracking-tight">Workmate<span class="text-blue-400">.lk</span></span>
+          <span class="text-base font-bold text-white tracking-tight">Workmate<span class="text-sky-400">.lk</span></span>
           <span class="block text-[10px] text-gray-400 -mt-1">On-Demand Worker Marketplace</span>
         </div>
       </a>
 
       <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-gray-300">
-        <a href="#overview" class="hover:text-blue-400 transition">Overview</a>
-        <a href="#architecture" class="hover:text-blue-400 transition">Architecture</a>
-        <a href="#features" class="hover:text-blue-400 transition">Core Features</a>
-        <a href="#workflow" class="hover:text-blue-400 transition">Process Workflow</a>
-        <a href="#tech" class="hover:text-blue-400 transition">Tech Stack</a>
+        <a href="#overview" class="hover:text-sky-400 transition">Overview</a>
+        <a href="#features" class="hover:text-sky-400 transition">Features</a>
+        <a href="#workflow" class="hover:text-sky-400 transition">Workflow</a>
+        <a href="#techstack" class="hover:text-sky-400 transition">Tech Stack</a>
       </nav>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-2.5">
+      <!-- GitHub Link & Mobile Menu Toggle -->
+      <div class="flex items-center gap-3">
         <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
-          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1.5 shadow-lg shadow-blue-600/20">
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-2">
           <i class="fa-brands fa-github text-sm"></i>
-          <span>GitHub Repo</span>
+          <span class="hidden sm:inline">GitHub Repository</span>
         </a>
-        <button onclick="copyRepoUrl()"
-          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-1.5"
-          title="Copy Git Clone Command">
-          <i class="fa-regular fa-copy text-xs"></i>
-          <span class="hidden sm:inline">Clone</span>
-        </button>
-        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="workmateMobileBtn" onclick="toggleWorkmateNav()" aria-label="Toggle Navigation">
+        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="mobileMenuBtn" onclick="toggleWorkmateNav()" aria-label="Toggle Navigation">
           <i class="fa-solid fa-bars text-lg"></i>
         </button>
       </div>
@@ -182,7 +170,7 @@
 
   <section id="overview" class="relative z-10 pt-16 pb-12 px-4 max-w-6xl mx-auto text-center sm:px-6">
     <!-- Active Status Badge -->
-    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-6">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-6">
       <span class="relative flex h-2 w-2">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -191,27 +179,27 @@
     </div>
 
     <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-      Workmate<span class="text-blue-400">.lk</span><br />
-      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400">
-        Location-Based Skilled Worker Marketplace
+      Location-Based Skilled Worker<br />
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-blue-400 to-emerald-400">
+        Marketplace &amp; SOS Dispatch
       </span>
     </h1>
 
     <p class="mt-4 text-sm sm:text-base text-gray-300 max-w-3xl mx-auto leading-relaxed">
-      A premier location-based on-demand marketplace connecting <strong>skilled workers</strong> (Electricians, Plumbers, Mechanics, AC Technicians) with nearby clients in real time using Live GPS Navigation &amp; SOS Dispatch.
+      A premier location-based on-demand marketplace connecting skilled workers (Electricians, Plumbers, Mechanics, AC Technicians) with nearby clients in real time using Live GPS Navigation &amp; SOS Dispatch.
     </p>
 
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
-        class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-lg shadow-blue-600/25 transition flex items-center gap-2">
-        <i class="fa-brands fa-github text-sm"></i>
-        <span>Explore GitHub Repository</span>
+      <a href="#features"
+        class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-lg shadow-blue-600/20 transition flex items-center gap-2">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Explore Features</span>
       </a>
-      <button onclick="copyRepoUrl()"
+      <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
         class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 font-semibold text-xs transition flex items-center gap-2">
-        <i class="fa-solid fa-terminal text-blue-400"></i>
-        <span>Copy Clone Command</span>
-      </button>
+        <i class="fa-brands fa-github text-sky-400"></i>
+        <span>GitHub Repository</span>
+      </a>
     </div>
   </section>
 
@@ -233,82 +221,18 @@
         <div class="text-[11px] text-gray-400">On-Demand Tracking</div>
       </div>
       <div class="glass-card p-4 rounded-xl text-center">
-        <div class="text-indigo-400 text-xl mb-1"><i class="fa-solid fa-mobile-screen-button"></i></div>
-        <div class="text-lg font-bold text-white">PWA App</div>
-        <div class="text-[11px] text-gray-400">Native Mobile Experience</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="architecture" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
-    <div class="text-center mb-10">
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">System Core Architecture</h2>
-      <p class="text-xs sm:text-sm text-gray-400 mt-2">
-        Decoupled full-stack architecture built with modern serverless database and authentication guards
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Client & Worker Portal Card -->
-      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-blue-500">
-        <div class="flex items-center justify-between mb-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-bold">
-            <i class="fa-solid fa-users-gear"></i> Multi-Role Portal
-          </div>
-          <span class="text-[11px] text-blue-400 font-semibold bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-            Next.js 16 App Router
-          </span>
-        </div>
-        <h3 class="text-lg font-bold text-white mb-2">Client &amp; Worker Portal Interface</h3>
-        <p class="text-xs text-gray-300 leading-relaxed mb-4">
-          Empowers clients to pinpoint tasks on interactive Leaflet maps while dispatching real-time emergency SOS alerts. Skilled workers accept nearby jobs and view turn-by-turn navigation routes.
-        </p>
-        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6 font-mono">
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">React 19</span>
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Clerk Auth</span>
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Leaflet Maps</span>
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Tailwind CSS v4</span>
-        </div>
-        <a href="#features"
-          class="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300 transition">
-          <span>Explore Functional Features</span>
-          <i class="fa-solid fa-arrow-down text-[10px]"></i>
-        </a>
-      </div>
-
-      <!-- Cloud DB Engine Card -->
-      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-sky-500">
-        <div class="flex items-center justify-between mb-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-sky-500/10 text-sky-400 text-xs font-bold">
-            <i class="fa-solid fa-database"></i> Database &amp; ORM Engine
-          </div>
-          <span class="text-[11px] text-sky-400 font-semibold bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">
-            Serverless PostgreSQL
-          </span>
-        </div>
-        <h3 class="text-lg font-bold text-white mb-2">Neon Cloud &amp; Prisma 6 ORM</h3>
-        <p class="text-xs text-gray-300 leading-relaxed mb-4">
-          Powered by Neon Cloud PostgreSQL with Prisma 6 ORM connection pooling. Enforces multi-role authorization rules across Clients, Workers, Employers, and System Admins.
-        </p>
-        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6 font-mono">
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Neon PostgreSQL</span>
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Prisma ORM 6</span>
-          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">TypeScript 5</span>
-        </div>
-        <a href="#tech"
-          class="inline-flex items-center gap-2 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
-          <span>View Tech Stack Details</span>
-          <i class="fa-solid fa-arrow-down text-[10px]"></i>
-        </a>
+        <div class="text-purple-400 text-xl mb-1"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <div class="text-lg font-bold text-white">PWA</div>
+        <div class="text-[11px] text-gray-400">Native Mobile App Feel</div>
       </div>
     </div>
   </section>
 
   <section id="features" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
     <div class="text-center mb-10">
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Core System Capabilities</h2>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Core Platform Modules</h2>
       <p class="text-xs sm:text-sm text-gray-400 mt-2">
-        Engineered for transparent job dispatching, real-time navigation, and skilled worker collaboration
+        Powerful tools engineered for seamless client-to-worker dispatching &amp; transparent job tracking
       </p>
     </div>
 
@@ -320,7 +244,7 @@
         </div>
         <h3 class="text-base font-bold text-white mb-2">SOS / Emergency Job Dispatch</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          Tag critical tasks like electrical short circuits or pipe leaks as <code class="text-red-400 font-mono">EMERGENCY</code> to broadcast priority alerts to all nearby active workers.
+          Tag critical tasks like electrical short circuits or major pipe leaks as <code>EMERGENCY</code> to broadcast high-priority alerts to all nearby active workers.
         </p>
       </div>
 
@@ -331,7 +255,7 @@
         </div>
         <h3 class="text-base font-bold text-white mb-2">GPS Navigation &amp; Map Pinning</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          Clients drop precise location pins on interactive Leaflet maps while workers view real-time distance and turn-by-turn navigation routes.
+          Clients drop precise location pins on interactive maps while workers view real-time distance and turn-by-turn navigation routes.
         </p>
       </div>
 
@@ -340,42 +264,42 @@
         <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg mb-4">
           <i class="fa-solid fa-list-check"></i>
         </div>
-        <h3 class="text-base font-bold text-white mb-2">Live Status Stepper</h3>
+        <h3 class="text-base font-bold text-white mb-2">Live Status Tracking</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          Real-time progress tracking pipeline updating both Client &amp; Worker: Job Posted ➔ Worker Assigned ➔ On The Way ➔ Work Started ➔ Completed.
+          Real-time progress stepper updating both Client &amp; Worker: <strong>Job Posted ➔ Worker Assigned ➔ On The Way ➔ Work Started ➔ Completed</strong>.
         </p>
       </div>
 
       <!-- Feature 4 -->
       <div class="glass-card p-6 rounded-2xl">
-        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-lg mb-4">
+        <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg mb-4">
           <i class="fa-solid fa-comments"></i>
         </div>
-        <h3 class="text-base font-bold text-white mb-2">In-App Chat &amp; Direct Call</h3>
+        <h3 class="text-base font-bold text-white mb-2">Live In-App Chat &amp; Direct Call</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          Direct real-time messaging, click-to-call direct phone dialer, and instant message launching for smooth coordination once a job is accepted.
+          Direct real-time messaging, click-to-call direct dialer, and instant message launching for smooth coordination once a job is assigned.
         </p>
       </div>
 
       <!-- Feature 5 -->
       <div class="glass-card p-6 rounded-2xl">
-        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-4">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg mb-4">
           <i class="fa-solid fa-user-shield"></i>
         </div>
-        <h3 class="text-base font-bold text-white mb-2">Clerk Multi-Role Security</h3>
+        <h3 class="text-base font-bold text-white mb-2">Clerk Multi-Role Engine</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          Secure identity management supporting <code class="text-blue-300 font-mono">CLIENT</code>, <code class="text-emerald-300 font-mono">WORKER</code>, <code class="text-amber-300 font-mono">EMPLOYER</code>, and <code class="text-rose-300 font-mono">ADMIN</code> roles with metadata sync.
+          Secure identity management supporting <code>CLIENT</code>, <code>WORKER</code>, <code>EMPLOYER</code>, and <code>ADMIN</code> roles with custom onboarding data sync.
         </p>
       </div>
 
       <!-- Feature 6 -->
       <div class="glass-card p-6 rounded-2xl">
-        <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg mb-4">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-4">
           <i class="fa-solid fa-database"></i>
         </div>
-        <h3 class="text-base font-bold text-white mb-2">Neon Serverless Database</h3>
+        <h3 class="text-base font-bold text-white mb-2">Neon Cloud Serverless PostgreSQL</h3>
         <p class="text-xs text-gray-400 leading-relaxed">
-          High-performance serverless PostgreSQL relational database managed via Prisma 6 ORM with SSL encryption and connection pooling.
+          High-performance serverless relational database managed via Prisma 6 ORM with SSL encryption and connection pooling.
         </p>
       </div>
     </div>
@@ -383,26 +307,26 @@
 
   <section id="workflow" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
     <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">5-Step On-Demand Job Lifecycle</h2>
-      <p class="text-xs sm:text-sm text-gray-400 mt-2">Smooth lifecycle from job posting to technician completion and review</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">System Process Workflow</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">Seamless 5-step workflow for clients &amp; workers</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-8">
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
           <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">1</div>
           <div class="text-xs font-bold text-white mb-1">Job Post &amp; GPS Pin</div>
-          <div class="text-[11px] text-gray-400">Client posts task requirements with exact GPS pin</div>
+          <div class="text-[11px] text-gray-400">Client posts task requirements with GPS coordinates</div>
         </div>
 
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
           <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">2</div>
           <div class="text-xs font-bold text-white mb-1">Worker Accepts</div>
-          <div class="text-[11px] text-gray-400">Nearby skilled worker accepts job on live map</div>
+          <div class="text-[11px] text-gray-400">Nearby skilled worker accepts job on interactive map</div>
         </div>
 
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
           <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">3</div>
           <div class="text-xs font-bold text-white mb-1">On The Way</div>
-          <div class="text-[11px] text-gray-400">Worker drives to site with turn-by-turn routing</div>
+          <div class="text-[11px] text-gray-400">Worker drives to location with turn-by-turn navigation</div>
         </div>
 
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
@@ -414,143 +338,68 @@
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
           <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">5</div>
           <div class="text-xs font-bold text-white mb-1">Complete &amp; Review</div>
-          <div class="text-[11px] text-gray-400">Job completion marked and star review posted</div>
+          <div class="text-[11px] text-gray-400">Job completion marked and 1-5 star review submitted</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="tech" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+  <section id="techstack" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
     <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack &amp; Infrastructure</h2>
-      <p class="text-xs sm:text-sm text-gray-400 mt-2 mb-8">Modern Web Standards &amp; Full-Stack Frameworks</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack &amp; Architecture</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2 mb-8">Built using modern full-stack web technologies</p>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
           <i class="fa-brands fa-react text-sky-400 text-2xl mb-2"></i>
-          <div class="text-xs font-bold text-gray-200">Next.js 16</div>
-          <div class="text-[10px] text-gray-500">App Router &amp; React 19</div>
+          <div class="text-xs font-bold text-gray-200">Next.js 16 (App Router)</div>
         </div>
-
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-brands fa-react text-sky-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">React 19</div>
+        </div>
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
           <i class="fa-solid fa-code text-blue-400 text-2xl mb-2"></i>
           <div class="text-xs font-bold text-gray-200">TypeScript 5</div>
-          <div class="text-[10px] text-gray-500">Strict Type Safety</div>
         </div>
-
-        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
-          <i class="fa-solid fa-key text-emerald-400 text-2xl mb-2"></i>
-          <div class="text-xs font-bold text-gray-200">Clerk Auth</div>
-          <div class="text-[10px] text-gray-500">Multi-Role Middleware</div>
-        </div>
-
-        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
-          <i class="fa-solid fa-database text-indigo-400 text-2xl mb-2"></i>
-          <div class="text-xs font-bold text-gray-200">Prisma 6 &amp; Neon</div>
-          <div class="text-[10px] text-gray-500">Serverless PostgreSQL</div>
-        </div>
-
-        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
-          <i class="fa-solid fa-map-location-dot text-amber-400 text-2xl mb-2"></i>
-          <div class="text-xs font-bold text-gray-200">Leaflet Maps</div>
-          <div class="text-[10px] text-gray-500">GPS &amp; Turn-by-Turn Routes</div>
-        </div>
-
         <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
           <i class="fa-solid fa-palette text-cyan-400 text-2xl mb-2"></i>
           <div class="text-xs font-bold text-gray-200">Tailwind CSS v4</div>
-          <div class="text-[10px] text-gray-500">Glassmorphic UI Engine</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-key text-amber-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Clerk Auth</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-cubes text-indigo-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Prisma ORM 6</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-database text-emerald-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Neon Cloud PostgreSQL</div>
+        </div>
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-map-location-dot text-purple-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Leaflet Maps &amp; Routing</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="team" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
-    <div class="text-center mb-10">
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Project Lead Developer</h2>
-      <p class="text-xs sm:text-sm text-gray-400 mt-2">
-        Creator and maintainer of Workmate.lk platform
-      </p>
-    </div>
-
-    <div class="max-w-sm mx-auto">
-      <div class="glass-card p-6 rounded-2xl text-center flex flex-col justify-between">
-        <div>
-          <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 p-1 mx-auto mb-4 shadow-lg shadow-blue-500/20">
-            <div class="w-full h-full rounded-xl bg-slate-950 flex items-center justify-center text-blue-400 text-2xl font-bold font-mono">
-              SK
-            </div>
-          </div>
-          <h3 class="text-base font-bold text-white">Shamikakkss</h3>
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30 my-2">
-            Lead Developer &amp; Creator
-          </span>
-          <p class="text-xs text-gray-400 leading-relaxed mb-4">
-            Architected Next.js App Router setup, Leaflet map routing engine, Neon PostgreSQL serverless schema, and SOS emergency dispatch logic.
-          </p>
-        </div>
-        <div class="pt-4 border-t border-slate-800/80 flex items-center justify-center gap-3">
-          <a href="https://github.com/Shamikakkss" target="_blank" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-blue-600 text-gray-300 hover:text-white transition flex items-center gap-2 text-xs font-semibold">
-            <i class="fa-brands fa-github text-sm"></i>
-            <span>GitHub Profile</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="mt-auto border-t border-slate-800/80 bg-slate-950 py-8 px-4 text-center text-xs text-gray-400">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+  <footer class="mt-auto border-t border-gray-800 bg-slate-950 py-8 px-4 text-center text-xs text-gray-400">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
       <div>
-        <strong class="text-white">Workmate.lk — On-Demand Skilled Worker Marketplace</strong>
+        <strong class="text-white">Workmate.lk System</strong> — Developed for the Skilled Workforce Community
       </div>
-      <div class="flex items-center gap-4 text-xs">
-        <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" class="text-gray-400 hover:text-blue-400 transition flex items-center gap-1.5">
-          <i class="fa-brands fa-github text-sm"></i>
-          <span>GitHub Repository</span>
-        </a>
+      <div>
+        Created by <a href="https://github.com/Shamikakkss" target="_blank" class="text-sky-400 hover:underline font-medium">Shamikakkss</a>
       </div>
     </div>
-  </footer>
-
-  <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl border border-slate-700 shadow-2xl flex items-center gap-3 text-xs">
-    <i id="toast-icon" class="fa-solid fa-circle-check text-blue-400 text-base"></i>
-    <span id="toast-message">Notification message</span>
-  </div>
-
   <script>
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-message');
-
-      toastMsg.innerText = message;
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3000);
-    }
-
-    function copyRepoUrl() {
-      const repoUrl = 'git clone https://github.com/Shamikakkss/workmate-lk.git';
-      
-      const dummy = document.createElement('input');
-      document.body.appendChild(dummy);
-      dummy.value = repoUrl;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
-
-      showToast('Git clone command copied to clipboard!');
-    }
-
     function toggleWorkmateNav() {
       const menu = document.getElementById('workmateMobileMenu');
       const backdrop = document.getElementById('workmateBackdrop');
-      const btn = document.getElementById('workmateMobileBtn');
+      const btn = document.getElementById('mobileMenuBtn');
       const isOpen = menu.classList.toggle('active');
       if (backdrop) backdrop.classList.toggle('active', isOpen);
       if (btn) btn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
@@ -558,7 +407,7 @@
     function closeWorkmateNav() {
       const menu = document.getElementById('workmateMobileMenu');
       const backdrop = document.getElementById('workmateBackdrop');
-      const btn = document.getElementById('workmateMobileBtn');
+      const btn = document.getElementById('mobileMenuBtn');
       if (menu) menu.classList.remove('active');
       if (backdrop) backdrop.classList.remove('active');
       if (btn) btn.querySelector('i').className = 'fa-solid fa-bars text-lg';
