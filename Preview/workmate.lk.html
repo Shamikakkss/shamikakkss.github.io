@@ -1,561 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workmate.lk - Premier On-Demand Skilled Worker Marketplace</title>
+  <title>Workmate.lk — Premier On-Demand Skilled Worker Marketplace</title>
   <meta name="description"
-    content="Location-based on-demand service marketplace connecting skilled workers with nearby clients in real time using Live GPS Navigation & SOS Dispatch." />
+    content="A location-based on-demand service marketplace connecting skilled workers with nearby clients in real time using Live GPS Navigation & SOS Dispatch." />
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- FontAwesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
     :root {
-      --bg-dark: #0f172a;
-      --bg-card: rgba(30, 41, 59, 0.7);
-      --bg-card-hover: rgba(51, 65, 85, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
+      --bg-dark: #0b0f19;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
       --primary: #3b82f6;
-      --primary-hover: #2563eb;
       --primary-cyan: #38bdf8;
-      --accent-green: #10b981;
+      --accent-indigo: #6366f1;
       --accent-amber: #f59e0b;
-      --accent-purple: #8b5cf6;
-      --accent-sos: #ef4444;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
+      --accent-red: #ef4444;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
-    /* Ambient Background Glow Effect */
+    /* Radial Background Glow */
     .glow-bg {
       position: fixed;
       top: -10%;
       left: 50%;
       transform: translateX(-50%);
-      width: 1100px;
-      height: 650px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(16, 185, 129, 0.08) 45%, transparent 70%);
+      width: 1200px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, rgba(56, 189, 248, 0.08) 40%, rgba(99, 102, 241, 0.04) 60%, transparent 80%);
       z-index: -1;
       pointer-events: none;
     }
 
-    /* Header Navbar */
-    header {
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: rgba(15, 23, 42, 0.85);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 64px;
-      padding: 0 1.5rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.625rem;
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 0.75rem;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--primary-cyan);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      flex-shrink: 0;
-    }
-
-    .logo-text {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .logo-subtitle {
-      display: block;
-      font-size: 0.625rem;
-      color: var(--text-muted);
-      margin-top: -2px;
-      font-weight: 400;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-      list-style: none;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.75rem;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary-cyan);
-    }
-
-    .btn-github {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 0.375rem 0.875rem;
-      border-radius: 0.5rem;
-      text-decoration: none;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      transition: all 0.3s ease;
-    }
-
-    .btn-github:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-    }
-
-    /* Hero Section */
-    .hero {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 5rem 2rem 3rem;
-      text-align: center;
-    }
-
-    /* Pulsing "Launching Soon" Live Badge */
-    .badge-launch {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.65rem;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: #fbbf24;
-      padding: 0.5rem 1.25rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 700;
-      margin-bottom: 1.75rem;
-      letter-spacing: 0.03em;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
-    }
-
-    .pulse-dot {
-      width: 10px;
-      height: 10px;
-      background-color: var(--accent-amber);
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
-      animation: pulse 1.6s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
-      }
-      70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 12px rgba(245, 158, 11, 0);
-      }
-      100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
-      }
-    }
-
-    .hero h1 {
-      font-size: 3.25rem;
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.025em;
-      margin-bottom: 1.25rem;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      max-width: 900px;
-      margin: 0 auto 2.5rem;
-      font-weight: 400;
-      line-height: 1.7;
-    }
-
-    .hero-btns {
-      display: flex;
-      justify-content: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
-      color: #fff;
-      padding: 0.85rem 2.25rem;
-      border-radius: 0.75rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.6);
-    }
-
-    .btn-secondary {
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.85rem 2.25rem;
-      border-radius: 0.75rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.3s ease;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(51, 65, 85, 0.85);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-
-    /* Stats Grid */
-    .stats-container {
-      max-width: 1280px;
-      margin: 2rem auto 4rem;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .stat-card {
+    .glass-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 1.25rem;
-      padding: 1.75rem;
-      text-align: center;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
       transition: all 0.3s ease;
     }
 
-    .stat-card:hover {
-      border-color: rgba(56, 189, 248, 0.4);
+    .glass-card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
       transform: translateY(-4px);
     }
 
-    .stat-icon {
-      font-size: 1.8rem;
-      color: var(--primary-cyan);
-      margin-bottom: 0.75rem;
-    }
-
-    .stat-number {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .stat-label {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
-
-    /* Core Features Grid */
-    .section-title {
-      text-align: center;
-      margin: 4.5rem 0 3rem;
-    }
-
-    .section-title h2,
-    .workflow-box h2,
-    .tech-box h2 {
-      font-size: 1.875rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #fff;
-    }
-
-    .section-title p,
-    .workflow-box p,
-    .tech-box p {
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .features-grid {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.75rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 1.25rem;
-      padding: 2rem;
-      backdrop-filter: blur(12px);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 0.75rem;
-      background: rgba(59, 130, 246, 0.15);
-      color: var(--primary-cyan);
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(11, 15, 25, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-color);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      font-size: 1.125rem;
-      margin-bottom: 1rem;
+      padding: 40px 24px;
+      gap: 20px;
+      transition: right 0.3s ease;
+      z-index: 99;
     }
-
-    .card-icon.sos {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent-sos);
-    }
-
-    .card-icon.green {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-    }
-
-    .card h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      line-height: 1.65;
-    }
-
-    /* Workflow Stepper */
-    .workflow-section {
-      max-width: 1280px;
-      margin: 5rem auto;
-      padding: 0 2rem;
-    }
-
-    .workflow-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 1.5rem;
-      padding: 3rem 2rem;
-      text-align: center;
-      backdrop-filter: blur(12px);
-    }
-
-    .stepper-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .stepper-step {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: 1rem;
-      padding: 1.5rem 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .stepper-step:hover {
-      border-color: var(--primary-cyan);
-      transform: translateY(-3px);
-    }
-
-    .step-num {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
-      margin: 0 auto 0.85rem;
-    }
-
-    .step-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 0.35rem;
-    }
-
-    .step-desc {
-      font-size: 0.6875rem;
-      color: var(--text-muted);
-    }
-
-    /* Tech Stack Section */
-    .tech-section {
-      max-width: 1280px;
-      margin: 5rem auto;
-      padding: 0 2rem;
-    }
-
-    .tech-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 1.5rem;
-      padding: 3rem 2rem;
-      text-align: center;
-      backdrop-filter: blur(12px);
-    }
-
-    .tech-tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .tech-tag {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border-color);
-      padding: 0.65rem 1.35rem;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      color: #e2e8f0;
-      font-size: 0.75rem;
-      transition: all 0.3s ease;
-    }
-
-    .tech-tag:hover {
-      border-color: var(--primary-cyan);
-      transform: translateY(-2px);
-    }
-
-    .tech-tag i {
-      color: var(--accent-green);
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border-color);
-      padding: 3rem 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 5rem;
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    footer a {
-      color: var(--primary-cyan);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .nav-toggle-btn {
-      display: none;
-      background: transparent;
-      border: none;
-      border-radius: 8px;
-      padding: 8px;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1.125rem;
-    }
-
+    .mobile-menu.active { right: 0; }
     .nav-backdrop {
       position: fixed;
       inset: 0;
@@ -566,256 +117,454 @@
       pointer-events: none;
       transition: opacity 0.3s;
     }
-    .nav-backdrop.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    @media (max-width: 768px) {
-      .hero { padding: 4rem 1.25rem 2rem; }
-      .hero h1 { font-size: 1.85rem; }
-      .hero-subtitle { font-size: 0.95rem; }
-      .section-title h2, .workflow-box h2, .tech-box h2 { font-size: 1.5rem; }
-      .section-title p, .workflow-box p, .tech-box p { font-size: 0.75rem; }
-      .nav-toggle-btn { display: flex; align-items: center; justify-content: center; }
-      .btn-github { display: none; }
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background: rgba(15, 23, 42, 0.97);
-        backdrop-filter: blur(20px);
-        border-left: 1px solid var(--border-color);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 40px 24px;
-        gap: 20px;
-        transition: right 0.3s ease;
-        z-index: 99;
-      }
-      .nav-links.active { right: 0; }
-      .stepper-grid, .features-grid, .stats-container { grid-template-columns: 1fr; }
-      .hero-btns { flex-direction: column; align-items: center; width: 100%; }
-      .btn-primary, .btn-secondary { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
-    }
+    .nav-backdrop.active { opacity: 1; pointer-events: auto; }
   </style>
 </head>
 
-<body>
+<body class="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-  <!-- Ambient Background Glow -->
+  <!-- Background Glow -->
   <div class="glow-bg"></div>
 
-  <!-- Navigation Backdrop -->
-  <div class="nav-backdrop" id="navBackdrop" onclick="closeNav()"></div>
+  <!-- Navigation Backdrop & Mobile Menu -->
+  <div class="nav-backdrop" id="workmateBackdrop" onclick="closeWorkmateNav()"></div>
+  <div class="mobile-menu" id="workmateMobileMenu">
+    <a href="#overview" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Overview</a>
+    <a href="#architecture" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Architecture</a>
+    <a href="#features" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Core Features</a>
+    <a href="#workflow" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Process Workflow</a>
+    <a href="#tech" onclick="closeWorkmateNav()" class="text-sm font-medium text-gray-200 hover:text-blue-400">Tech Stack</a>
+    <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" onclick="closeWorkmateNav()" class="mt-4 px-4 py-2 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-center">
+      <i class="fa-brands fa-github text-sm mr-1"></i> GitHub Repository
+    </a>
+  </div>
 
-  <!-- Navigation Bar -->
-  <header>
-    <div class="nav-container">
-      <a href="#" class="logo">
-        <span class="logo-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
-        <span>
-          <span class="logo-text">Workmate.lk</span>
-          <span class="logo-subtitle">On-Demand Worker Marketplace</span>
-        </span>
+  <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
+          <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+        </div>
+        <div>
+          <span class="text-base font-bold text-white tracking-tight">Workmate<span class="text-blue-400">.lk</span></span>
+          <span class="block text-[10px] text-gray-400 -mt-1">On-Demand Worker Marketplace</span>
+        </div>
       </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#overview" onclick="closeNav()">Overview</a></li>
-        <li><a href="#features" onclick="closeNav()">Features</a></li>
-        <li><a href="#workflow" onclick="closeNav()">Workflow</a></li>
-        <li><a href="#techstack" onclick="closeNav()">Tech Stack</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" class="btn-github">
-          <i class="fa-brands fa-github"></i> <span>View Source Code</span>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-gray-300">
+        <a href="#overview" class="hover:text-blue-400 transition">Overview</a>
+        <a href="#architecture" class="hover:text-blue-400 transition">Architecture</a>
+        <a href="#features" class="hover:text-blue-400 transition">Core Features</a>
+        <a href="#workflow" class="hover:text-blue-400 transition">Process Workflow</a>
+        <a href="#tech" class="hover:text-blue-400 transition">Tech Stack</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1.5 shadow-lg shadow-blue-600/20">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>GitHub Repo</span>
         </a>
-        <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleNav()" aria-label="Toggle menu">
-          <i class="fa-solid fa-bars"></i>
+        <button onclick="copyRepoUrl()"
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-1.5"
+          title="Copy Git Clone Command">
+          <i class="fa-regular fa-copy text-xs"></i>
+          <span class="hidden sm:inline">Clone</span>
+        </button>
+        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="workmateMobileBtn" onclick="toggleWorkmateNav()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars text-lg"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="overview">
-    <!-- Pulsing Live Launching Soon Badge -->
-    <div class="badge-launch">
-      <div class="pulse-dot"></div> System Under Active Development • Launching Soon
+  <section id="overview" class="relative z-10 pt-16 pb-12 px-4 max-w-6xl mx-auto text-center sm:px-6">
+    <!-- Active Status Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-6">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+      </span>
+      <span>System Under Active Development • Launching Soon</span>
     </div>
 
-    <h1>Workmate.lk - Location-Based Skilled Worker Marketplace</h1>
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+      Workmate<span class="text-blue-400">.lk</span><br />
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400">
+        Location-Based Skilled Worker Marketplace
+      </span>
+    </h1>
 
-    <p class="hero-subtitle">
-      A premier location-based on-demand marketplace connecting skilled workers (Electricians, Plumbers, Mechanics, AC Technicians) with nearby clients in real time using Live GPS Navigation &amp; SOS Dispatch.
+    <p class="mt-4 text-sm sm:text-base text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      A premier location-based on-demand marketplace connecting <strong>skilled workers</strong> (Electricians, Plumbers, Mechanics, AC Technicians) with nearby clients in real time using Live GPS Navigation &amp; SOS Dispatch.
     </p>
 
-    <div class="hero-btns">
-      <a href="#features" class="btn-primary">
-        <i class="fa-solid fa-list-check"></i> Explore Features
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
+        class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-lg shadow-blue-600/25 transition flex items-center gap-2">
+        <i class="fa-brands fa-github text-sm"></i>
+        <span>Explore GitHub Repository</span>
       </a>
-      <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" class="btn-secondary">
-        <i class="fa-brands fa-github"></i> GitHub Repository
-      </a>
+      <button onclick="copyRepoUrl()"
+        class="px-6 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 font-semibold text-xs transition flex items-center gap-2">
+        <i class="fa-solid fa-terminal text-blue-400"></i>
+        <span>Copy Clone Command</span>
+      </button>
     </div>
   </section>
 
-  <!-- Key Metrics / Stats Section -->
-  <section class="stats-container">
-    <div class="stat-card">
-      <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-      <div class="stat-number">Live GPS</div>
-      <div class="stat-label">Leaflet Map Routing</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="color: var(--accent-sos);"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <div class="stat-number">SOS Alert</div>
-      <div class="stat-label">Emergency Job Dispatch</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="color: var(--accent-green);"><i class="fa-solid fa-clock-rotate-left"></i></div>
-      <div class="stat-number">5-Step</div>
-      <div class="stat-label">On-Demand Tracking</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="color: var(--accent-purple);"><i class="fa-solid fa-mobile-screen-button"></i></div>
-      <div class="stat-number">PWA</div>
-      <div class="stat-label">Native Mobile App Feel</div>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 my-6">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-sky-400 text-xl mb-1"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div class="text-lg font-bold text-white">Live GPS</div>
+        <div class="text-[11px] text-gray-400">Leaflet Map Routing</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-red-400 text-xl mb-1"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="text-lg font-bold text-white">SOS Alert</div>
+        <div class="text-[11px] text-gray-400">Emergency Job Dispatch</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-emerald-400 text-xl mb-1"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="text-lg font-bold text-white">5-Step</div>
+        <div class="text-[11px] text-gray-400">On-Demand Tracking</div>
+      </div>
+      <div class="glass-card p-4 rounded-xl text-center">
+        <div class="text-indigo-400 text-xl mb-1"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <div class="text-lg font-bold text-white">PWA App</div>
+        <div class="text-[11px] text-gray-400">Native Mobile Experience</div>
+      </div>
     </div>
   </section>
 
-  <!-- Core Features Section -->
-  <section id="features">
-    <div class="section-title">
-      <h2>Core Platform Modules</h2>
-      <p>Powerful tools engineered for seamless client-to-worker dispatching &amp; transparent job tracking</p>
+  <section id="architecture" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">System Core Architecture</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        Decoupled full-stack architecture built with modern serverless database and authentication guards
+      </p>
     </div>
 
-    <div class="features-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Client & Worker Portal Card -->
+      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-blue-500">
+        <div class="flex items-center justify-between mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-xs font-bold">
+            <i class="fa-solid fa-users-gear"></i> Multi-Role Portal
+          </div>
+          <span class="text-[11px] text-blue-400 font-semibold bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
+            Next.js 16 App Router
+          </span>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Client &amp; Worker Portal Interface</h3>
+        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+          Empowers clients to pinpoint tasks on interactive Leaflet maps while dispatching real-time emergency SOS alerts. Skilled workers accept nearby jobs and view turn-by-turn navigation routes.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6 font-mono">
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">React 19</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Clerk Auth</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Leaflet Maps</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Tailwind CSS v4</span>
+        </div>
+        <a href="#features"
+          class="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300 transition">
+          <span>Explore Functional Features</span>
+          <i class="fa-solid fa-arrow-down text-[10px]"></i>
+        </a>
+      </div>
+
+      <!-- Cloud DB Engine Card -->
+      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-sky-500">
+        <div class="flex items-center justify-between mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-sky-500/10 text-sky-400 text-xs font-bold">
+            <i class="fa-solid fa-database"></i> Database &amp; ORM Engine
+          </div>
+          <span class="text-[11px] text-sky-400 font-semibold bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">
+            Serverless PostgreSQL
+          </span>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Neon Cloud &amp; Prisma 6 ORM</h3>
+        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+          Powered by Neon Cloud PostgreSQL with Prisma 6 ORM connection pooling. Enforces multi-role authorization rules across Clients, Workers, Employers, and System Admins.
+        </p>
+        <div class="flex flex-wrap gap-2 text-[11px] text-gray-400 mb-6 font-mono">
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Neon PostgreSQL</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">Prisma ORM 6</span>
+          <span class="bg-slate-900 px-2.5 py-1 rounded border border-gray-800">TypeScript 5</span>
+        </div>
+        <a href="#tech"
+          class="inline-flex items-center gap-2 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
+          <span>View Tech Stack Details</span>
+          <i class="fa-solid fa-arrow-down text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Core System Capabilities</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        Engineered for transparent job dispatching, real-time navigation, and skilled worker collaboration
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <!-- Feature 1 -->
-      <div class="card">
-        <div class="card-icon sos"><i class="fa-solid fa-truck-medical"></i></div>
-        <h3>SOS / Emergency Job Dispatch</h3>
-        <p>Tag critical tasks like electrical short circuits or major pipe leaks as <code>EMERGENCY</code> to broadcast high-priority alerts to all nearby active workers.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 text-lg mb-4">
+          <i class="fa-solid fa-truck-medical"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">SOS / Emergency Job Dispatch</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Tag critical tasks like electrical short circuits or pipe leaks as <code class="text-red-400 font-mono">EMERGENCY</code> to broadcast priority alerts to all nearby active workers.
+        </p>
       </div>
 
       <!-- Feature 2 -->
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
-        <h3>GPS Navigation &amp; Map Pinning</h3>
-        <p>Clients drop precise location pins on interactive maps while workers view real-time distance and turn-by-turn navigation routes.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 text-lg mb-4">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">GPS Navigation &amp; Map Pinning</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Clients drop precise location pins on interactive Leaflet maps while workers view real-time distance and turn-by-turn navigation routes.
+        </p>
       </div>
 
       <!-- Feature 3 -->
-      <div class="card">
-        <div class="card-icon green"><i class="fa-solid fa-list-check"></i></div>
-        <h3>Live Status Tracking</h3>
-        <p>Real-time progress stepper updating both Client &amp; Worker: <strong>Job Posted ➔ Worker Assigned ➔ On The Way ➔ Work Started ➔ Completed</strong>.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg mb-4">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Live Status Stepper</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Real-time progress tracking pipeline updating both Client &amp; Worker: Job Posted ➔ Worker Assigned ➔ On The Way ➔ Work Started ➔ Completed.
+        </p>
       </div>
 
       <!-- Feature 4 -->
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-comments"></i></div>
-        <h3>Live In-App Chat &amp; Direct Call</h3>
-        <p>Direct real-time messaging, click-to-call direct dialer, and instant message launching for smooth coordination once a job is assigned.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-lg mb-4">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">In-App Chat &amp; Direct Call</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Direct real-time messaging, click-to-call direct phone dialer, and instant message launching for smooth coordination once a job is accepted.
+        </p>
       </div>
 
       <!-- Feature 5 -->
-      <div class="card">
-        <div class="card-icon"><i class="fa-solid fa-user-shield"></i></div>
-        <h3>Clerk Multi-Role Engine</h3>
-        <p>Secure identity management supporting <code>CLIENT</code>, <code>WORKER</code>, <code>EMPLOYER</code>, and <code>ADMIN</code> roles with custom onboarding data sync.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg mb-4">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Clerk Multi-Role Security</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Secure identity management supporting <code class="text-blue-300 font-mono">CLIENT</code>, <code class="text-emerald-300 font-mono">WORKER</code>, <code class="text-amber-300 font-mono">EMPLOYER</code>, and <code class="text-rose-300 font-mono">ADMIN</code> roles with metadata sync.
+        </p>
       </div>
 
       <!-- Feature 6 -->
-      <div class="card">
-        <div class="card-icon green"><i class="fa-solid fa-database"></i></div>
-        <h3>Neon Cloud Serverless PostgreSQL</h3>
-        <p>High-performance serverless relational database managed via Prisma 6 ORM with SSL encryption and connection pooling.</p>
+      <div class="glass-card p-6 rounded-2xl">
+        <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg mb-4">
+          <i class="fa-solid fa-database"></i>
+        </div>
+        <h3 class="text-base font-bold text-white mb-2">Neon Serverless Database</h3>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          High-performance serverless PostgreSQL relational database managed via Prisma 6 ORM with SSL encryption and connection pooling.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Workflow Section -->
-  <section class="workflow-section" id="workflow">
-    <div class="workflow-box">
-      <h2>System Process Workflow</h2>
-      <p style="color: var(--text-muted); margin-top: 0.5rem;">Seamless 5-step workflow for clients &amp; workers</p>
+  <section id="workflow" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">5-Step On-Demand Job Lifecycle</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">Smooth lifecycle from job posting to technician completion and review</p>
 
-      <div class="stepper-grid">
-        <div class="stepper-step">
-          <div class="step-num">1</div>
-          <div class="step-title">Job Post &amp; GPS Pin</div>
-          <div class="step-desc">Client posts task requirements with GPS coordinates</div>
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 mt-8">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">1</div>
+          <div class="text-xs font-bold text-white mb-1">Job Post &amp; GPS Pin</div>
+          <div class="text-[11px] text-gray-400">Client posts task requirements with exact GPS pin</div>
         </div>
-        <div class="stepper-step">
-          <div class="step-num">2</div>
-          <div class="step-title">Worker Accepts</div>
-          <div class="step-desc">Nearby skilled worker accepts job on interactive map</div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">2</div>
+          <div class="text-xs font-bold text-white mb-1">Worker Accepts</div>
+          <div class="text-[11px] text-gray-400">Nearby skilled worker accepts job on live map</div>
         </div>
-        <div class="stepper-step">
-          <div class="step-num">3</div>
-          <div class="step-title">On The Way</div>
-          <div class="step-desc">Worker drives to location with turn-by-turn navigation</div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">3</div>
+          <div class="text-xs font-bold text-white mb-1">On The Way</div>
+          <div class="text-[11px] text-gray-400">Worker drives to site with turn-by-turn routing</div>
         </div>
-        <div class="stepper-step">
-          <div class="step-num">4</div>
-          <div class="step-title">Work Started</div>
-          <div class="step-desc">Technician performs repair &amp; maintenance service</div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">4</div>
+          <div class="text-xs font-bold text-white mb-1">Work Started</div>
+          <div class="text-[11px] text-gray-400">Technician performs repair &amp; maintenance service</div>
         </div>
-        <div class="stepper-step">
-          <div class="step-num">5</div>
-          <div class="step-title">Complete &amp; Review</div>
-          <div class="step-desc">Job completion marked and 1-5 star review submitted</div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center mx-auto mb-3">5</div>
+          <div class="text-xs font-bold text-white mb-1">Complete &amp; Review</div>
+          <div class="text-[11px] text-gray-400">Job completion marked and star review posted</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Technology Stack Section -->
-  <section class="tech-section" id="techstack">
-    <div class="tech-box">
-      <h2>Technology Stack &amp; Architecture</h2>
-      <p style="color: var(--text-muted); margin-top: 0.5rem;">Built using modern full-stack web technologies</p>
-      <div class="tech-tags">
-        <div class="tech-tag"><i class="fa-brands fa-react"></i> Next.js 16 (App Router)</div>
-        <div class="tech-tag"><i class="fa-brands fa-react"></i> React 19</div>
-        <div class="tech-tag"><i class="fa-solid fa-code"></i> TypeScript 5</div>
-        <div class="tech-tag"><i class="fa-solid fa-palette"></i> Tailwind CSS v4</div>
-        <div class="tech-tag"><i class="fa-solid fa-key"></i> Clerk Auth</div>
-        <div class="tech-tag"><i class="fa-solid fa-cubes"></i> Prisma ORM 6</div>
-        <div class="tech-tag"><i class="fa-solid fa-database"></i> Neon Cloud PostgreSQL</div>
-        <div class="tech-tag"><i class="fa-solid fa-map-location-dot"></i> Leaflet Maps &amp; Routing</div>
+  <section id="tech" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+    <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack &amp; Infrastructure</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2 mb-8">Modern Web Standards &amp; Full-Stack Frameworks</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-brands fa-react text-sky-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Next.js 16</div>
+          <div class="text-[10px] text-gray-500">App Router &amp; React 19</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-code text-blue-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">TypeScript 5</div>
+          <div class="text-[10px] text-gray-500">Strict Type Safety</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-key text-emerald-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Clerk Auth</div>
+          <div class="text-[10px] text-gray-500">Multi-Role Middleware</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-database text-indigo-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Prisma 6 &amp; Neon</div>
+          <div class="text-[10px] text-gray-500">Serverless PostgreSQL</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-map-location-dot text-amber-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Leaflet Maps</div>
+          <div class="text-[10px] text-gray-500">GPS &amp; Turn-by-Turn Routes</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-gray-800 p-4 rounded-xl text-center hover:border-blue-500/40 transition">
+          <i class="fa-solid fa-palette text-cyan-400 text-2xl mb-2"></i>
+          <div class="text-xs font-bold text-gray-200">Tailwind CSS v4</div>
+          <div class="text-[10px] text-gray-500">Glassmorphic UI Engine</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>Workmate.lk System • Developed for the Skilled Workforce Community</p>
-    <p style="margin-top: 0.5rem;">Created by <a href="https://github.com/Shamikakkss" target="_blank">Shamikakkss</a></p>
+  <section id="team" class="py-12 px-4 max-w-6xl mx-auto sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Project Lead Developer</h2>
+      <p class="text-xs sm:text-sm text-gray-400 mt-2">
+        Creator and maintainer of Workmate.lk platform
+      </p>
+    </div>
+
+    <div class="max-w-sm mx-auto">
+      <div class="glass-card p-6 rounded-2xl text-center flex flex-col justify-between">
+        <div>
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 p-1 mx-auto mb-4 shadow-lg shadow-blue-500/20">
+            <div class="w-full h-full rounded-xl bg-slate-950 flex items-center justify-center text-blue-400 text-2xl font-bold font-mono">
+              SK
+            </div>
+          </div>
+          <h3 class="text-base font-bold text-white">Shamikakkss</h3>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30 my-2">
+            Lead Developer &amp; Creator
+          </span>
+          <p class="text-xs text-gray-400 leading-relaxed mb-4">
+            Architected Next.js App Router setup, Leaflet map routing engine, Neon PostgreSQL serverless schema, and SOS emergency dispatch logic.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-slate-800/80 flex items-center justify-center gap-3">
+          <a href="https://github.com/Shamikakkss" target="_blank" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-blue-600 text-gray-300 hover:text-white transition flex items-center gap-2 text-xs font-semibold">
+            <i class="fa-brands fa-github text-sm"></i>
+            <span>GitHub Profile</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mt-auto border-t border-slate-800/80 bg-slate-950 py-8 px-4 text-center text-xs text-gray-400">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>
+        <strong class="text-white">Workmate.lk — On-Demand Skilled Worker Marketplace</strong>
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" class="text-gray-400 hover:text-blue-400 transition flex items-center gap-1.5">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>GitHub Repository</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl border border-slate-700 shadow-2xl flex items-center gap-3 text-xs">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-blue-400 text-base"></i>
+    <span id="toast-message">Notification message</span>
+  </div>
+
   <script>
-    function toggleNav() {
-      const navLinks = document.getElementById('navLinks');
-      const backdrop = document.getElementById('navBackdrop');
-      const toggleBtn = document.getElementById('navToggleBtn');
-      const isOpen = navLinks.classList.toggle('active');
-      if (backdrop) backdrop.classList.toggle('active', isOpen);
-      if (toggleBtn) toggleBtn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+
+      toastMsg.innerText = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
     }
-    function closeNav() {
-      const navLinks = document.getElementById('navLinks');
-      const backdrop = document.getElementById('navBackdrop');
-      const toggleBtn = document.getElementById('navToggleBtn');
-      if (navLinks) navLinks.classList.remove('active');
+
+    function copyRepoUrl() {
+      const repoUrl = 'git clone https://github.com/Shamikakkss/workmate-lk.git';
+      
+      const dummy = document.createElement('input');
+      document.body.appendChild(dummy);
+      dummy.value = repoUrl;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+
+      showToast('Git clone command copied to clipboard!');
+    }
+
+    function toggleWorkmateNav() {
+      const menu = document.getElementById('workmateMobileMenu');
+      const backdrop = document.getElementById('workmateBackdrop');
+      const btn = document.getElementById('workmateMobileBtn');
+      const isOpen = menu.classList.toggle('active');
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
+      if (btn) btn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
+    }
+    function closeWorkmateNav() {
+      const menu = document.getElementById('workmateMobileMenu');
+      const backdrop = document.getElementById('workmateBackdrop');
+      const btn = document.getElementById('workmateMobileBtn');
+      if (menu) menu.classList.remove('active');
       if (backdrop) backdrop.classList.remove('active');
-      if (toggleBtn) toggleBtn.querySelector('i').className = 'fa-solid fa-bars';
+      if (btn) btn.querySelector('i').className = 'fa-solid fa-bars text-lg';
     }
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeNav();
+      if (e.key === 'Escape') closeWorkmateNav();
     });
   </script>
 </body>
