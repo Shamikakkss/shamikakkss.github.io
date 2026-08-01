@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -580,6 +580,17 @@
       transform: translateY(-2px);
     }
 
+    .btn-specs {
+      font-size: 0.82rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .btn-specs:hover {
+      text-decoration: underline;
+    }
+
     .hero-stats {
       display: flex;
       gap: 36px;
@@ -914,9 +925,17 @@
       flex-shrink: 0;
     }
 
-    .tag-main .tag-dot { background: var(--primary); }
-    .tag-core .tag-dot { background: var(--accent); }
-    .tag-learning .tag-dot { background: var(--warm); }
+    .tag-main .tag-dot {
+      background: var(--primary);
+    }
+
+    .tag-core .tag-dot {
+      background: var(--accent);
+    }
+
+    .tag-learning .tag-dot {
+      background: var(--warm);
+    }
 
     .skill-legend {
       display: flex;
@@ -924,7 +943,7 @@
       flex-wrap: wrap;
       margin-bottom: 24px;
       padding: 10px 16px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
     }
@@ -945,9 +964,18 @@
       height: 7px;
       border-radius: 50%;
     }
-    .legend-dot.main { background: var(--primary); }
-    .legend-dot.core { background: var(--accent); }
-    .legend-dot.learning { background: var(--warm); }
+
+    .legend-dot.main {
+      background: var(--primary);
+    }
+
+    .legend-dot.core {
+      background: var(--accent);
+    }
+
+    .legend-dot.learning {
+      background: var(--warm);
+    }
 
     /* ─── PROJECTS ─── */
     #projects {
@@ -2469,13 +2497,27 @@
     <div class="section-inner">
       <div class="section-label">01 — About Me</div>
       <h2 class="section-title">Builder. Designer.<br>Problem Solver.</h2>
-      <p class="section-desc" style="margin-bottom:0;">Freelance graphic designer &amp; full-stack developer from Sri Lanka — building real-world production systems, beautiful digital experiences &amp; powerful brand identities since 2023.</p>
+      <p class="section-desc" style="margin-bottom:0;">Freelance graphic designer &amp; full-stack developer from Sri
+        Lanka — building real-world production systems, beautiful digital experiences &amp; powerful brand identities
+        since 2023.</p>
 
       <div class="about-grid">
         <div class="about-text reveal">
-          <p>I'm an <strong>IT undergraduate (HNDIT — SLIATE)</strong> from Sri Lanka who bridges the gap between design and engineering. In 2023, I started freelancing on Fiverr as a graphic designer, rapidly reaching <strong>Fiverr Level 1 Seller</strong> status by consistently delivering logos, brand identities, and social media designs for clients worldwide.</p>
-          <p>Today, I build <strong>full-stack production web applications</strong> using modern JavaScript ecosystems — from a <strong>serverless order management platform</strong> (Firebase + Supabase + PayHere) to a <strong>location-based worker marketplace</strong> (Next.js 16 + Clerk + Prisma + PostgreSQL + Leaflet Maps) and a <strong>community ERP system</strong> (Node.js + Express + MongoDB + JWT). Every project I build is deployed and built for real users — not just demos.</p>
-          <p>I'm currently deepening my knowledge in <strong>cyber security</strong> — studying ethical hacking, network fundamentals, and security tooling at NextGen Campus. I leverage <strong>AI tools and agentic workflows</strong> to work smarter, ship faster, and solve harder problems. Looking for an internship where I can contribute meaningful, production-ready work from day one.</p>
+          <p>I'm an <strong>IT undergraduate (HNDIT — SLIATE)</strong> from Sri Lanka who bridges the gap between design
+            and engineering. In 2023, I started freelancing on Fiverr as a graphic designer, rapidly reaching
+            <strong>Fiverr Level 1 Seller</strong> status by consistently delivering logos, brand identities, and social
+            media designs for clients worldwide.
+          </p>
+          <p>Today, I build <strong>full-stack production web applications</strong> using modern JavaScript ecosystems —
+            from a <strong>serverless order management platform</strong> (Firebase + Supabase + PayHere) to a
+            <strong>location-based worker marketplace</strong> (Next.js 16 + Clerk + Prisma + PostgreSQL + Leaflet Maps)
+            and a <strong>community ERP system</strong> (Node.js + Express + MongoDB + JWT). Every project I build is
+            deployed and built for real users — not just demos.
+          </p>
+          <p>I'm currently deepening my knowledge in <strong>cyber security</strong> — studying ethical hacking, network
+            fundamentals, and security tooling at NextGen Campus. I leverage <strong>AI tools and agentic
+              workflows</strong> to work smarter, ship faster, and solve harder problems. Looking for an internship
+            where I can contribute meaningful, production-ready work from day one.</p>
         </div>
 
         <div class="about-highlights reveal">
@@ -2483,35 +2525,40 @@
             <div class="highlight-icon hi-green"><i class="fas fa-laptop-code"></i></div>
             <div class="highlight-content">
               <h4>Full-Stack Web Developer</h4>
-              <p>Built 6+ production systems: serverless platforms (Firebase/Supabase), MERN stack apps, PHP/MySQL systems, and Next.js 16 applications with real-time features.</p>
+              <p>Built 6+ production systems: serverless platforms (Firebase/Supabase), MERN stack apps, PHP/MySQL
+                systems, and Next.js 16 applications with real-time features.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-yellow"><i class="fas fa-palette"></i></div>
             <div class="highlight-content">
               <h4>Freelance Graphic Designer — Fiverr Lvl 1</h4>
-              <p>3+ years delivering logos, brand identities, UI/UX designs &amp; social media visuals for clients worldwide. Adobe Illustrator, Photoshop, Figma &amp; Canva.</p>
+              <p>3+ years delivering logos, brand identities, UI/UX designs &amp; social media visuals for clients
+                worldwide. Adobe Illustrator, Photoshop, Figma &amp; Canva.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-purple"><i class="fas fa-shield-halved"></i></div>
             <div class="highlight-content">
               <h4>Cyber Security Learner</h4>
-              <p>Actively studying ethical hacking, network security &amp; security tooling at NextGen Campus. Applying security best practices (RBAC, JWT, bcrypt) in all projects.</p>
+              <p>Actively studying ethical hacking, network security &amp; security tooling at NextGen Campus. Applying
+                security best practices (RBAC, JWT, bcrypt) in all projects.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-green"><i class="fas fa-robot"></i></div>
             <div class="highlight-content">
               <h4>AI-Powered Workflow</h4>
-              <p>Leveraging Claude AI, ChatGPT, Midjourney &amp; agent-based automation for research, code reviews, content creation, and accelerating delivery cycles.</p>
+              <p>Leveraging Claude AI, ChatGPT, Midjourney &amp; agent-based automation for research, code reviews,
+                content creation, and accelerating delivery cycles.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-green"><i class="fas fa-map-location-dot"></i></div>
             <div class="highlight-content">
               <h4>Real-World Project Experience</h4>
-              <p>All 6+ projects are live or production-ready: an active marketplace app, a deployed order management platform, a community ERP &amp; a fund management system.</p>
+              <p>All 6+ projects are live or production-ready: an active marketplace app, a deployed order management
+                platform, a community ERP &amp; a fund management system.</p>
             </div>
           </div>
         </div>
@@ -2524,12 +2571,19 @@
     <div class="section-inner">
       <div class="section-label">02 — Technical Skills</div>
       <h2 class="section-title">Tools &amp; Technologies</h2>
-      <p class="section-desc">Technologies I've actually shipped in production projects — from serverless platforms &amp; realtime databases to GPS mapping, payment gateways &amp; creative design tools.</p>
+      <p class="section-desc">Technologies I've actually shipped in production projects — from serverless platforms
+        &amp; realtime databases to GPS mapping, payment gateways &amp; creative design tools.</p>
 
       <div class="skill-legend">
-        <div class="legend-item"><div class="legend-dot main"></div> Main / Heavy Use</div>
-        <div class="legend-item"><div class="legend-dot core"></div> Core Skill</div>
-        <div class="legend-item"><div class="legend-dot learning"></div> Actively Learning</div>
+        <div class="legend-item">
+          <div class="legend-dot main"></div> Main / Heavy Use
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot core"></div> Core Skill
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot learning"></div> Actively Learning
+        </div>
       </div>
 
       <div class="skills-grid">
@@ -2760,6 +2814,9 @@
               rel="noopener noreferrer">
               <i class="fab fa-github"></i> Admin Dashboard Repository
             </a>
+            <a class="btn-outline" href="Preview/ruu_graphics.html" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-file-alt"></i> View Specifications
+            </a>
             <!-- <button onclick="openProjectModal('ruugraphics')" class="btn-outline" aria-label="View RuuGraphics details">
               <i class="fas fa-circle-info"></i> Project Details
             </button> -->
@@ -2795,8 +2852,11 @@
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <a class="project-link" href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repo</a>
+            <!-- <a class="project-link" href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repo</a> -->
+            <a class="btn-specs" href="Preview/workmate.lk.html" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-file-alt"></i> View Specifications
+            </a>
             <!-- <button onclick="openProjectModal('workmate')" class="btn-detail-trigger"
               style="font-size:0.72rem; padding:4px 10px;">
               <i class="fas fa-circle-info"></i> Project Details
@@ -2831,8 +2891,11 @@
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <a class="project-link" href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a>
+            <!-- <a class="project-link" href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a> -->
+            <a class="btn-specs" href="Preview/ekamuthuerp.html" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-file-alt"></i> View Specifications
+            </a>
             <!-- <button onclick="openProjectModal('ekamuthu')" class="btn-detail-trigger"
               style="font-size:0.72rem; padding:4px 10px;">
               <i class="fas fa-circle-info"></i> Project Details
@@ -2865,9 +2928,11 @@
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <a class="project-link" href="https://github.com/suneththivanka128/FundManagementSystem-v2" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a>
-            <!-- <button onclick="openProjectModal('ekamuthu')" class="btn-detail-trigger"
+            <!-- <a class="project-link" href="https://github.com/suneththivanka128/FundManagementSystem-v2" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a> -->
+            <a class="btn-specs" href="Preview/fund_management_system.html" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-file-alt"></i> View Specifications
+            </a><!-- <button onclick="openProjectModal('ekamuthu')" class="btn-detail-trigger"
               style="font-size:0.72rem; padding:4px 10px;">
               <i class="fas fa-circle-info"></i> Project Details
             </button> -->
@@ -3298,7 +3363,8 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <p class="footer-copy">© 2026 <strong>Sachintha Shyamika</strong> — Built with passion in Sri Lanka 🇱🇰
+      <p class="footer-copy">
+        © 2026 <strong>Sachintha Shyamika</strong> • All Rights Reserved.
       </p>
       <div class="social-links">
         <a href="https://github.com/Shamikakkss" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
