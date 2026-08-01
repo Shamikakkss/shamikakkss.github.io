@@ -83,6 +83,37 @@
       border-color: rgba(99, 102, 241, 0.4);
       transform: translateY(-4px);
     }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(11, 15, 25, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 24px;
+      gap: 20px;
+      transition: right 0.3s ease;
+      z-index: 99;
+    }
+    .mobile-menu.active { right: 0; }
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .nav-backdrop.active { opacity: 1; pointer-events: auto; }
   </style>
 </head>
 
@@ -90,6 +121,18 @@
 
   <!-- Background Glow -->
   <div class="glow-bg"></div>
+
+  <!-- Navigation Backdrop & Mobile Menu -->
+  <div class="nav-backdrop" id="ekamuthuBackdrop" onclick="closeEkamuthuNav()"></div>
+  <div class="mobile-menu" id="ekamuthuMobileMenu">
+    <a href="#overview" onclick="closeEkamuthuNav()" class="text-sm font-medium text-gray-200 hover:text-indigo-400">Overview</a>
+    <a href="#features" onclick="closeEkamuthuNav()" class="text-sm font-medium text-gray-200 hover:text-indigo-400">Core Modules</a>
+    <a href="#workflow" onclick="closeEkamuthuNav()" class="text-sm font-medium text-gray-200 hover:text-indigo-400">Workflow</a>
+    <a href="#tech" onclick="closeEkamuthuNav()" class="text-sm font-medium text-gray-200 hover:text-indigo-400">Tech Stack</a>
+    <a href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank" onclick="closeEkamuthuNav()" class="mt-4 px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-center">
+      <i class="fa-brands fa-github text-sm mr-1"></i> GitHub Repository
+    </a>
+  </div>
 
   <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -111,12 +154,17 @@
         <a href="#tech" class="hover:text-indigo-400 transition">Tech Stack</a>
       </nav>
 
-      <!-- GitHub Link -->
-      <a href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
-        class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-2">
-        <i class="fa-brands fa-github text-sm"></i>
-        <span class="hidden sm:inline">GitHub Repository</span>
-      </a>
+      <!-- GitHub Link & Mobile Menu Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
+          class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 hover:bg-gray-700 text-white border border-gray-700 transition flex items-center gap-2">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span class="hidden sm:inline">GitHub Repository</span>
+        </a>
+        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="mobileMenuBtn" onclick="toggleEkamuthuNav()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -345,8 +393,27 @@
         Developed by <a href="https://github.com/Shamikakkss" target="_blank" class="text-indigo-400 hover:underline font-medium">Shamikakkss</a>
       </div>
     </div>
-  </footer>
-
+  <script>
+    function toggleEkamuthuNav() {
+      const menu = document.getElementById('ekamuthuMobileMenu');
+      const backdrop = document.getElementById('ekamuthuBackdrop');
+      const btn = document.getElementById('mobileMenuBtn');
+      const isOpen = menu.classList.toggle('active');
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
+      if (btn) btn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
+    }
+    function closeEkamuthuNav() {
+      const menu = document.getElementById('ekamuthuMobileMenu');
+      const backdrop = document.getElementById('ekamuthuBackdrop');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (menu) menu.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      if (btn) btn.querySelector('i').className = 'fa-solid fa-bars text-lg';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeEkamuthuNav();
+    });
+  </script>
 </body>
 
 </html>

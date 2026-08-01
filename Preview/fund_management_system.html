@@ -85,6 +85,37 @@
       border-color: rgba(16, 185, 129, 0.4);
       transform: translateY(-4px);
     }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(11, 15, 25, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 24px;
+      gap: 20px;
+      transition: right 0.3s ease;
+      z-index: 99;
+    }
+    .mobile-menu.active { right: 0; }
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .nav-backdrop.active { opacity: 1; pointer-events: auto; }
   </style>
 </head>
 
@@ -92,6 +123,19 @@
 
   <!-- Background Glow -->
   <div class="glow-bg"></div>
+
+  <!-- Navigation Backdrop & Mobile Menu -->
+  <div class="nav-backdrop" id="fundBackdrop" onclick="closeFundNav()"></div>
+  <div class="mobile-menu" id="fundMobileMenu">
+    <a href="#overview" onclick="closeFundNav()" class="text-sm font-medium text-gray-200 hover:text-emerald-400">Overview</a>
+    <a href="#architecture" onclick="closeFundNav()" class="text-sm font-medium text-gray-200 hover:text-emerald-400">Architecture</a>
+    <a href="#features" onclick="closeFundNav()" class="text-sm font-medium text-gray-200 hover:text-emerald-400">Core Features</a>
+    <a href="#workflow" onclick="closeFundNav()" class="text-sm font-medium text-gray-200 hover:text-emerald-400">Process Workflow</a>
+    <a href="#team" onclick="closeFundNav()" class="text-sm font-medium text-gray-200 hover:text-emerald-400">Project Team</a>
+    <a href="https://github.com/suneththivanka128/FundManagementSystem-v2" target="_blank" onclick="closeFundNav()" class="mt-4 px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-center">
+      <i class="fa-brands fa-github text-sm mr-1"></i> GitHub Repository
+    </a>
+  </div>
 
   <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -126,6 +170,9 @@
           title="Copy Git Clone Command">
           <i class="fa-regular fa-copy text-xs"></i>
           <span class="hidden sm:inline">Clone</span>
+        </button>
+        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="fundMobileBtn" onclick="toggleFundNav()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars text-lg"></i>
         </button>
       </div>
     </div>
@@ -523,6 +570,26 @@
 
       showToast('Git clone command copied to clipboard!');
     }
+
+    function toggleFundNav() {
+      const menu = document.getElementById('fundMobileMenu');
+      const backdrop = document.getElementById('fundBackdrop');
+      const btn = document.getElementById('fundMobileBtn');
+      const isOpen = menu.classList.toggle('active');
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
+      if (btn) btn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
+    }
+    function closeFundNav() {
+      const menu = document.getElementById('fundMobileMenu');
+      const backdrop = document.getElementById('fundBackdrop');
+      const btn = document.getElementById('fundMobileBtn');
+      if (menu) menu.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      if (btn) btn.querySelector('i').className = 'fa-solid fa-bars text-lg';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeFundNav();
+    });
   </script>
 </body>
 

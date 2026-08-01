@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -503,42 +503,81 @@
     .btn-primary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 14px 30px;
+      padding: 13px 28px;
       background: var(--primary);
-      color: var(--bg);
+      color: #0a0a0f;
       border-radius: 50px;
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 40px var(--primary-glow);
+      transition: all 0.25s ease;
+      box-shadow: 0 0 25px var(--primary-glow);
+      border: 1px solid var(--primary);
+      cursor: pointer;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 50px var(--primary-glow);
+      background: #5eead4;
+      border-color: #5eead4;
+      box-shadow: 0 8px 30px rgba(110, 231, 183, 0.45);
+      color: #0a0a0f;
+    }
+
+    .btn-accent {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: var(--accent);
+      color: #0a0a0f;
+      border-radius: 50px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 25px rgba(167, 139, 250, 0.35);
+      border: 1px solid var(--accent);
+      cursor: pointer;
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      background: #c4b5fd;
+      border-color: #c4b5fd;
+      box-shadow: 0 8px 30px rgba(167, 139, 250, 0.5);
+      color: #0a0a0f;
     }
 
     .btn-outline {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 14px 30px;
-      border: 1px solid var(--border);
+      padding: 13px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
       border-radius: 50px;
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
 
     .btn-outline:hover {
       border-color: var(--primary);
+      color: var(--primary);
       background: var(--primary-dim);
+      box-shadow: 0 0 20px rgba(110, 231, 183, 0.2);
+      transform: translateY(-2px);
     }
 
     .hero-stats {
@@ -843,7 +882,72 @@
       color: var(--text-muted);
       background: rgba(255, 255, 255, 0.03);
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
+
+    .skill-tag.tag-main {
+      border-color: rgba(110, 231, 183, 0.45);
+      color: var(--primary);
+      background: rgba(110, 231, 183, 0.08);
+      font-weight: 600;
+    }
+
+    .skill-tag.tag-core {
+      border-color: rgba(167, 139, 250, 0.4);
+      color: var(--accent);
+      background: rgba(167, 139, 250, 0.07);
+      font-weight: 500;
+    }
+
+    .skill-tag.tag-learning {
+      border-color: rgba(251, 191, 36, 0.3);
+      color: var(--warm);
+      background: rgba(251, 191, 36, 0.06);
+    }
+
+    .tag-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tag-main .tag-dot { background: var(--primary); }
+    .tag-core .tag-dot { background: var(--accent); }
+    .tag-learning .tag-dot { background: var(--warm); }
+
+    .skill-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .legend-dot.main { background: var(--primary); }
+    .legend-dot.core { background: var(--accent); }
+    .legend-dot.learning { background: var(--warm); }
 
     /* ─── PROJECTS ─── */
     #projects {
@@ -990,9 +1094,9 @@
     }
 
     .project-card-banner-wrap-final {
-      width: calc(100% + 60px);
-      margin: -30px -30px 10px -30px;
-      height: 450px;
+      width: calc(100% + 72px);
+      margin: -36px -36px 16px -36px;
+      height: 340px;
       position: relative;
       overflow: hidden;
       border-top-left-radius: var(--radius);
@@ -1006,6 +1110,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top center;
       transition: transform 0.5s ease;
     }
 
@@ -1105,7 +1210,7 @@
 
     .project-modal-close:hover {
       background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+      color: #000000;
     }
 
     .project-modal-banner-wrap {
@@ -1979,39 +2084,127 @@
       transform: translateY(0);
     }
 
-    /* ─── MOBILE MENU ─── */
+    /* ─── MOBILE MENU & BACKDROP ─── */
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .menu-toggle {
       display: none;
-      background: none;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
+      border-radius: 10px;
+      padding: 10px 14px;
       color: var(--text);
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+      z-index: 101;
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-dim);
+    }
+
+    .mobile-cta-item {
+      display: none;
     }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav {
-        padding: 18px 24px;
+        padding: 14px 20px;
       }
 
-      .nav-links,
-      .nav-cta {
+      .nav-logo {
+        height: 44px;
+      }
+
+      .nav-logo object,
+      .nav-logo img {
+        height: 52px !important;
+      }
+
+      .desktop-nav-cta {
         display: none;
       }
 
-      .menu-toggle {
+      .mobile-cta-item {
         display: block;
+        margin-top: 10px;
+      }
+
+      .mobile-nav-cta {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 82%;
+        max-width: 320px;
+        height: 100vh;
+        height: 100dvh;
+        background: rgba(13, 13, 20, 0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-left: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 32px 40px;
+        gap: 22px;
+        transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 99;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 1rem;
+        display: block;
+        padding: 6px 0;
+      }
+
+      .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       #hero {
         grid-template-columns: 1fr;
         grid-template-areas: "visual" "content";
-        padding: 100px 24px 60px;
+        padding: 100px 20px 50px;
         text-align: center;
-        gap: 40px;
+        gap: 36px;
+      }
+
+      .hero-title {
+        font-size: 2.8rem;
+        line-height: 1.25;
       }
 
       .hero-visual {
@@ -2019,42 +2212,70 @@
       }
 
       .profile-ring {
-        max-width: 300px;
+        max-width: 260px;
+        width: 100%;
       }
 
       .hero-stats {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
       }
 
       .hero-actions {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        width: 100%;
+        max-width: 280px;
       }
 
       .hero-subtitle {
-        margin: 20px auto 36px;
+        margin: 20px auto 30px;
+        font-size: 0.95rem;
       }
 
       .section-inner {
-        padding: 70px 24px;
+        padding: 60px 20px;
       }
 
       .about-grid,
       .contact-wrapper {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
       }
 
       .footer-inner {
         flex-direction: column;
         gap: 20px;
         text-align: center;
-        padding: 28px 24px;
+        padding: 28px 20px;
+      }
+
+      .project-card.featured-project {
+        padding: 28px;
+      }
+
+      .project-card-banner-wrap-final {
+        height: 250px;
+        width: calc(100% + 56px);
+        margin: -28px -28px 16px -28px;
+      }
+
+      .project-card-banner-wrap {
+        height: 160px;
+        width: calc(100% + 56px);
+        margin: -28px -28px 14px -28px;
       }
     }
 
     @media (max-width: 600px) {
       .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.1rem;
       }
 
       .skills-grid,
@@ -2074,6 +2295,85 @@
       .edu-timeline::before {
         display: none;
       }
+
+      .project-card.featured-project {
+        padding: 20px;
+      }
+
+      .project-card-banner-wrap-final {
+        height: 180px;
+        width: calc(100% + 40px);
+        margin: -20px -20px 14px -20px;
+      }
+
+      .project-card-banner-wrap {
+        height: 140px;
+        width: calc(100% + 40px);
+        margin: -20px -20px 14px -20px;
+      }
+
+      .featured-action-btns {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .featured-action-btns .btn-primary,
+      .featured-action-btns .btn-accent,
+      .featured-action-btns .btn-outline,
+      .featured-action-btns .btn-detail-trigger {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .project-modal-backdrop {
+        padding: 12px;
+      }
+
+      .project-modal-content {
+        max-height: 94vh;
+        border-radius: 16px;
+      }
+
+      .project-modal-body {
+        padding: 18px 20px 28px;
+        gap: 18px;
+      }
+
+      .project-modal-title {
+        font-size: 1.25rem;
+      }
+
+      .project-modal-banner-wrap {
+        height: 180px;
+      }
+
+      .toast-container {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+
+      .toast {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title {
+        font-size: 1.85rem;
+      }
+
+      .nav-links {
+        width: 90%;
+        padding: 70px 24px 30px;
+      }
+
+      .project-card-banner-wrap-final {
+        height: 150px;
+      }
     }
   </style>
 </head>
@@ -2088,6 +2388,9 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- NAV BACKDROP OVERLAY FOR MOBILE -->
+  <div class="nav-backdrop" id="navBackdrop" onclick="closeMenu()"></div>
+
   <!-- NAV -->
   <nav id="navbar" aria-label="Main navigation">
     <a href="#hero" class="nav-logo" aria-label="Sachintha Shyamika — Home">
@@ -2096,15 +2399,19 @@
         <img src="logo-512.png" alt="Sachintha Shyamika logo" style="height:38px;width:auto;">
       </object>
     </a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#contact">Contact</a></li>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+      <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+      <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+      <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+      <li class="mobile-cta-item"><a href="Sachintha Shyamika.pdf" download onclick="closeMenu()"
+          class="nav-cta mobile-nav-cta"><i class="fas fa-download"></i> Download CV</a></li>
     </ul>
-    <a href="Sachintha Shyamika.pdf" download class="nav-cta"><i class="fas fa-download"></i> Download CV</a>
-    <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <a href="Sachintha Shyamika.pdf" download class="nav-cta desktop-nav-cta"><i class="fas fa-download"></i> Download
+      CV</a>
+    <button class="menu-toggle" aria-label="Toggle Navigation Menu" onclick="toggleMenu()"><i
+        class="fas fa-bars"></i></button>
   </nav>
 
   <!-- HERO -->
@@ -2162,63 +2469,49 @@
     <div class="section-inner">
       <div class="section-label">01 — About Me</div>
       <h2 class="section-title">Builder. Designer.<br>Problem Solver.</h2>
-      <p class="section-desc" style="margin-bottom:0;">Freelance graphic designer &amp; full-stack developer from Sri
-        Lanka — crafting logos, brands, and digital experiences for clients worldwide since 2023.</p>
+      <p class="section-desc" style="margin-bottom:0;">Freelance graphic designer &amp; full-stack developer from Sri Lanka — building real-world production systems, beautiful digital experiences &amp; powerful brand identities since 2023.</p>
 
       <div class="about-grid">
         <div class="about-text reveal">
-          <p>I'm an <strong>IT undergraduate in Sri Lanka</strong> passionate about crafting software that solves real
-            problems. I started my journey in 2023 as a freelance graphic designer on Fiverr, where I quickly reached
-            <strong>Level 1 Seller</strong> status — learning how to communicate with clients, manage expectations,
-            and
-            ship quality work on time.
-          </p>
-          <p>Today, my focus is <strong>full-stack web development</strong>. I build with HTML, CSS, JavaScript, PHP,
-            MySQL, Firebase/Firestore, and Supabase — and have hands-on experience with C# and Java from university.
-            I'm
-            currently working on a live <strong>order management system</strong> for a real client as my final year
-            project.
-          </p>
-          <p>I'm actively pursuing <strong>cyber security</strong> alongside development, studying ethical hacking and
-            network fundamentals to become a more well-rounded IT professional. I'm seeking an internship where I can
-            contribute, grow, and make an impact.</p>
+          <p>I'm an <strong>IT undergraduate (HNDIT — SLIATE)</strong> from Sri Lanka who bridges the gap between design and engineering. In 2023, I started freelancing on Fiverr as a graphic designer, rapidly reaching <strong>Fiverr Level 1 Seller</strong> status by consistently delivering logos, brand identities, and social media designs for clients worldwide.</p>
+          <p>Today, I build <strong>full-stack production web applications</strong> using modern JavaScript ecosystems — from a <strong>serverless order management platform</strong> (Firebase + Supabase + PayHere) to a <strong>location-based worker marketplace</strong> (Next.js 16 + Clerk + Prisma + PostgreSQL + Leaflet Maps) and a <strong>community ERP system</strong> (Node.js + Express + MongoDB + JWT). Every project I build is deployed and built for real users — not just demos.</p>
+          <p>I'm currently deepening my knowledge in <strong>cyber security</strong> — studying ethical hacking, network fundamentals, and security tooling at NextGen Campus. I leverage <strong>AI tools and agentic workflows</strong> to work smarter, ship faster, and solve harder problems. Looking for an internship where I can contribute meaningful, production-ready work from day one.</p>
         </div>
 
         <div class="about-highlights reveal">
           <div class="highlight-item">
             <div class="highlight-icon hi-green"><i class="fas fa-laptop-code"></i></div>
             <div class="highlight-content">
-              <h4>Full-Stack Developer</h4>
-              <p>PHP, MySQL, Firebase/Firestore, Supabase, HTML/CSS, JavaScript — building complete web applications
-                end-to-end.</p>
+              <h4>Full-Stack Web Developer</h4>
+              <p>Built 6+ production systems: serverless platforms (Firebase/Supabase), MERN stack apps, PHP/MySQL systems, and Next.js 16 applications with real-time features.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-yellow"><i class="fas fa-palette"></i></div>
             <div class="highlight-content">
-              <h4>Freelance Graphic Designer</h4>
-              <p>3+ years on Fiverr delivering logos, branding & social media visuals for clients worldwide.</p>
+              <h4>Freelance Graphic Designer — Fiverr Lvl 1</h4>
+              <p>3+ years delivering logos, brand identities, UI/UX designs &amp; social media visuals for clients worldwide. Adobe Illustrator, Photoshop, Figma &amp; Canva.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-purple"><i class="fas fa-shield-halved"></i></div>
             <div class="highlight-content">
               <h4>Cyber Security Learner</h4>
-              <p>Actively studying ethical hacking, network security, and security tools at NextGen Campus.</p>
+              <p>Actively studying ethical hacking, network security &amp; security tooling at NextGen Campus. Applying security best practices (RBAC, JWT, bcrypt) in all projects.</p>
             </div>
           </div>
           <div class="highlight-item">
             <div class="highlight-icon hi-green"><i class="fas fa-robot"></i></div>
             <div class="highlight-content">
-              <h4>AI Collaboration &amp; Agents</h4>
-              <p>Using AI tools and agent-based workflows for research, drafting, automation, and faster delivery.</p>
+              <h4>AI-Powered Workflow</h4>
+              <p>Leveraging Claude AI, ChatGPT, Midjourney &amp; agent-based automation for research, code reviews, content creation, and accelerating delivery cycles.</p>
             </div>
           </div>
           <div class="highlight-item">
-            <div class="highlight-icon hi-green"><i class="fas fa-graduation-cap"></i></div>
+            <div class="highlight-icon hi-green"><i class="fas fa-map-location-dot"></i></div>
             <div class="highlight-content">
-              <h4>HNDIT Student — SLIATE</h4>
-              <p>Higher National Diploma in IT covering OOP, databases, networking, and software engineering.</p>
+              <h4>Real-World Project Experience</h4>
+              <p>All 6+ projects are live or production-ready: an active marketplace app, a deployed order management platform, a community ERP &amp; a fund management system.</p>
             </div>
           </div>
         </div>
@@ -2230,139 +2523,161 @@
   <section id="skills" aria-label="Technical Skills">
     <div class="section-inner">
       <div class="section-label">02 — Technical Skills</div>
-      <h2 class="section-title">Tools & Technologies</h2>
-      <p class="section-desc">A practical mix of web development, backend/API integration, design, cyber security, and
-        AI/agent-assisted workflow tools.</p>
+      <h2 class="section-title">Tools &amp; Technologies</h2>
+      <p class="section-desc">Technologies I've actually shipped in production projects — from serverless platforms &amp; realtime databases to GPS mapping, payment gateways &amp; creative design tools.</p>
+
+      <div class="skill-legend">
+        <div class="legend-item"><div class="legend-dot main"></div> Main / Heavy Use</div>
+        <div class="legend-item"><div class="legend-dot core"></div> Core Skill</div>
+        <div class="legend-item"><div class="legend-dot learning"></div> Actively Learning</div>
+      </div>
 
       <div class="skills-grid">
+
+        <!-- FRONTEND -->
         <div class="skill-card reveal" style="--card-accent: var(--primary);">
           <div class="skill-card-icon" style="background: var(--primary-dim); color: var(--primary);">
-            <i class="fas fa-globe"></i>
+            <i class="fas fa-layer-group"></i>
           </div>
-          <h3>Web Development</h3>
+          <h3>Frontend &amp; Frameworks</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Next.js</span>
-            <span class="skill-tag">React.js</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">Tailwind CSS</span>
-            <span class="skill-tag">MERN Stack</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>JavaScript (ES6+)</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>HTML5 / CSS3</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>React.js</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Next.js 16</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>TypeScript</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Tailwind CSS v4</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Responsive Design</span>
             <span class="skill-tag">Node.js</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">HTML5</span>
-            <span class="skill-tag">CSS3</span>
-            <span class="skill-tag">PHP</span>
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">MERN Stack</span>
+            <span class="skill-tag">Leaflet Maps</span>
             <span class="skill-tag">WordPress</span>
           </div>
         </div>
 
+        <!-- BACKEND -->
         <div class="skill-card reveal" style="--card-accent: var(--primary);">
           <div class="skill-card-icon" style="background: var(--primary-dim); color: var(--primary);">
             <i class="fas fa-server"></i>
           </div>
-          <h3>Backend & APIs</h3>
+          <h3>Backend &amp; Databases</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Prisma ORM</span>
-            <span class="skill-tag">PostgreSQL (Neon)</span>
-            <span class="skill-tag">Express.js</span>
-            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Firebase / Firestore</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>PHP / MySQL</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Node.js / Express.js</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>MongoDB Atlas</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Supabase Storage</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>PostgreSQL (Neon)</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Prisma ORM</span>
             <span class="skill-tag">REST APIs</span>
-            <span class="skill-tag">Clerk Auth</span>
-            <span class="skill-tag">JWT Auth</span>
-            <span class="skill-tag">Firebase</span>
-            <span class="skill-tag">Firestore</span>
-            <span class="skill-tag">Supabase Storage</span>
-            <span class="skill-tag">PayHere</span>
-            <span class="skill-tag">EmailJS</span>
+            <span class="skill-tag">Real-Time Sync</span>
+          </div>
+        </div>
+
+        <!-- AUTH & PAYMENTS -->
+        <div class="skill-card reveal" style="--card-accent: var(--accent);">
+          <div class="skill-card-icon" style="background: var(--accent-dim); color: var(--accent);">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3>Auth, Payments &amp; APIs</h3>
+          <div class="skill-tags">
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>JWT Auth / OTP</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>PayHere Gateway</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Firebase Auth</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Clerk Auth</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>EmailJS</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>RBAC Security</span>
+            <span class="skill-tag">Bcrypt</span>
             <span class="skill-tag">Binance API</span>
           </div>
         </div>
 
+        <!-- PROGRAMMING -->
         <div class="skill-card reveal" style="--card-accent: var(--accent);">
           <div class="skill-card-icon" style="background: var(--accent-dim); color: var(--accent);">
             <i class="fas fa-code"></i>
           </div>
-          <h3>Programming</h3>
+          <h3>Programming Languages</h3>
           <div class="skill-tags">
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">JavaScript (ES6+)</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>JavaScript</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>PHP</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>TypeScript</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>SQL</span>
             <span class="skill-tag">C#</span>
             <span class="skill-tag">Java</span>
-            <span class="skill-tag">SQL</span>
             <span class="skill-tag">OOP Principles</span>
           </div>
         </div>
 
+        <!-- DESIGN -->
         <div class="skill-card reveal" style="--card-accent: var(--warm);">
           <div class="skill-card-icon" style="background: rgba(251,191,36,0.1); color: var(--warm);">
             <i class="fas fa-pen-nib"></i>
           </div>
-          <h3>Design & Creative</h3>
+          <h3>Design &amp; Creative</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Adobe Illustrator</span>
-            <span class="skill-tag">Photoshop</span>
-            <span class="skill-tag">Figma</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Adobe Illustrator</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Adobe Photoshop</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Figma</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>UI/UX Design</span>
             <span class="skill-tag">Canva</span>
-            <span class="skill-tag">UI/UX Design</span>
+            <span class="skill-tag">Logo Design</span>
+            <span class="skill-tag">Brand Identity</span>
+            <span class="skill-tag">Social Media Graphics</span>
           </div>
         </div>
 
+        <!-- DEV TOOLS -->
         <div class="skill-card reveal" style="--card-accent: var(--primary);">
           <div class="skill-card-icon" style="background: var(--primary-dim); color: var(--primary);">
             <i class="fas fa-tools"></i>
           </div>
-          <h3>Developer Tools</h3>
+          <h3>Developer Tools &amp; DevOps</h3>
           <div class="skill-tags">
-            <span class="skill-tag">VS Code</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>VS Code</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Git / GitHub</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>GitHub Pages</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Vercel</span>
             <span class="skill-tag">Visual Studio</span>
             <span class="skill-tag">NetBeans</span>
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">GitHub</span>
+            <span class="skill-tag">Chrome DevTools</span>
+            <span class="skill-tag tag-learning"><span class="tag-dot"></span>Docker (Learning)</span>
           </div>
         </div>
 
+        <!-- CYBER SECURITY -->
         <div class="skill-card reveal" style="--card-accent: var(--accent);">
           <div class="skill-card-icon" style="background: var(--accent-dim); color: var(--accent);">
             <i class="fas fa-shield-halved"></i>
           </div>
           <h3>Cyber Security</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Network Security</span>
-            <span class="skill-tag">Ethical Hacking</span>
-            <span class="skill-tag">Basic Networking</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Network Security</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>RBAC &amp; Auth Hardening</span>
+            <span class="skill-tag tag-learning"><span class="tag-dot"></span>Ethical Hacking</span>
+            <span class="skill-tag tag-learning"><span class="tag-dot"></span>Kali Linux</span>
+            <span class="skill-tag tag-learning"><span class="tag-dot"></span>Penetration Testing</span>
+            <span class="skill-tag">Basic Networking (TCP/IP)</span>
             <span class="skill-tag">Security Tools</span>
           </div>
         </div>
 
-        <div class="skill-card reveal" style="--card-accent: var(--warm);">
-          <div class="skill-card-icon" style="background: rgba(251,191,36,0.1); color: var(--warm);">
-            <i class="fas fa-users"></i>
-          </div>
-          <h3>Soft Skills</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Client Communication</span>
-            <span class="skill-tag">Team Collaboration</span>
-            <span class="skill-tag">Time Management</span>
-            <span class="skill-tag">Problem Solving</span>
-          </div>
-        </div>
-
+        <!-- AI -->
         <div class="skill-card reveal" style="--card-accent: var(--primary);">
           <div class="skill-card-icon"
             style="background: linear-gradient(135deg, var(--primary-dim), var(--accent-dim)); color: var(--primary);">
             <i class="fas fa-robot"></i>
           </div>
-          <h3>AI Collaboration &amp; Agents</h3>
+          <h3>AI Tools &amp; Agents</h3>
           <div class="skill-tags">
-            <span class="skill-tag">Claude AI</span>
-            <span class="skill-tag">ChatGPT</span>
-            <span class="skill-tag">Midjourney</span>
-            <span class="skill-tag">Prompt Engineering</span>
-            <span class="skill-tag">AI Agents</span>
-            <span class="skill-tag">Content Drafting</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Claude AI (Anthropic)</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>ChatGPT</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Midjourney</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Prompt Engineering</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>AI Agentic Workflows</span>
+            <span class="skill-tag">Google Gemini</span>
             <span class="skill-tag">Workflow Automation</span>
-            <span class="skill-tag">Creative Assistance</span>
+            <span class="skill-tag">AI-Assisted Development</span>
           </div>
         </div>
       </div>
@@ -2437,16 +2752,15 @@
           </div>
 
           <div class="featured-action-btns">
-            <a class="btn-primary" href="http://shamikakkss.me/RuuGraphics---User/" target="_blank"
-              rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.84rem;">
+            <a class="btn-accent" href="http://shamikakkss.me/RuuGraphics---User/" target="_blank"
+              rel="noopener noreferrer">
               <i class="fas fa-external-link-alt"></i> Live User Portal
             </a>
             <a class="btn-outline" href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank"
-              rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.84rem;">
+              rel="noopener noreferrer">
               <i class="fab fa-github"></i> Admin Dashboard Repository
             </a>
-            <!-- <button onclick="openProjectModal('ruugraphics')" class="btn-detail-trigger"
-              style="padding: 10px 22px; font-size: 0.84rem;">
+            <!-- <button onclick="openProjectModal('ruugraphics')" class="btn-outline" aria-label="View RuuGraphics details">
               <i class="fas fa-circle-info"></i> Project Details
             </button> -->
           </div>
@@ -3274,15 +3588,43 @@
       });
     })();
 
-    // Mobile menu toggle
-    let menuOpen = false;
+    // Mobile menu toggle & drawer handler
     function toggleMenu() {
-      const links = document.querySelector('.nav-links');
-      menuOpen = !menuOpen;
-      if (menuOpen) {
-        links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(10,10,15,0.97);backdrop-filter:blur(20px);padding:24px 32px;gap:20px;border-bottom:1px solid rgba(255,255,255,0.07);z-index:99;';
+      const links = document.getElementById('navLinks');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const backdrop = document.getElementById('navBackdrop');
+
+      const isOpen = links ? links.classList.toggle('active') : false;
+      if (toggleBtn) {
+        toggleBtn.classList.toggle('active', isOpen);
+        const icon = toggleBtn.querySelector('i');
+        if (icon) {
+          icon.className = isOpen ? 'fas fa-xmark' : 'fas fa-bars';
+        }
       }
+      if (backdrop) {
+        backdrop.classList.toggle('active', isOpen);
+      }
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
+
+    function closeMenu() {
+      const links = document.getElementById('navLinks');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const backdrop = document.getElementById('navBackdrop');
+      if (links) links.classList.remove('active');
+      if (toggleBtn) {
+        toggleBtn.classList.remove('active');
+        const icon = toggleBtn.querySelector('i');
+        if (icon) icon.className = 'fas fa-bars';
+      }
+      if (backdrop) backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   </script>
 
   <!-- PROJECT DETAIL MODAL -->
@@ -3512,7 +3854,7 @@
         ],
         stepper: ["SDLC Requirement Analysis", "Database Design", "PHP Development", "Testing & Delivery"],
         tech: ["PHP", "MySQL", "JavaScript", "Bootstrap", "Team Project"],
-        github: null,
+        github: "https://github.com/suneththivanka128/FundManagementSystem-v2",
         live: null
       },
       library_management: {

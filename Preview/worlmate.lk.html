@@ -515,11 +515,60 @@
       text-decoration: underline;
     }
 
+    .nav-toggle-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .nav-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2.35rem; }
-      .hero-subtitle { font-size: 1rem; }
-      .nav-links { display: none; }
-      .stepper-grid { grid-template-columns: 1fr; }
+      .hero { padding: 4rem 1.25rem 2rem; }
+      .hero h1 { font-size: 1.85rem; }
+      .hero-subtitle { font-size: 0.95rem; }
+      .nav-toggle-btn { display: flex; align-items: center; justify-content: center; }
+      .btn-github { display: none; }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.97);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 24px;
+        gap: 20px;
+        transition: right 0.3s ease;
+        z-index: 99;
+      }
+      .nav-links.active { right: 0; }
+      .stepper-grid, .features-grid, .stats-container { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; align-items: center; width: 100%; }
+      .btn-primary, .btn-secondary { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
     }
   </style>
 </head>
@@ -529,21 +578,27 @@
   <!-- Ambient Background Glow -->
   <div class="glow-bg"></div>
 
+  <!-- Navigation Backdrop -->
+  <div class="nav-backdrop" id="navBackdrop" onclick="closeNav()"></div>
+
   <!-- Navigation Bar -->
   <header>
     <div class="nav-container">
       <a href="#" class="logo">
         <i class="fa-solid fa-screwdriver-wrench"></i> Workmate.lk
       </a>
-      <ul class="nav-links">
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#workflow">Workflow</a></li>
-        <li><a href="#techstack">Tech Stack</a></li>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#overview" onclick="closeNav()">Overview</a></li>
+        <li><a href="#features" onclick="closeNav()">Features</a></li>
+        <li><a href="#workflow" onclick="closeNav()">Workflow</a></li>
+        <li><a href="#techstack" onclick="closeNav()">Tech Stack</a></li>
       </ul>
       <a href="https://github.com/Shamikakkss/workmate-lk" target="_blank" class="btn-github">
         <i class="fa-brands fa-github"></i> View Source Code
       </a>
+      <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleNav()" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
   </header>
 
@@ -704,8 +759,27 @@
   <footer>
     <p>Workmate.lk System • Developed for the Skilled Workforce Community</p>
     <p style="margin-top: 0.5rem;">Created by <a href="https://github.com/Shamikakkss" target="_blank">Shamikakkss</a></p>
-  </footer>
-
+  <script>
+    function toggleNav() {
+      const navLinks = document.getElementById('navLinks');
+      const backdrop = document.getElementById('navBackdrop');
+      const toggleBtn = document.getElementById('navToggleBtn');
+      const isOpen = navLinks.classList.toggle('active');
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
+      if (toggleBtn) toggleBtn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    }
+    function closeNav() {
+      const navLinks = document.getElementById('navLinks');
+      const backdrop = document.getElementById('navBackdrop');
+      const toggleBtn = document.getElementById('navToggleBtn');
+      if (navLinks) navLinks.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      if (toggleBtn) toggleBtn.querySelector('i').className = 'fa-solid fa-bars';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeNav();
+    });
+  </script>
 </body>
 
 </html>

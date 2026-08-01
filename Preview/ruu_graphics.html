@@ -85,6 +85,37 @@
       border-color: rgba(168, 85, 247, 0.4);
       transform: translateY(-4px);
     }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(11, 15, 25, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 24px;
+      gap: 20px;
+      transition: right 0.3s ease;
+      z-index: 99;
+    }
+    .mobile-menu.active { right: 0; }
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .nav-backdrop.active { opacity: 1; pointer-events: auto; }
   </style>
 </head>
 
@@ -92,6 +123,19 @@
 
   <!-- Background Glow -->
   <div class="glow-bg"></div>
+
+  <!-- Navigation Backdrop & Mobile Menu -->
+  <div class="nav-backdrop" id="ruuBackdrop" onclick="closeRuuNav()"></div>
+  <div class="mobile-menu" id="ruuMobileMenu">
+    <a href="#overview" onclick="closeRuuNav()" class="text-sm font-medium text-gray-200 hover:text-purple-400">Overview</a>
+    <a href="#architecture" onclick="closeRuuNav()" class="text-sm font-medium text-gray-200 hover:text-purple-400">Dual Architecture</a>
+    <a href="#features" onclick="closeRuuNav()" class="text-sm font-medium text-gray-200 hover:text-purple-400">Core Features</a>
+    <a href="#workflow" onclick="closeRuuNav()" class="text-sm font-medium text-gray-200 hover:text-purple-400">Process Workflow</a>
+    <a href="#tech" onclick="closeRuuNav()" class="text-sm font-medium text-gray-200 hover:text-purple-400">Tech Stack</a>
+    <a href="https://shamikakkss.me/RuuGraphics---User/" target="_blank" onclick="closeRuuNav()" class="mt-4 px-4 py-2 text-xs font-semibold rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-center">
+      <i class="fa-solid fa-globe text-xs mr-1"></i> Live Demo
+    </a>
+  </div>
 
   <!-- Header Navigation -->
   <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80">
@@ -127,6 +171,9 @@
           <i class="fa-brands fa-github text-sm"></i>
           <span class="hidden sm:inline">Admin Repo</span>
         </a>
+        <button class="md:hidden p-2 text-gray-300 hover:text-white" id="ruuMobileBtn" onclick="toggleRuuNav()" aria-label="Toggle Navigation">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
       </div>
     </div>
   </header>
@@ -434,6 +481,27 @@
     </div>
   </footer>
 
+  <script>
+    function toggleRuuNav() {
+      const menu = document.getElementById('ruuMobileMenu');
+      const backdrop = document.getElementById('ruuBackdrop');
+      const btn = document.getElementById('ruuMobileBtn');
+      const isOpen = menu.classList.toggle('active');
+      if (backdrop) backdrop.classList.toggle('active', isOpen);
+      if (btn) btn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark text-lg' : 'fa-solid fa-bars text-lg';
+    }
+    function closeRuuNav() {
+      const menu = document.getElementById('ruuMobileMenu');
+      const backdrop = document.getElementById('ruuBackdrop');
+      const btn = document.getElementById('ruuMobileBtn');
+      if (menu) menu.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      if (btn) btn.querySelector('i').className = 'fa-solid fa-bars text-lg';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeRuuNav();
+    });
+  </script>
 </body>
 
 </html>
