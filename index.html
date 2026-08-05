@@ -4064,24 +4064,32 @@
       });
     }
 
-    // Nav logo — replay the SVG animation from the start on every hover
-    const navLogoObject = document.querySelector('.nav-logo object');
-    if (navLogoObject) {
-      const logoSrc = navLogoObject.getAttribute('data');
-      navLogoObject.closest('.nav-logo').addEventListener('mouseenter', () => {
-        // Reloading the data forces the embedded SVG to re-run its animation from frame 0
-        navLogoObject.setAttribute('data', '');
-        // eslint-disable-next-line no-unused-expressions
-        navLogoObject.offsetWidth; // force reflow
-        navLogoObject.setAttribute('data', logoSrc);
-      });
-    }
-
     // Page loader — hide once everything is ready
     window.addEventListener('load', () => {
       const loader = document.getElementById('pageLoader');
       if (loader) {
         setTimeout(() => loader.classList.add('loaded'), 350);
+      }
+
+      const navLogoObject = document.querySelector('.nav-logo object');
+      if (navLogoObject) {
+        const logoSrc = navLogoObject.getAttribute('data');
+        const replayLogoAnimation = () => {
+          navLogoObject.setAttribute('data', '');
+          // eslint-disable-next-line no-unused-expressions
+          navLogoObject.offsetWidth;
+          navLogoObject.setAttribute('data', logoSrc);
+        };
+
+        const navLogoLink = navLogoObject.closest('.nav-logo');
+        if (navLogoLink) {
+          navLogoLink.addEventListener('click', () => {
+            replayLogoAnimation();
+          });
+        }
+
+        setTimeout(replayLogoAnimation, 9000);
+        setInterval(replayLogoAnimation, 9000);
       }
     });
     // Safety net in case 'load' is delayed or blocked
