@@ -1333,6 +1333,150 @@
       color: #000000;
     }
 
+    /* ─── CV CHOOSER MODAL ─── */
+    .cv-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      background: rgba(8, 8, 12, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .cv-modal-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cv-modal-content {
+      background: rgba(17, 17, 24, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+      padding: 32px;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .cv-modal-backdrop.is-open .cv-modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .cv-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cv-modal-close:hover {
+      background: var(--primary);
+      color: #05130f;
+    }
+
+    .cv-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .cv-modal-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .cv-modal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cv-modal-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .cv-modal-item:hover {
+      border-color: var(--primary);
+      background: rgba(110, 231, 183, 0.08);
+      transform: translateX(4px);
+    }
+
+    .cv-modal-item-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(110, 231, 183, 0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .cv-modal-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cv-modal-item-name {
+      font-weight: 600;
+      font-size: 0.94rem;
+    }
+
+    .cv-modal-item-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .cv-modal-item-download {
+      margin-left: auto;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .cv-modal-content {
+        padding: 24px;
+      }
+    }
+
     .project-modal-banner-wrap {
       width: 100%;
       height: 240px;
@@ -3254,11 +3398,10 @@
       <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
       <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
       <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
-      <li class="mobile-cta-item"><a href="Sachintha Shyamika.pdf" download onclick="closeMenu()"
+      <li class="mobile-cta-item"><a href="#" onclick="closeMenu(); openCvModal(); return false;"
           class="nav-cta mobile-nav-cta"><i class="fas fa-download"></i> Download CV</a></li>
     </ul>
-    <a href="Sachintha Shyamika.pdf" download class="nav-cta desktop-nav-cta"><i class="fas fa-download"></i> Download
-      CV</a>
+    <a href="#" onclick="openCvModal(); return false;" class="nav-cta desktop-nav-cta"><i class="fas fa-download"></i> Download CV</a>
     <button class="menu-toggle" aria-label="Toggle Navigation Menu" onclick="toggleMenu()"><i
         class="fas fa-bars"></i></button>
   </nav>
@@ -3497,7 +3640,7 @@
         <p>Great products need both <span class="grad-text">clean architecture</span> and
           <span class="grad-text">human-centered design</span>.<br class="pq-break"> I build systems where both are
           treated as first-class requirements.</p>
-        <cite>— Sachintha Shyamika</cite>
+        <cite>Sachintha Shyamika</cite>
       </blockquote>
     </div>
   </section>
@@ -4499,10 +4642,10 @@
               <i class="fas fa-paper-plane"></i> Send Message
             </button>
 
-            <a href="Sachintha Shyamika.pdf" download class="btn-outline"
-              style="align-self:flex-start; margin-top: 10px; text-align: center;">
+            <button type="button" onclick="openCvModal()" class="btn-outline"
+              style="align-self:flex-start; margin-top: 10px; text-align: center; cursor:pointer;">
               <i class="fas fa-download"></i> Download CV
-            </a>
+            </button>
           </form>
         </div>
       </div>
@@ -4610,7 +4753,7 @@
     // Typed / rotating role text in hero
     const typedRoleEl = document.getElementById('typedRole');
     if (typedRoleEl) {
-      const roles = ['Software Engineer.', 'Web Developer.', 'Problem Solver.', 'IT Assistant.','IT Executive.','UI/UX Designer.','Content Creator.','Graphic Designer.','Freelancer.'];
+      const roles = ['Software Engineer.','UI/UX Designer.', 'Web Developer.','IT Assistant.','IT Executive.', 'Problem Solver.','Content Creator.','Graphic Designer.','Freelancer.'];
       let roleIndex = 0, charIndex = 0, deleting = false;
       typedRoleEl.innerHTML = '';
       const cursorSpan = document.createElement('span');
@@ -4985,7 +5128,87 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeMenu();
     });
+
+    // CV chooser modal
+    function openCvModal() {
+      const modal = document.getElementById('cvModal');
+      if (modal) {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeCvModal() {
+      const modal = document.getElementById('cvModal');
+      if (modal) {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCvModal();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cvModal = document.getElementById('cvModal');
+      if (cvModal) {
+        cvModal.addEventListener('click', (e) => {
+          if (e.target === cvModal) closeCvModal();
+        });
+      }
+    });
   </script>
+
+  <!-- CV CHOOSER MODAL -->
+  <div class="cv-modal-backdrop" id="cvModal" aria-hidden="true" role="dialog">
+    <div class="cv-modal-content">
+      <button class="cv-modal-close" id="cvModalClose" onclick="closeCvModal()" aria-label="Close Modal">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="cv-modal-title">Choose a CV to Download</div>
+      <div class="cv-modal-subtitle">Pick the version tailored to what you're hiring for.</div>
+
+      <div class="cv-modal-list">
+        <a href="Sachintha Shyamika Full-Stack Developer.pdf" download class="cv-modal-item">
+          <div class="cv-modal-item-icon"><i class="fas fa-diagram-project"></i></div>
+          <div class="cv-modal-item-text">
+            <span class="cv-modal-item-name">Full-Stack Developer</span>
+            <span class="cv-modal-item-desc">Software engineering &amp; UI/UX combined</span>
+          </div>
+          <i class="fas fa-download cv-modal-item-download"></i>
+        </a>
+
+        <a href="Sachintha Shyamika IT Assistant.pdf" download class="cv-modal-item">
+          <div class="cv-modal-item-icon"><i class="fas fa-headset"></i></div>
+          <div class="cv-modal-item-text">
+            <span class="cv-modal-item-name">IT Assistant</span>
+            <span class="cv-modal-item-desc">IT support &amp; systems focused</span>
+          </div>
+          <i class="fas fa-download cv-modal-item-download"></i>
+        </a>
+
+        <a href="Sachintha Shyamika Graphic Designer.pdf" download class="cv-modal-item">
+          <div class="cv-modal-item-icon"><i class="fas fa-swatchbook"></i></div>
+          <div class="cv-modal-item-text">
+            <span class="cv-modal-item-name">Graphic Designer</span>
+            <span class="cv-modal-item-desc">Branding &amp; visual design focused</span>
+          </div>
+          <i class="fas fa-download cv-modal-item-download"></i>
+        </a>
+
+        <a href="Sachintha Shyamika.pdf" download class="cv-modal-item">
+          <div class="cv-modal-item-icon"><i class="fas fa-file-lines"></i></div>
+          <div class="cv-modal-item-text">
+            <span class="cv-modal-item-name">General</span>
+            <span class="cv-modal-item-desc">All-round overview, any role</span>
+          </div>
+          <i class="fas fa-download cv-modal-item-download"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- PROJECT DETAIL MODAL -->
   <div class="project-modal-backdrop" id="projectModal" aria-hidden="true" role="dialog">
