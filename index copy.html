@@ -2558,6 +2558,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .footer-copy {
@@ -3283,6 +3285,10 @@
       .pq-break {
         display: none;
       }
+
+      .loader-mark {
+        font-size: 1.6rem;
+      }
     }
 
     /* ─── CARD HOVER POPUP POLISH ─── */
@@ -3296,19 +3302,6 @@
     .project-card:hover,
     .cert-card:hover {
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(110, 231, 183, 0.15);
-    }
-
-    /* ─── SCROLL PROGRESS BAR ─── */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      z-index: 999;
-      box-shadow: 0 0 10px var(--primary-glow);
-      transition: width 0.1s ease-out;
     }
 
     /* ─── PAGE LOADER ─── */
@@ -3337,6 +3330,8 @@
       font-size: 2.2rem;
       letter-spacing: -0.02em;
       color: var(--text);
+      text-align: center;
+      padding: 0 24px;
     }
 
     .loader-mark span {
@@ -3453,12 +3448,9 @@
 
   <!-- PAGE LOADER -->
   <div id="pageLoader">
-    <div class="loader-mark">Sachintha<span>.</span></div>
+    <div class="loader-mark">Sachintha Shyamika<span>.</span></div>
     <div class="loader-bar"></div>
   </div>
-
-  <!-- SCROLL PROGRESS -->
-  <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- Background Blobs -->
   <div class="blob blob-1"></div>
@@ -4754,7 +4746,7 @@
   <footer>
     <div class="footer-inner">
       <p class="footer-copy">
-        © 2026 <strong>Sachintha Shyamika</strong> • All Rights Reserved.
+        <span id="copyBioBtn" style="cursor:pointer;" title="Copy my bio to clipboard">©</span> 2026 <a href="https://shamikakkss.me/" target="_blank" rel="noopener noreferrer" style="color:var(--primary); text-decoration:none;"><strong>Sachintha Shyamika</strong></a> • All Rights Reserved.
       </p>
       <div class="social-links">
         <a href="https://github.com/Shamikakkss" target="_blank" class="social-link" title="GitHub"><i
@@ -4864,14 +4856,12 @@
       if (loader) loader.classList.add('loaded');
     }, 2500);
 
-    // Scroll progress bar
-    const scrollProgress = document.getElementById('scrollProgress');
+    // Back-to-top button progress ring
     const backToTopBtnRef = document.getElementById('backToTop');
     function updateScrollProgress() {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      if (scrollProgress) scrollProgress.style.width = pct + '%';
       if (backToTopBtnRef) backToTopBtnRef.style.setProperty('--progress', pct + '%');
     }
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
@@ -4991,6 +4981,33 @@
 
     // Interactive Contact Form Handling using Web3Forms
     // ── Toast Notification Function ──
+    // ─── COPY BIO ON COPYRIGHT ICON CLICK ───
+    const bioToCopy = `Sachintha Shyamika
+Full-Stack Developer | UI/UX & Graphic Designer
+
+Hi, I'm Sachintha — an HNDIT undergraduate at SLIATE, and the founder of RuuGraphics, my freelance design & development brand.
+
+What I do:
+- Full-Stack Development — Building and deploying production-ready web apps with React, Next.js, Node.js, PHP, and serverless backends (Firebase/Supabase).
+- UI/UX & Graphic Design — Fiverr Level 1 Seller with 3+ years delivering UI/UX designs, brand identities, and design systems for clients worldwide.
+- IT Support & Systems — Hands-on background in PC troubleshooting, system configuration, and client technical support.
+
+Explore my work:
+Portfolio: https://shamikakkss.me
+GitHub: https://github.com/Shamikakkss
+LinkedIn: https://linkedin.com/in/sachintha-shyamika-459b02338
+
+Always open to new projects, collaborations, and opportunities — let's connect!
+
++94 76 083 5913 | shamikakkss@gmail.com`;
+
+    const copyBioBtn = document.getElementById('copyBioBtn');
+    if (copyBioBtn) {
+      copyBioBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(bioToCopy).catch(() => {});
+      });
+    }
+
     function showToast(msg, type = 'info', duration = 4000) {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
