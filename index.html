@@ -2388,6 +2388,171 @@
       margin-top: 2px;
     }
 
+    /* ─── MODULES STUDIED ─── */
+    .modules-block {
+      margin-top: 60px;
+    }
+
+    .sem-accordion-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .sem-accordion-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .sem-accordion-btn .sem-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-faint);
+      margin-left: 10px;
+    }
+
+    .sem-gpa-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid rgba(110, 231, 183, 0.25);
+      white-space: nowrap;
+      margin-left: auto;
+      margin-right: 14px;
+    }
+
+    .sem-gpa-badge.pending {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-faint);
+      border: 1px solid var(--border);
+      font-weight: 400;
+    }
+
+    .sem-accordion-btn-inner {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .cgpa-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .cgpa-summary-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .cgpa-summary-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .cgpa-summary-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 260px;
+    }
+
+    .sem-accordion-btn .chevron {
+      color: var(--text-faint);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .sem-accordion-item.open .chevron {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .sem-accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .sem-accordion-item.open .sem-accordion-panel {
+      max-height: 900px;
+    }
+
+    .sem-module-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .sem-module-table th {
+      text-align: left;
+      padding: 10px 22px;
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-top: 1px solid var(--border);
+      font-weight: 400;
+    }
+
+    .sem-module-table td {
+      padding: 10px 22px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .sem-module-table td.mod-code {
+      font-family: var(--font-mono);
+      color: var(--text);
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .sem-module-table {
+        font-size: 0.74rem;
+      }
+
+      .sem-module-table th,
+      .sem-module-table td {
+        padding: 8px 12px;
+      }
+    }
+
     /* ─── CONTACT ─── */
     .contact-wrapper {
       display: grid;
@@ -3538,6 +3703,10 @@
           <div class="stat-num" style="font-size:1.6rem;">Global</div>
           <div class="stat-label">Freelance Clients</div>
         </div>
+        <div class="stat-item">
+          <div class="stat-num">3.7+</div>
+          <div class="stat-label">HNDIT GPA</div>
+        </div>
       </div>
     </div>
     <a href="#about" class="scroll-cue" aria-label="Scroll down">
@@ -4616,6 +4785,211 @@
           </div>
         </div>
       </div>
+
+      <!-- MODULES STUDIED -->
+      <div class="modules-block">
+        <div class="section-label">HNDIT Modules Studied</div>
+
+        <div class="cgpa-summary reveal">
+          <div>
+            <div class="cgpa-summary-label">HNDIT Cumulative GPA — Semester I–III</div>
+            <div class="cgpa-summary-value">3.70</div>
+          </div>
+          <div class="cgpa-summary-note">Average across 3 completed semesters. Semester IV result is pending.</div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem1">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem1')">
+            <span class="sem-accordion-btn-inner">Semester I <span class="sem-count">6 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.90</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT1012</td>
+                  <td>Visual Application Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1022</td>
+                  <td>Web Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1032</td>
+                  <td>Computer and Network Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1042</td>
+                  <td>Information Management and Information Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1052</td>
+                  <td>ICT Project (Individual)</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1062</td>
+                  <td>Communication Skills</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem2">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem2')">
+            <span class="sem-accordion-btn-inner">Semester II <span class="sem-count">8 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.65</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT2012</td>
+                  <td>Fundamentals of Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2022</td>
+                  <td>Software Development</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2032</td>
+                  <td>System Analysis and Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2042</td>
+                  <td>Data Communication and Computer Networks</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2052</td>
+                  <td>Principles of User Interface Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2062</td>
+                  <td>ICT Project (Group)</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2072</td>
+                  <td>Technical Writing</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2082</td>
+                  <td>Human Value &amp; Professional Ethics</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem3">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem3')">
+            <span class="sem-accordion-btn-inner">Semester III <span class="sem-count">7 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.54</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT3012</td>
+                  <td>Object Oriented Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3022</td>
+                  <td>Web Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3032</td>
+                  <td>Data Structures and Algorithms</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3042</td>
+                  <td>Database Management Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3052</td>
+                  <td>Operating Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3062</td>
+                  <td>Information and Computer Security</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3072</td>
+                  <td>Statistics for IT</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem4">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem4')">
+            <span class="sem-accordion-btn-inner">Semester IV <span class="sem-count">7 Modules</span></span>
+            <span class="sem-gpa-badge pending">Result Pending</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT4012</td>
+                  <td>Software Engineering</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4022</td>
+                  <td>Software Quality Assurance</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4032</td>
+                  <td>IT Project Management</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4042</td>
+                  <td>Professional World</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4052</td>
+                  <td>Programming Individual Project</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4212</td>
+                  <td>Machine Learning</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4232</td>
+                  <td>Enterprise Architecture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -5647,6 +6021,14 @@ Always open to new projects, collaborations, and opportunities — let's connect
       // Open Modal
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+    }
+
+    function toggleSemester(id) {
+      const item = document.getElementById(id);
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.sem-accordion-item.open').forEach(el => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
     }
 
     function closeProjectModal() {
