@@ -1228,6 +1228,60 @@
       background: var(--warm);
     }
 
+    .skills-focus {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0 40px;
+    }
+
+    .focus-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: border-color 0.3s, transform 0.3s ease;
+    }
+
+    .focus-pill:hover {
+      border-color: var(--card-accent, var(--primary));
+      transform: translateY(-3px);
+    }
+
+    .focus-pill-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .focus-pill-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .focus-pill-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 780px) {
+      .skills-focus {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .skill-legend {
       display: flex;
       gap: 16px;
@@ -3912,6 +3966,36 @@
       <p class="section-desc">Technologies I use to build production-ready applications across frontend, backend,
         databases, cloud services, and secure integrations.</p>
 
+      <div class="skills-focus">
+        <div class="focus-pill reveal" style="--card-accent: var(--primary);">
+          <div class="focus-pill-icon" style="background: var(--primary-dim); color: var(--primary);">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">Full-Stack Development</div>
+            <div class="focus-pill-desc">React, Next.js, Node.js, PHP/MySQL &amp; cloud-connected systems end-to-end.</div>
+          </div>
+        </div>
+        <div class="focus-pill reveal" style="--card-accent: var(--warm);">
+          <div class="focus-pill-icon" style="background: rgba(251,191,36,0.1); color: var(--warm);">
+            <i class="fas fa-swatchbook"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">UI/UX &amp; Product Design</div>
+            <div class="focus-pill-desc">Figma-driven interfaces, design systems, and clean user-first layouts.</div>
+          </div>
+        </div>
+        <div class="focus-pill reveal" style="--card-accent: var(--accent);">
+          <div class="focus-pill-icon" style="background: var(--accent-dim); color: var(--accent);">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">IT Support &amp; Assistance</div>
+            <div class="focus-pill-desc">Hands-on troubleshooting, PC setup, and everyday tech support.</div>
+          </div>
+        </div>
+      </div>
+
       <div class="skill-legend">
         <div class="legend-item">
           <div class="legend-dot main"></div> Main / Heavy Use
@@ -4087,6 +4171,26 @@
             <span class="skill-tag">Google Workspace</span>
             <span class="skill-tag">Ticket Handling</span>
             <span class="skill-tag">Remote Support</span>
+          </div>
+        </div>
+
+        <!-- ACADEMIC FOUNDATION -->
+        <div class="skill-card reveal" style="--card-accent: var(--accent);">
+          <div class="skill-card-icon" style="background: var(--accent-dim); color: var(--accent);">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Academic Foundation (HNDIT Coursework)</h3>
+          <div class="skill-tags">
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Data Structures &amp; Algorithms</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Database Management Systems</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>System Analysis &amp; Design</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Software Engineering Practices</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Software Quality Assurance</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Operating Systems</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>IT Project Management</span>
+            <span class="skill-tag">Statistics for IT</span>
+            <span class="skill-tag">Machine Learning Fundamentals</span>
+            <span class="skill-tag">Enterprise Architecture</span>
           </div>
         </div>
 
