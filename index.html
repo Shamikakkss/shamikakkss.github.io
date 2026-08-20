@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -193,6 +193,9 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Supabase (used to load Projects dynamically from the database) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
 
   <!-- Social profile links for Google entity recognition -->
   <link rel="me" href="https://github.com/Shamikakkss">
@@ -1243,12 +1246,32 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      transition: border-color 0.3s, transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .focus-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--card-accent, var(--primary)), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     .focus-pill:hover {
-      border-color: var(--card-accent, var(--primary));
-      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 0 25px -6px var(--card-accent, var(--primary-glow));
+    }
+
+    .focus-pill:hover::before {
+      opacity: 1;
     }
 
     .focus-pill-icon {
@@ -1260,6 +1283,12 @@
       justify-content: center;
       font-size: 1rem;
       flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .focus-pill:hover .focus-pill-icon {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px var(--card-accent, var(--primary-glow));
     }
 
     .focus-pill-title {
@@ -1365,6 +1394,7 @@
     button:hover i:not(.fa-spin),
     .project-card:hover i:not(.fa-spin),
     .skill-card:hover i:not(.fa-spin),
+    .focus-pill:hover i:not(.fa-spin),
     .cert-card:hover i:not(.fa-spin),
     .exp-card:hover i:not(.fa-spin),
     .highlight-item:hover i:not(.fa-spin),
@@ -4224,382 +4254,11 @@
         system implementation.
       </p>
 
-      <div class="projects-grid">
-
-        <!-- FLAGSHIP FEATURED PROJECT: FINAL YEAR PROJECT -->
-        <div class="project-card featured-project reveal">
-          <div class="project-card-banner-wrap-final" onclick="openProjectModal('ruugraphics')"
-            title="Click to view RuuGraphics project details">
-            <img src="RuuGraphics-banner.png" alt="RuuGraphics Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon"
-              style="background: var(--accent-dim); color: var(--accent); width: 54px; height: 54px; font-size: 1.3rem;">
-              <i class="fas fa-crown"></i>
-            </div>
-            <span class="project-badge featured-badge"><i class="fas fa-star"
-                style="color: var(--warm); margin-right: 4px;"></i> Flagship Final Year Project</span>
-          </div>
-          <h3 style="font-size: 1.35rem; color: #fff; margin-top: 4px;">Commercial Creative Service &amp; Order
-            Management Platform</h3>
-          <p class="project-desc">A full-stack production system for managing creative service orders, payments, and
-            real-time communication between clients and service providers. Built with Firebase, Supabase, and PayHere.
-          </p>
-
-          <div class="featured-features-grid">
-            <div class="featured-feature-item"><i class="fas fa-bolt"></i> Real-Time Firestore Chat &amp; Status
-              Timeline</div>
-            <div class="featured-feature-item"><i class="fas fa-credit-card"></i> PayHere Payment Gateway Integration
-            </div>
-            <div class="featured-feature-item"><i class="fas fa-cloud-arrow-up"></i> Supabase Secure File Delivery
-              Storage</div>
-            <div class="featured-feature-item"><i class="fas fa-envelope-circle-check"></i> EmailJS Automated
-              Notifications</div>
-            <div class="featured-feature-item"><i class="fas fa-chart-line"></i> Admin Earnings &amp; Financial
-              Analytics</div>
-            <div class="featured-feature-item"><i class="fas fa-shield-halved"></i> Role-Based Auth &amp; Order Security
-            </div>
-            <div class="featured-feature-item"><i class="fas fa-swatchbook"></i> Custom UI/UX Design &amp; Client-Facing
-              Flows</div>
-          </div>
-
-          <div class="project-tech" style="gap: 8px;">
-            <span class="tech-tag"
-              style="border-color: var(--accent); color: var(--accent); font-weight: 600;">Industry-Standard
-              System</span>
-            <span class="tech-tag"
-              style="border-color: var(--primary); color: var(--primary); font-weight: 600;">Completed</span>
-            <span class="tech-tag">Serverless Architecture</span>
-            <span class="tech-tag">JavaScript (ES6+)</span>
-            <span class="tech-tag">HTML5 / CSS3</span>
-            <span class="tech-tag">Firebase BaaS</span>
-            <span class="tech-tag">Cloud Firestore</span>
-            <span class="tech-tag">Supabase Storage</span>
-            <span class="tech-tag">PayHere Payment Gateway</span>
-            <span class="tech-tag">EmailJS Notifications</span>
-            <span class="tech-tag">OTP Authentication</span>
-            <span class="tech-tag">REST APIs</span>
-            <span class="tech-tag">Role-Based Security (RBAC)</span>
-            <span class="tech-tag">Real-Time Chat</span>
-            <span class="tech-tag">UI/UX Design</span>
-          </div>
-
-          <div class="featured-action-btns">
-            <a class="btn-accent" href="http://shamikakkss.me/RuuGraphics---User/" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fas fa-external-link-alt"></i> Live User Portal
-            </a>
-            <a class="btn-outline" href="https://github.com/Shamikakkss/RuuGraphics---Admin" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fab fa-github"></i> Admin Dashboard Repository
-            </a>
-            <a class="btn-outline" href="Preview/ruu_graphics.html" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-file-alt"></i> View Specifications
-            </a>
-            <!-- <button onclick="openProjectModal('ruugraphics')" class="btn-outline" aria-label="View RuuGraphics details">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
+      <div class="projects-grid" id="projectsGrid">
+        <div class="projects-loading" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">
+          <i class="fas fa-circle-notch fa-spin"></i> Loading projects…
         </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('workmate')"
-            title="Click to view Workmate.lk project details">
-            <img src="workmate-banner.png" alt="Workmate.lk Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-map-location-dot"></i>
-            </div>
-            <span class="project-badge badge-active">Ongoing Project</span>
-          </div>
-          <h3>Workmate.lk - Location-Based Skilled Worker Marketplace</h3>
-          <p class="project-desc">A platform connecting skilled workers with clients based on location, featuring
-            real-time job postings, worker profiles, and secure communication.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Next.js 16</span>
-            <span class="tech-tag">React 19</span>
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Tailwind CSS v4</span>
-            <span class="tech-tag">Prisma ORM</span>
-            <span class="tech-tag">Neon PostgreSQL</span>
-            <span class="tech-tag">Clerk Auth</span>
-            <span class="tech-tag">Leaflet Maps</span>
-            <span class="tech-tag">PWA</span>
-            <span class="tech-tag">UI/UX Design</span>
-          </div>
-          <div class="project-link-row"
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <!-- <a class="project-link" href="https://github.com/Shamikakkss/workmate-lk" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repo</a> -->
-            <a class="btn-specs" href="Preview/workmate.lk.html" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-file-alt"></i> View Specifications
-            </a>
-            <!-- <button onclick="openProjectModal('workmate')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('ekamuthu')"
-            title="Click to view EkamuthuERP project details">
-            <img src="EkamuthuERP-banner.png" alt="EkamuthuERP Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-sitemap"></i>
-            </div>
-            <span class="project-badge badge-active">Ongoing Project</span>
-          </div>
-          <h3>EkamuthuERP - Cloud Community &amp; Mutual Aid Management Platform</h3>
-          <p class="project-desc">A comprehensive solution for managing community resources and mutual aid programs,
-            with features for user management, resource allocation, and reporting.</p>
-          <div class="project-tech">
-            <span class="tech-tag">MERN Stack</span>
-            <span class="tech-tag">React.js</span>
-            <span class="tech-tag">Node.js</span>
-            <span class="tech-tag">Express.js</span>
-            <span class="tech-tag">MongoDB</span>
-            <span class="tech-tag">REST APIs</span>
-            <span class="tech-tag">UI/UX Design</span>
-          </div>
-          <div class="project-link-row"
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <!-- <a class="project-link" href="https://github.com/Shamikakkss/ekamuthu-erp" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a> -->
-            <a class="btn-specs" href="Preview/ekamuthuerp.html" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-file-alt"></i> View Specifications
-            </a>
-            <!-- <button onclick="openProjectModal('ekamuthu')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('fund_management')"
-            title="Click to view Fund Management System details">
-            <img src="FundManagement-banner.png" alt="Fund Management Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--accent-dim); color: var(--accent);">
-              <i class="fas fa-wallet"></i>
-            </div>
-            <span class="project-badge badge-complete">Completed Group Project</span>
-          </div>
-          <h3>Fund Management System</h3>
-          <p class="project-desc">A web-based fund management system for a community organization, allowing members to
-            contribute funds, track transactions, and generate financial reports.</p>
-          <div class="project-tech">
-            <span class="tech-tag">PHP</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Team Project</span>
-          </div>
-          <div class="project-link-row"
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <!-- <a class="project-link" href="https://github.com/suneththivanka128/FundManagementSystem-v2" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-github"></i> View GitHub Repository</a> -->
-            <a class="btn-specs" href="Preview/fund_management_system.html" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-file-alt"></i> View Specifications
-            </a><!-- <button onclick="openProjectModal('ekamuthu')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('ruucrypto')"
-            title="Click to view RuuCrypto AI project details">
-            <img src="RuuCrypto-banner.png" alt="RuuCrypto AI Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-chart-simple"></i>
-            </div>
-            <span class="project-badge badge-personal">Personal Project</span>
-          </div>
-          <h3>RuuCrypto AI - Trading Signal Dashboard</h3>
-          <p class="project-desc">A crypto trading signal dashboard that fetches real-time data from Binance &amp;
-            Gemini APIs, applies technical indicators, and backtests strategies to generate actionable trading signals.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">Binance API</span>
-            <span class="tech-tag">Gemini API</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Technical Indicators</span>
-            <span class="tech-tag">Backtesting</span>
-          </div>
-          <div class="project-link-row" style="display:flex; justify-content:flex-end; align-items:center;">
-            <!-- <button onclick="openProjectModal('ruucrypto')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('portfolio')"
-            title="Click to view Portfolio project details">
-            <img src="Portfolio-banner.png" alt="Portfolio Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-laptop-code"></i>
-            </div>
-            <span class="project-badge badge-personal">Personal Portfolio</span>
-          </div>
-          <h3>My Professional Portfolio</h3>
-          <p class="project-desc">This very portfolio website you're viewing — UI/UX and visual design planned and
-            styled directly in code, then built with HTML, CSS, JavaScript &amp; Supabase for hosting &amp; database
-            storage.</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML</span>
-            <span class="tech-tag">CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Supabase</span>
-            <span class="tech-tag">SEO</span>
-            <span class="tech-tag">Responsive</span>
-            <span class="tech-tag">UI/UX Design</span>
-          </div>
-          <div class="project-link-row"
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <a class="project-link" href="https://shamikakkss.me/" target="_blank" rel="noopener noreferrer">Visit Live
-              Portfolio</a>
-            <!-- <button onclick="openProjectModal('portfolio')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('ruugraphics_design')"
-            title="Click to view RuuGraphics Design Portfolio details">
-            <img src="RuuGraphics-Design-banner.png" alt="RuuGraphics Design Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: rgba(251,191,36,0.1); color: var(--warm);">
-              <i class="fas fa-palette"></i>
-            </div>
-            <span class="project-badge badge-personal">Personal</span>
-          </div>
-          <h3>RuuGraphics Portfolio</h3>
-          <p class="project-desc">A secondary showcase of creative and branding work that complements my communication,
-            presentation, and UI/UX design skills.</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML</span>
-            <span class="tech-tag">CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Responsive</span>
-            <span class="tech-tag">UI/UX Design</span>
-          </div>
-          <div class="project-link-row"
-            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-            <a class="project-link" href="https://shamikakkss.me/RuuGraphics/" target="_blank"
-              rel="noopener noreferrer">Visit Live Portfolio</a>
-            <!-- <button onclick="openProjectModal('ruugraphics_design')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('library_management')"
-            title="Click to view Library Management System details">
-            <img src="LibraryManagement-banner.png" alt="Library Management Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--primary-dim); color: var(--primary);">
-              <i class="fas fa-book"></i>
-            </div>
-            <span class="project-badge badge-complete">Completed</span>
-          </div>
-          <h3>Library Management System</h3>
-          <p class="project-desc">A C# desktop application for managing library books, members, and borrowing records.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">C#</span>
-            <span class="tech-tag">Desktop App</span>
-            <span class="tech-tag">OOP</span>
-          </div>
-          <div class="project-link-row" style="display:flex; justify-content:flex-end; align-items:center;">
-            <!-- <button onclick="openProjectModal('library_management')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-card-banner-wrap" onclick="openProjectModal('student_management')"
-            title="Click to view Student Management System details">
-            <img src="StudentManagement-banner.png" alt="Student Management Banner" class="project-card-banner-img" loading="lazy"
-              onerror="this.parentElement.style.display='none';">
-            <!-- <div class="project-card-banner-overlay">
-              <span class="btn-detail-trigger"><i class="fas fa-expand"></i> View Full Details</span>
-            </div> -->
-          </div>
-          <div class="project-header">
-            <div class="project-icon" style="background: var(--accent-dim); color: var(--accent);">
-              <i class="fas fa-users-gear"></i>
-            </div>
-            <span class="project-badge badge-complete">Complete</span>
-          </div>
-          <h3>Student Management System</h3>
-          <p class="project-desc">A PHP/MySQL CRUD system for managing student records, courses, and academic data.</p>
-          <div class="project-tech">
-            <span class="tech-tag">PHP</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">CRUD</span>
-            <span class="tech-tag">Web App</span>
-          </div>
-          <div class="project-link-row" style="display:flex; justify-content:flex-end; align-items:center;">
-            <!-- <button onclick="openProjectModal('student_management')" class="btn-detail-trigger"
-              style="font-size:0.72rem; padding:4px 10px;">
-              <i class="fas fa-circle-info"></i> Project Details
-            </button> -->
-          </div>
-        </div>
+      </div>
 
       </div>
     </div>
@@ -4661,6 +4320,23 @@
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
             <i class="fab fa-github"></i> View My GitHub
           </a>
+        </div>
+      </div>
+
+      <div class="exp-card reveal" itemscope itemtype="https://schema.org/WorkExperience" style="margin-top:24px;">
+        <div class="exp-icon"
+          style="background: var(--accent-dim); border-color: rgba(167,139,250,0.2); color: var(--accent);">
+          <i class="fas fa-screwdriver-wrench"></i>
+        </div>
+        <div>
+          <div class="exp-period" style="color: var(--accent);">5+ Years Practical Experience</div>
+          <h3 class="exp-title">IT Support &amp; Hardware Troubleshooting</h3>
+          <p class="exp-company">Personal &amp; Hands-on Experience · System &amp; Network Maintenance</p>
+          <ul class="exp-achievements">
+            <li>Diagnosed and resolved PC/laptop hardware and software issues, including OS installation/recovery, driver setups, and fault-finding.</li>
+            <li>Configured home Wi-Fi networks, routers, IP settings, and resolved local network connectivity issues.</li>
+            <li>Developed strong systematic analytical skills and technical patience when debugging hardware and environment-level failures.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -5897,232 +5573,188 @@ Always open to new projects, collaborations, and opportunities — let's connect
   </div>
 
   <script>
-    const projectsData = {
-      workmate: {
-        title: "Workmate.lk — Location-Based Skilled Worker Marketplace",
-        tagline: "PickMe / Uber for Handymen & Technicians in Sri Lanka",
-        badge: "Ongoing Project",
-        badgeClass: "badge-active",
-        banner: "workmate-banner.png",
-        descEn: "Workmate.lk is a state-of-the-art, location-based, on-demand service marketplace designed specifically for Sri Lanka. It connects clients who need urgent or routine repair, maintenance, and technical services with skilled local professionals in real time. Every screen — from the SOS dispatch flow to the multi-role dashboards — was designed directly in code, iterating on layout, colour, and interaction until the experience felt fast and intuitive.",
-        features: [
-          { icon: "fa-swatchbook", color: "var(--warm)", title: "🎨 UI/UX Design", desc: "User flows and dashboard layouts for Client, Worker, and Admin roles, designed and refined directly in code." },
-          { icon: "fa-bell", color: "#f87171", title: "🚨 SOS Emergency Dispatch", desc: "Instant high-priority alerts to nearby workers for urgent short circuits or burst pipes." },
-          { icon: "fa-map-location-dot", color: "var(--primary)", title: "📍 GPS & Leaflet Live Mapping", desc: "Interactive Leaflet maps with exact GPS coordinates and real-time distance calculation." },
-          { icon: "fa-list-check", color: "var(--accent)", title: "📊 PickMe-Style Live Status Stepper", desc: "Real-time status tracking: Posted ➔ Assigned ➔ On The Way ➔ Started ➔ Completed." },
-          { icon: "fa-comments", color: "var(--warm)", title: "💬 Live Communication Triggers", desc: "In-app direct chat, click-to-call, and automated WhatsApp chat initiation." },
-          { icon: "fa-sliders", color: "var(--primary)", title: "👤 Worker Radius & Online Toggle", desc: "Configurable work radiuses (e.g. 15km) and instant online availability toggle." },
-          { icon: "fa-user-shield", color: "var(--accent)", title: "🔐 Clerk Multi-Role Auth", desc: "Multi-tenant access control for Client, Worker, Employer, and Admin portals." }
-        ],
-        stepper: ["Job Posted", "Worker Assigned", "On The Way", "In Progress", "Completed & Reviewed"],
-        tech: ["Next.js 16 (App Router)", "React 19", "TypeScript 5", "Tailwind CSS v4", "Prisma ORM 6.19", "Neon Postgres", "Clerk Auth", "Leaflet 1.9", "OpenStreetMap", "PWA (Manifest)", "UI/UX Design"],
-        github: "https://github.com/Shamikakkss/workmate-lk",
-        live: null
-      },
-      ruugraphics: {
-        title: "Commercial Creative Service & Order Management Platform",
-        tagline: "Flagship Final Year Project — RuuGraphics Production ERP",
-        badge: "Flagship Final Year Project",
-        badgeClass: "featured-badge",
-        banner: "RuuGraphics-banner.png",
-        descEn: "An industry-standard full-stack ERP & Order Management System custom-built for a real commercial client (RuuGraphics) as my final year project at SLIATE. Engineered to handle high-volume creative service orders, real-time client-admin communication, automated order workflows, secure cloud file delivery, and live revenue analytics. The client-facing and admin UI/UX was designed directly in code, prioritising clarity for non-technical business users.",
-        features: [
-          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Client-facing order flow and admin dashboard designed and styled directly in code for a non-technical business user." },
-          { icon: "fa-bolt", color: "var(--primary)", title: "Real-Time Firestore Chat", desc: "Instant messaging and live order status timeline between client and admin." },
-          { icon: "fa-credit-card", color: "var(--warm)", title: "PayHere Payment Gateway", desc: "Seamless online payments for design and print orders." },
-          { icon: "fa-cloud-arrow-up", color: "var(--accent)", title: "Supabase Secure Storage", desc: "Encrypted cloud delivery for high-res artwork files." },
-          { icon: "fa-chart-line", color: "var(--primary)", title: "Financial Analytics", desc: "Live revenue dashboards and order status metrics for admin." }
-        ],
-        stepper: ["Order Placed", "Payment Approved", "Design In Progress", "Client Review", "Files Delivered"],
-        tech: ["Serverless Architecture", "JavaScript (ES6+)", "HTML5/CSS3", "Firebase BaaS", "Cloud Firestore", "Supabase Storage", "PayHere Gateway", "EmailJS Notifications", "OTP Auth", "REST APIs", "UI/UX Design"],
-        github: "https://github.com/Shamikakkss/RuuGraphics---Admin",
-        live: "http://shamikakkss.me/RuuGraphics---User/"
-      },
-      ekamuthu: {
-        title: "EkamuthuERP — Cloud Community & Mutual Aid Platform",
-        tagline: "MERN Stack Community ERP System",
-        badge: "Ongoing Project",
-        badgeClass: "badge-active",
-        banner: "EkamuthuERP-banner.png",
-        descEn: "A cloud-based ERP and mutual aid society management platform built on the MERN stack. Designed for community organizations to streamline member profiles, monthly payment & dues tracking, fund allocation ledgers, contribution tracking, and automated financial reporting. Interface layouts were planned and styled directly in code, keeping the dashboards simple for community volunteers.",
-        features: [
-          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Simple, volunteer-friendly dashboard layouts designed directly in code." },
-          { icon: "fa-users", color: "var(--primary)", title: "Member Directory", desc: "Complete digital profile management and membership status tracking." },
-          { icon: "fa-wallet", color: "var(--warm)", title: "Dues & Contributions", desc: "Automated monthly payment collection ledgers and receipt tracking." },
-          { icon: "fa-file-invoice-dollar", color: "var(--accent)", title: "Financial Reports", desc: "Instant financial ledger generation and audit reports." }
-        ],
-        stepper: ["Member Registered", "Dues Logged", "Ledger Updated", "Report Generated"],
-        tech: ["MERN Stack", "React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "UI/UX Design"],
-        github: "https://github.com/Shamikakkss/ekamuthu-erp",
-        live: null
-      },
-      ruucrypto: {
-        title: "RuuCrypto AI — Trading Signal Dashboard",
-        tagline: "Binance API & Technical Indicator Engine",
-        badge: "Personal Project",
-        badgeClass: "badge-personal",
-        banner: "RuuCrypto-banner.png",
-        descEn: "A cryptocurrency trading signal dashboard that computes real technical indicators (EMA, RSI, MACD, ATR, Bollinger Bands, SMC zones) from live Binance klines, with Gemini API narrative commentary, risk circuit breakers, and equity curve backtesting.",
-        features: [
-          { icon: "fa-chart-line", color: "var(--primary)", title: "Binance Live Klines", desc: "Real-time market chart analysis and SMC zone detection." },
-          { icon: "fa-robot", color: "var(--accent)", title: "Gemini AI Commentary", desc: "Automated market sentiment analysis and narrative trade rationale." },
-          { icon: "fa-shield-halved", color: "#f87171", title: "Risk Circuit Breaker", desc: "Daily maximum drawdown limits and trailing stop-loss guards." }
-        ],
-        stepper: ["Klines Fetched", "Indicators Calculated", "AI Rationale Generated", "Signal Output"],
-        tech: ["Binance API", "Gemini API", "JavaScript", "Technical Indicators", "Backtesting"],
-        github: null,
-        live: null
-      },
-      portfolio: {
-        title: "My Professional Portfolio Website",
-        tagline: "Live Portfolio Showcase",
-        badge: "Personal Portfolio",
-        badgeClass: "badge-personal",
-        banner: "Portfolio-banner.png",
-        descEn: "My live personal portfolio website, custom-built to present branding work, project showcases, interactive design galleries, and contact channels in a sleek modern layout. The dark theme, layout, and micro-interactions were designed directly in code rather than from a separate mockup, iterating live in the browser.",
-        features: [
-          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX &amp; Visual Design", desc: "Dark theme, glassmorphic cards, and animations designed directly in code, iterating live in the browser." },
-          { icon: "fa-globe", color: "var(--primary)", title: "SEO Optimised", desc: "Complete JSON-LD schema integration for search engines." },
-          { icon: "fa-mobile-screen", color: "var(--accent)", title: "Responsive Glassmorphic UI", desc: "Mobile-first layout with smooth CSS animations." }
-        ],
-        stepper: ["UI/UX Design", "Clean Code Implementation", "SEO Integration", "Live Deployment"],
-        tech: ["HTML5", "CSS3", "JavaScript", "Supabase", "SEO", "Responsive Design", "UI/UX Design"],
-        github: "https://github.com/Shamikakkss/shamikakkss.github.io",
-        live: "https://shamikakkss.me/"
-      },
-      ruugraphics_design: {
-        title: "RuuGraphics Design Portfolio",
-        tagline: "Graphic Design Showcase Website",
-        badge: "Personal Portfolio",
-        badgeClass: "badge-personal",
-        banner: "RuuGraphics-Design-banner.png",
-        descEn: "Designed and coded my graphic design portfolio website from scratch. Layout, typography, and gallery interactions were designed directly in code. Features interactive work galleries, logo showcases, and WhatsApp contact integration.",
-        features: [
-          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Gallery-first layout and navigation designed directly in code to keep the visual work front and centre." },
-          { icon: "fa-palette", color: "var(--warm)", title: "Design Gallery", desc: "Smooth slider showcasing logo designs and branding work." },
-          { icon: "fa-whatsapp", color: "var(--primary)", title: "Instant WhatsApp Direct", desc: "One-click WhatsApp chat for client design inquiries." }
-        ],
-        stepper: ["UI/UX Design", "Branding Concept", "Gallery Build", "Live Deployment"],
-        tech: ["HTML", "CSS", "JavaScript", "Responsive Design", "UI/UX Design"],
-        github: null,
-        live: "https://shamikakkss.me/RuuGraphics/"
-      },
-      fund_management: {
-        title: "Fund Management System",
-        tagline: "PHP / MySQL Academic Batch System",
-        badge: "Completed Group Project",
-        badgeClass: "badge-complete",
-        banner: "FundManagement-banner.png",
-        descEn: "A web application for managing student batch funds within HNDIT. Features user authentication, transaction records, fund ledgers, and PDF report generation built following full SDLC methodology.",
-        features: [
-          { icon: "fa-receipt", color: "var(--accent)", title: "Transaction Ledgers", desc: "Record batch income and expenses with proof attachments." },
-          { icon: "fa-file-pdf", color: "var(--primary)", title: "Report Generation", desc: "Automated monthly fund balance reports." }
-        ],
-        stepper: ["SDLC Requirement Analysis", "Database Design", "PHP Development", "Testing & Delivery"],
-        tech: ["PHP", "MySQL", "JavaScript", "Bootstrap", "Team Project"],
-        github: "https://github.com/suneththivanka128/FundManagementSystem-v2",
-        live: null
-      },
-      library_management: {
-        title: "Library Management System",
-        tagline: "C# Windows Desktop Application",
-        badge: "Completed Academic Project",
-        badgeClass: "badge-complete",
-        banner: "LibraryManagement-banner.png",
-        descEn: "A Windows desktop application for managing books, members, borrow/return records, and fine calculations. Built in C# with object-oriented programming principles and SQL database integration.",
-        features: [
-          { icon: "fa-book-open", color: "var(--primary)", title: "Book Cataloging", desc: "Manage ISBN records, search titles, and stock availability." },
-          { icon: "fa-user-gear", color: "var(--accent)", title: "Member Management", desc: "Track borrowing limits and automatic fine calculations." }
-        ],
-        stepper: ["OOP Class Architecture", "UI Design", "Database Binding", "Testing"],
-        tech: ["C#", ".NET", "SQL Database", "OOP Principles", "Desktop App"],
-        github: null,
-        live: null
-      },
-      student_management: {
-        title: "Student Management System",
-        tagline: "PHP & MySQL Web Application",
-        badge: "Completed Project",
-        badgeClass: "badge-complete",
-        banner: "StudentManagement-banner.png",
-        descEn: "A full CRUD web application for managing student records, grades, and attendance. Demonstrates solid command of PHP server-side scripting and MySQL relational data handling.",
-        features: [
-          { icon: "fa-database", color: "var(--primary)", title: "Full CRUD Operations", desc: "Create, read, update, and delete student records securely." },
-          { icon: "fa-lock", color: "var(--warm)", title: "Session Security", desc: "Protected admin login and input sanitization." }
-        ],
-        stepper: ["DB Schema", "CRUD Implementation", "Security Hardening", "Deployment"],
-        tech: ["PHP", "MySQL", "HTML/CSS", "CRUD Architecture"],
-        github: null,
-        live: null
+    // ============================================================
+    // Projects — loaded dynamically from Supabase
+    // Edit projects from admin.html, not from this file.
+    // ============================================================
+    const supabaseClient = (window.supabase && window.SUPABASE_URL)
+      ? window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+      : null;
+
+    const projectsBySlug = {};
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;');
+    }
+
+    function iconStyleVars(style) {
+      if (style === 'accent') return { bg: 'var(--accent-dim)', color: 'var(--accent)' };
+      if (style === 'warm') return { bg: 'rgba(251,191,36,0.1)', color: 'var(--warm)' };
+      return { bg: 'var(--primary-dim)', color: 'var(--primary)' };
+    }
+
+    function renderLinkRow(p) {
+      const links = [];
+      if (p.specs_url) {
+        links.push(`<a class="btn-specs" href="${escapeHtml(p.specs_url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-alt"></i> View Specifications</a>`);
       }
-    };
+      if (p.live_url) {
+        links.push(`<a class="project-link" href="${escapeHtml(p.live_url)}" target="_blank" rel="noopener noreferrer">Visit Live Project</a>`);
+      }
+      if (p.github_url) {
+        links.push(`<a class="project-link" href="${escapeHtml(p.github_url)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>`);
+      }
+      if (!links.length) return '';
+      return `<div class="project-link-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">${links.join('')}</div>`;
+    }
 
-    function openProjectModal(key) {
-      const data = projectsData[key] || projectsData['workmate'];
+    function renderNormalCard(p) {
+      const iconStyle = iconStyleVars(p.icon_style);
+      const tech = (p.tech || []).map(t => `<span class="tech-tag">${escapeHtml(t)}</span>`).join('');
+      return `
+        <div class="project-card reveal">
+          <div class="project-card-banner-wrap" onclick="openProjectModal('${p.slug}')" title="Click to view ${escapeHtml(p.title)} details">
+            <img src="${escapeHtml(p.banner_url || '')}" alt="${escapeHtml(p.title)} Banner" class="project-card-banner-img" loading="lazy"
+              onerror="this.parentElement.style.display='none';">
+          </div>
+          <div class="project-header">
+            <div class="project-icon" style="background:${iconStyle.bg}; color:${iconStyle.color};">
+              <i class="fas ${escapeHtml(p.icon || 'fa-diagram-project')}"></i>
+            </div>
+            <span class="project-badge ${escapeHtml(p.badge_class || 'badge-active')}">${escapeHtml(p.badge_text || '')}</span>
+          </div>
+          <h3>${escapeHtml(p.title)}</h3>
+          <p class="project-desc">${escapeHtml(p.card_desc || '')}</p>
+          <div class="project-tech">${tech}</div>
+          ${renderLinkRow(p)}
+        </div>`;
+    }
+
+    function renderFeaturedCard(p) {
+      const tech = (p.tech || []).map(t => `<span class="tech-tag" style="border-color:var(--primary); color:var(--text);">${escapeHtml(t)}</span>`).join('');
+      const highlights = (p.featured_highlights || []).map(h => `<div class="featured-feature-item"><i class="fas ${escapeHtml(h.icon || 'fa-check')}"></i> ${escapeHtml(h.text || '')}</div>`).join('');
+      const btns = [];
+      if (p.live_url) btns.push(`<a class="btn-accent" href="${escapeHtml(p.live_url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Live Project</a>`);
+      if (p.github_url) btns.push(`<a class="btn-outline" href="${escapeHtml(p.github_url)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Repository</a>`);
+      if (p.specs_url) btns.push(`<a class="btn-outline" href="${escapeHtml(p.specs_url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-alt"></i> View Specifications</a>`);
+      return `
+        <div class="project-card featured-project reveal">
+          <div class="project-card-banner-wrap-final" onclick="openProjectModal('${p.slug}')" title="Click to view ${escapeHtml(p.title)} details">
+            <img src="${escapeHtml(p.banner_url || '')}" alt="${escapeHtml(p.title)} Banner" class="project-card-banner-img" loading="lazy"
+              onerror="this.parentElement.style.display='none';">
+          </div>
+          <div class="project-header">
+            <div class="project-icon" style="background: var(--accent-dim); color: var(--accent); width: 54px; height: 54px; font-size: 1.3rem;">
+              <i class="fas ${escapeHtml(p.icon || 'fa-crown')}"></i>
+            </div>
+            <span class="project-badge featured-badge"><i class="fas fa-star" style="color: var(--warm); margin-right: 4px;"></i> ${escapeHtml(p.badge_text || 'Flagship Project')}</span>
+          </div>
+          <h3 style="font-size: 1.35rem; color: #fff; margin-top: 4px;">${escapeHtml(p.title)}</h3>
+          <p class="project-desc">${escapeHtml(p.card_desc || '')}</p>
+          ${highlights ? `<div class="featured-features-grid">${highlights}</div>` : ''}
+          <div class="project-tech" style="gap: 8px;">${tech}</div>
+          <div class="featured-action-btns">${btns.join('')}</div>
+        </div>`;
+    }
+
+    async function loadProjects() {
+      const grid = document.getElementById('projectsGrid');
+      if (!supabaseClient) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Projects could not be loaded (Supabase is not configured yet).</p>';
+        return;
+      }
+      const { data, error } = await supabaseClient
+        .from('portfolio_projects')
+        .select('*')
+        .eq('is_published', true)
+        .order('is_featured', { ascending: false })
+        .order('sort_order', { ascending: true });
+
+      if (error || !data) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Could not load projects right now. Please refresh the page.</p>';
+        console.error(error);
+        return;
+      }
+
+      if (!data.length) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">No projects yet.</p>';
+        return;
+      }
+
+      let html = '';
+      data.forEach(p => {
+        projectsBySlug[p.slug] = p;
+        html += p.is_featured ? renderFeaturedCard(p) : renderNormalCard(p);
+      });
+      grid.innerHTML = html;
+
+      // re-trigger reveal-on-scroll for freshly injected cards, if that observer exists
+      if (typeof observeReveals === 'function') observeReveals();
+      document.querySelectorAll('#projectsGrid .reveal').forEach(el => el.classList.add('visible'));
+    }
+
+    function openProjectModal(slug) {
+      const data = projectsBySlug[slug];
       const modal = document.getElementById('projectModal');
-      if (!modal) return;
+      if (!modal || !data) return;
 
-      // Update banner wrap visibility & image with onerror fallback
       const bannerWrap = modal.querySelector('.project-modal-banner-wrap');
       const bannerImg = document.getElementById('modalBannerImg');
-      if (data.banner) {
+      if (data.banner_url) {
         bannerWrap.style.display = 'block';
         bannerImg.onerror = function () { bannerWrap.style.display = 'none'; };
-        bannerImg.src = data.banner;
+        bannerImg.src = data.banner_url;
       } else {
         bannerWrap.style.display = 'none';
       }
 
-      // Update Top Row Badge
       const topBadge = modal.querySelector('.project-modal-top-row .project-badge');
       if (topBadge) {
-        topBadge.className = `project-badge ${data.badgeClass}`;
-        topBadge.innerHTML = data.badge;
+        topBadge.className = `project-badge ${data.badge_class || 'badge-active'}`;
+        topBadge.innerHTML = escapeHtml(data.badge_text || '');
       }
 
-      // Update Titles
       modal.querySelector('.project-modal-title').textContent = data.title;
-      modal.querySelector('.project-modal-tagline').textContent = data.tagline;
+      modal.querySelector('.project-modal-tagline').textContent = data.tagline || '';
+      modal.querySelector('.modal-desc-text').innerHTML = data.modal_desc || data.card_desc || '';
 
-      // Update Descriptions
-      modal.querySelector('.modal-desc-text').innerHTML = data.descEn;
-
-      // Update Features Grid
       const featuresGrid = modal.querySelector('.modal-features-grid');
-      featuresGrid.innerHTML = data.features.map(f => `
+      featuresGrid.innerHTML = (data.features || []).map(f => `
         <div class="modal-feature-card">
-          <i class="fas ${f.icon} modal-feature-icon" style="color:${f.color};"></i>
+          <i class="fas ${escapeHtml(f.icon || 'fa-check')} modal-feature-icon" style="color:${f.color || 'var(--primary)'};"></i>
           <div>
-            <div class="modal-feature-title">${f.title}</div>
-            <div class="modal-feature-desc">${f.desc}</div>
+            <div class="modal-feature-title">${escapeHtml(f.title || '')}</div>
+            <div class="modal-feature-desc">${escapeHtml(f.desc || '')}</div>
           </div>
         </div>
       `).join('');
 
-      // Update Stepper Workflow
       const stepperWrap = modal.querySelector('.modal-stepper');
-      stepperWrap.innerHTML = data.stepper.map((step, idx) => `
-        <div class="stepper-step active"><i class="fas fa-check-circle"></i> ${step}</div>
-        ${idx < data.stepper.length - 1 ? '<div class="stepper-arrow"><i class="fas fa-angle-right"></i></div>' : ''}
+      const stepper = data.stepper || [];
+      stepperWrap.innerHTML = stepper.map((step, idx) => `
+        <div class="stepper-step active"><i class="fas fa-check-circle"></i> ${escapeHtml(step)}</div>
+        ${idx < stepper.length - 1 ? '<div class="stepper-arrow"><i class="fas fa-angle-right"></i></div>' : ''}
       `).join('');
 
-      // Update Tech Stack
       const techWrap = modal.querySelector('.project-tech');
-      techWrap.innerHTML = data.tech.map(t => `<span class="tech-tag">${t}</span>`).join('');
+      techWrap.innerHTML = (data.tech || []).map(t => `<span class="tech-tag">${escapeHtml(t)}</span>`).join('');
 
-      // Update Footer Buttons
       const footerWrap = modal.querySelector('.project-modal-footer');
       let footerHtml = '';
-      if (data.github) {
-        footerHtml += `<a href="${data.github}" target="_blank" rel="noopener noreferrer" class="btn-primary"><i class="fab fa-github"></i> View GitHub Repository</a>`;
+      if (data.github_url) {
+        footerHtml += `<a href="${escapeHtml(data.github_url)}" target="_blank" rel="noopener noreferrer" class="btn-primary"><i class="fab fa-github"></i> View GitHub Repository</a>`;
       }
-      if (data.live) {
-        footerHtml += `<a href="${data.live}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background:var(--accent); border-color:var(--accent);"><i class="fas fa-external-link-alt"></i> Live Project Portal</a>`;
+      if (data.live_url) {
+        footerHtml += `<a href="${escapeHtml(data.live_url)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background:var(--accent); border-color:var(--accent);"><i class="fas fa-external-link-alt"></i> Live Project Portal</a>`;
       }
       footerHtml += `<button class="btn-outline" onclick="closeProjectModal()">Close Window</button>`;
       footerWrap.innerHTML = footerHtml;
 
-      // Open Modal
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
     }
@@ -6144,6 +5776,7 @@ Always open to new projects, collaborations, and opportunities — let's connect
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      loadProjects();
       const modal = document.getElementById('projectModal');
       if (modal) {
         modal.addEventListener('click', (e) => {

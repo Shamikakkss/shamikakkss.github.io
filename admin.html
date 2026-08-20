@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Manage Projects</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #16161f;
+    --border: rgba(255, 255, 255, 0.09);
+    --primary: #6ee7b7;
+    --primary-dim: rgba(110, 231, 183, 0.12);
+    --accent: #a78bfa;
+    --accent-dim: rgba(167, 139, 250, 0.12);
+    --warm: #fbbf24;
+    --danger: #f87171;
+    --danger-dim: rgba(248, 113, 113, 0.12);
+    --text: #f0f0f5;
+    --text-muted: #8888aa;
+    --text-faint: #5a5a72;
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+  h1, h2, h3, .brand { font-family: var(--font-display); }
+  a { color: inherit; }
+  ::selection { background: var(--primary-dim); }
+
+  /* ---------- Login screen ---------- */
+  #loginScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(167,139,250,0.12), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(110,231,183,0.10), transparent 45%),
+      var(--bg);
+  }
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 30px;
+  }
+  .login-card .lock-badge {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: var(--primary-dim);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    margin-bottom: 18px;
+  }
+  .login-card h1 { font-size: 1.3rem; font-weight: 800; margin: 0 0 4px; }
+  .login-card p.sub { color: var(--text-muted); font-size: 0.88rem; margin: 0 0 24px; }
+  label { display: block; font-size: 0.78rem; color: var(--text-muted); margin: 0 0 6px; font-weight: 600; }
+  input, textarea, select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color .15s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--primary); }
+  .field { margin-bottom: 16px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: none; border-radius: var(--radius-sm);
+    padding: 11px 18px;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform .12s, opacity .12s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--primary); color: #06140e; width: 100%; }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-danger { background: var(--danger-dim); color: var(--danger); }
+  .btn-danger:hover { background: var(--danger); color: #2a0a0a; }
+  .btn-sm { padding: 7px 12px; font-size: 0.8rem; }
+  #loginError {
+    display: none;
+    background: var(--danger-dim); color: var(--danger);
+    border-radius: var(--radius-sm); padding: 10px 12px;
+    font-size: 0.82rem; margin-bottom: 16px;
+  }
+
+  /* ---------- Dashboard ---------- */
+  #dashboard { display: none; }
+  header.topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: rgba(10,10,15,0.9); backdrop-filter: blur(10px);
+    z-index: 20;
+  }
+  .brand { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
+  .brand i { color: var(--primary); }
+  main { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
+  .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .page-head h2 { margin: 0 0 4px; font-size: 1.4rem; }
+  .page-head p { margin: 0; color: var(--text-muted); font-size: 0.88rem; }
+
+  .project-row {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .project-row img {
+    width: 64px; height: 44px; object-fit: cover; border-radius: 8px;
+    background: var(--surface2); flex-shrink: 0;
+  }
+  .project-row .info { flex: 1; min-width: 0; }
+  .project-row .info .title-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .project-row .info h3 { margin: 0; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .project-row .info .meta { color: var(--text-faint); font-size: 0.76rem; margin-top: 3px; }
+  .pill { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .pill-featured { background: var(--warm); color: #2a1c00; }
+  .pill-draft { background: var(--danger-dim); color: var(--danger); }
+  .row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--text-muted); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+  }
+  .icon-btn:hover { color: var(--primary); border-color: var(--primary); }
+  .icon-btn.danger:hover { color: var(--danger); border-color: var(--danger); }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .empty-state i { font-size: 2rem; color: var(--text-faint); margin-bottom: 12px; display: block; }
+
+  /* ---------- Editor modal ---------- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(5,5,8,0.75); backdrop-filter: blur(4px);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 30px 16px; overflow-y: auto; z-index: 100;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    width: 100%; max-width: 640px; padding: 26px 24px 24px;
+  }
+  .modal-box h2 { margin: 0 0 4px; font-size: 1.15rem; }
+  .modal-box .modal-sub { color: var(--text-muted); font-size: 0.82rem; margin: 0 0 22px; }
+  .section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--primary); font-weight: 700; margin: 22px 0 12px; }
+  .section-title:first-of-type { margin-top: 0; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .hint { color: var(--text-faint); font-size: 0.74rem; margin-top: 5px; }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; }
+  .checkbox-row input { width: auto; }
+  .checkbox-row label { margin: 0; }
+
+  .repeat-list { display: flex; flex-direction: column; gap: 8px; }
+  .repeat-item {
+    display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px;
+  }
+  .repeat-item .fields { display: grid; gap: 6px; }
+  .repeat-item .fields.two-col { grid-template-columns: 1fr 1fr; }
+  .repeat-remove { background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 0.9rem; padding: 4px; }
+  .repeat-remove:hover { color: var(--danger); }
+  .add-row-btn { align-self: flex-start; }
+
+  .modal-footer { display: flex; justify-content: space-between; gap: 10px; margin-top: 26px; }
+  .modal-footer .right { display: flex; gap: 10px; }
+
+  .banner-upload { display: flex; align-items: center; gap: 12px; }
+  .banner-preview {
+    width: 96px; height: 60px; border-radius: 8px; object-fit: cover;
+    background: var(--surface2); border: 1px solid var(--border);
+  }
+  .toast {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--primary); color: var(--text);
+    padding: 12px 20px; border-radius: 10px; font-size: 0.88rem;
+    display: none; z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .toast.error { border-color: var(--danger); }
+  .spin { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 560px) {
+    .grid-2, .grid-3, .repeat-item .fields.two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <div class="lock-badge"><i class="fas fa-lock"></i></div>
+      <h1>Admin Login</h1>
+      <p class="sub">Sign in to manage your portfolio projects.</p>
+      <div id="loginError"></div>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginBtn">
+          <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <header class="topbar">
+      <div class="brand"><i class="fas fa-layer-group"></i> Portfolio Admin</div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <a href="index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> View Site</a>
+        <button class="btn btn-outline btn-sm" id="logoutBtn"><i class="fas fa-right-from-bracket"></i> Log Out</button>
+      </div>
+    </header>
+    <main>
+      <div class="page-head">
+        <div>
+          <h2>Projects</h2>
+          <p>Add, edit, reorder, or hide the projects shown on your portfolio.</p>
+        </div>
+        <button class="btn btn-primary" id="addProjectBtn"><i class="fas fa-plus"></i> Add Project</button>
+      </div>
+      <div id="projectsList"></div>
+    </main>
+  </div>
+
+  <!-- EDITOR MODAL -->
+  <div class="modal-overlay" id="editorOverlay">
+    <div class="modal-box">
+      <h2 id="editorTitle">Add Project</h2>
+      <p class="modal-sub">Fields marked with a title are required. Everything else is optional.</p>
+      <form id="editorForm">
+        <input type="hidden" id="f_id">
+
+        <div class="section-title">Basics</div>
+        <div class="field">
+          <label>Title *</label>
+          <input type="text" id="f_title" required placeholder="e.g. Workmate.lk — Skilled Worker Marketplace">
+        </div>
+        <div class="field">
+          <label>Short card description (shown on the project card)</label>
+          <textarea id="f_card_desc" rows="2" placeholder="One or two sentences summarizing the project."></textarea>
+        </div>
+        <div class="field">
+          <label>Full description (shown when someone clicks the card)</label>
+          <textarea id="f_modal_desc" rows="4" placeholder="A longer description of what the project does and how it was built."></textarea>
+        </div>
+        <div class="field">
+          <label>Tagline (shown as a subtitle in the detail popup)</label>
+          <input type="text" id="f_tagline" placeholder="e.g. MERN Stack Community ERP System">
+        </div>
+
+        <div class="section-title">Card Appearance</div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Icon (Font Awesome class)</label>
+            <input type="text" id="f_icon" placeholder="fa-diagram-project">
+          </div>
+          <div class="field">
+            <label>Icon Color</label>
+            <select id="f_icon_style">
+              <option value="primary">Mint</option>
+              <option value="accent">Violet</option>
+              <option value="warm">Amber</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Badge Style</label>
+            <select id="f_badge_class">
+              <option value="badge-active">Active (blue)</option>
+              <option value="badge-complete">Completed (green)</option>
+              <option value="badge-personal">Personal (grey)</option>
+              <option value="featured-badge">Featured (gold)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Badge Text</label>
+          <input type="text" id="f_badge_text" placeholder="e.g. Ongoing Project">
+        </div>
+        <div class="field">
+          <label>Banner Image</label>
+          <div class="banner-upload">
+            <img id="bannerPreview" class="banner-preview" src="" alt="">
+            <div>
+              <input type="file" id="bannerFile" accept="image/*">
+              <div class="hint" id="uploadStatus"></div>
+            </div>
+          </div>
+          <input type="hidden" id="f_banner_url">
+        </div>
+
+        <div class="section-title">Tech Stack</div>
+        <div class="field">
+          <label>Technologies (comma separated)</label>
+          <input type="text" id="f_tech" placeholder="React, Node.js, Supabase, Tailwind CSS">
+        </div>
+
+        <div class="section-title">Detail Popup — Features</div>
+        <div class="repeat-list" id="featuresList"></div>
+        <button type="button" class="btn btn-outline btn-sm add-row-btn" id="addFeatureBtn" style="margin-top:8px;"><i class="fas fa-plus"></i> Add Feature</button>
+
+        <div class="section-title">Detail Popup — Workflow Steps</div>
+        <div class="field">
+          <label>Steps (comma separated, in order)</label>
+          <input type="text" id="f_stepper" placeholder="Order Placed, Payment Approved, In Progress, Delivered">
+        </div>
+
+        <div class="section-title">Links</div>
+        <div class="grid-3">
+          <div class="field">
+            <label>GitHub URL</label>
+            <input type="url" id="f_github_url" placeholder="https://github.com/...">
+          </div>
+          <div class="field">
+            <label>Live Project URL</label>
+            <input type="url" id="f_live_url" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label>Specs Page URL</label>
+            <input type="text" id="f_specs_url" placeholder="Preview/example.html">
+          </div>
+        </div>
+
+        <div class="section-title">Visibility & Order</div>
+        <div class="grid-3">
+          <div class="field checkbox-row">
+            <input type="checkbox" id="f_is_featured">
+            <label for="f_is_featured">Featured (flagship card)</label>
+          </div>
+          <div class="field checkbox-row">
+            <input type="checkbox" id="f_is_published" checked>
+            <label for="f_is_published">Published (visible on site)</label>
+          </div>
+          <div class="field">
+            <label>Sort Order (lower = first)</label>
+            <input type="number" id="f_sort_order" value="0">
+          </div>
+        </div>
+
+        <div id="featuredHighlightsSection" style="display:none;">
+          <div class="section-title">Featured Card — Highlight Chips</div>
+          <div class="repeat-list" id="highlightsList"></div>
+          <button type="button" class="btn btn-outline btn-sm add-row-btn" id="addHighlightBtn" style="margin-top:8px;"><i class="fas fa-plus"></i> Add Highlight</button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteProjectBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" id="cancelEditorBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="saveProjectBtn"><i class="fas fa-check"></i> Save Project</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  let currentProjects = [];
+  let pendingBannerFile = null;
+
+  // ---------- Toast ----------
+  function showToast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '');
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3200);
+  }
+
+  // ---------- Auth ----------
+  async function checkSession() {
+    const { data } = await sb.auth.getSession();
+    if (data.session) {
+      showDashboard();
+    } else {
+      showLogin();
+    }
+  }
+
+  function showLogin() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+  }
+
+  function showDashboard() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadProjectList();
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const errBox = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+    errBox.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Signing in…';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> Sign In';
+    if (error) {
+      errBox.textContent = error.message;
+      errBox.style.display = 'block';
+      return;
+    }
+    showDashboard();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    showLogin();
+  });
+
+  // ---------- List ----------
+  async function loadProjectList() {
+    const list = document.getElementById('projectsList');
+    list.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading…</p>';
+    const { data, error } = await sb.from('projects').select('*').order('is_featured', { ascending: false }).order('sort_order', { ascending: true });
+    if (error) {
+      list.innerHTML = `<p style="color:var(--danger);">Could not load projects: ${error.message}</p>`;
+      return;
+    }
+    currentProjects = data || [];
+    if (!currentProjects.length) {
+      list.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i>No projects yet. Click "Add Project" to create your first one.</div>`;
+      return;
+    }
+    list.innerHTML = currentProjects.map(p => `
+      <div class="project-row">
+        <img src="${p.banner_url || ''}" onerror="this.style.visibility='hidden'" alt="">
+        <div class="info">
+          <div class="title-line">
+            <h3>${escapeHtml(p.title)}</h3>
+            ${p.is_featured ? '<span class="pill pill-featured">Featured</span>' : ''}
+            ${!p.is_published ? '<span class="pill pill-draft">Draft</span>' : ''}
+          </div>
+          <div class="meta">${escapeHtml(p.badge_text || '')} · order ${p.sort_order}</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Edit" onclick="openEditor('${p.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+  }
+
+  // ---------- Repeatable field groups (Features / Highlights) ----------
+  function addFeatureRow(data) {
+    data = data || {};
+    const wrap = document.createElement('div');
+    wrap.className = 'repeat-item';
+    wrap.innerHTML = `
+      <div class="fields">
+        <input type="text" class="feat-title" placeholder="Feature title" value="${escapeHtml(data.title || '')}">
+        <input type="text" class="feat-desc" placeholder="Short description" value="${escapeHtml(data.desc || '')}">
+        <div class="fields two-col">
+          <input type="text" class="feat-icon" placeholder="Icon e.g. fa-bolt" value="${escapeHtml(data.icon || '')}">
+          <input type="text" class="feat-color" placeholder="Color e.g. var(--primary)" value="${escapeHtml(data.color || '')}">
+        </div>
+      </div>
+      <button type="button" class="repeat-remove"><i class="fas fa-xmark"></i></button>
+    `;
+    wrap.querySelector('.repeat-remove').addEventListener('click', () => wrap.remove());
+    document.getElementById('featuresList').appendChild(wrap);
+  }
+
+  function addHighlightRow(data) {
+    data = data || {};
+    const wrap = document.createElement('div');
+    wrap.className = 'repeat-item';
+    wrap.innerHTML = `
+      <div class="fields two-col">
+        <input type="text" class="hl-icon" placeholder="Icon e.g. fa-bolt" value="${escapeHtml(data.icon || '')}">
+        <input type="text" class="hl-text" placeholder="Highlight text" value="${escapeHtml(data.text || '')}">
+      </div>
+      <button type="button" class="repeat-remove"><i class="fas fa-xmark"></i></button>
+    `;
+    wrap.querySelector('.repeat-remove').addEventListener('click', () => wrap.remove());
+    document.getElementById('highlightsList').appendChild(wrap);
+  }
+
+  document.getElementById('addFeatureBtn').addEventListener('click', () => addFeatureRow());
+  document.getElementById('addHighlightBtn').addEventListener('click', () => addHighlightRow());
+
+  document.getElementById('f_is_featured').addEventListener('change', (e) => {
+    document.getElementById('featuredHighlightsSection').style.display = e.target.checked ? 'block' : 'none';
+  });
+
+  // ---------- Editor open/close ----------
+  function resetForm() {
+    document.getElementById('editorForm').reset();
+    document.getElementById('f_id').value = '';
+    document.getElementById('f_banner_url').value = '';
+    document.getElementById('bannerPreview').src = '';
+    document.getElementById('uploadStatus').textContent = '';
+    document.getElementById('featuresList').innerHTML = '';
+    document.getElementById('highlightsList').innerHTML = '';
+    document.getElementById('featuredHighlightsSection').style.display = 'none';
+    document.getElementById('deleteProjectBtn').style.display = 'none';
+    document.getElementById('f_is_published').checked = true;
+    pendingBannerFile = null;
+  }
+
+  function openEditor(id) {
+    resetForm();
+    const p = id ? currentProjects.find(x => x.id === id) : null;
+    document.getElementById('editorTitle').textContent = p ? 'Edit Project' : 'Add Project';
+
+    if (p) {
+      document.getElementById('f_id').value = p.id;
+      document.getElementById('f_title').value = p.title || '';
+      document.getElementById('f_card_desc').value = p.card_desc || '';
+      document.getElementById('f_modal_desc').value = p.modal_desc || '';
+      document.getElementById('f_tagline').value = p.tagline || '';
+      document.getElementById('f_icon').value = p.icon || '';
+      document.getElementById('f_icon_style').value = p.icon_style || 'primary';
+      document.getElementById('f_badge_class').value = p.badge_class || 'badge-active';
+      document.getElementById('f_badge_text').value = p.badge_text || '';
+      document.getElementById('f_banner_url').value = p.banner_url || '';
+      document.getElementById('bannerPreview').src = p.banner_url || '';
+      document.getElementById('f_tech').value = (p.tech || []).join(', ');
+      document.getElementById('f_stepper').value = (p.stepper || []).join(', ');
+      document.getElementById('f_github_url').value = p.github_url || '';
+      document.getElementById('f_live_url').value = p.live_url || '';
+      document.getElementById('f_specs_url').value = p.specs_url || '';
+      document.getElementById('f_is_featured').checked = !!p.is_featured;
+      document.getElementById('f_is_published').checked = p.is_published !== false;
+      document.getElementById('f_sort_order').value = p.sort_order || 0;
+      document.getElementById('featuredHighlightsSection').style.display = p.is_featured ? 'block' : 'none';
+      (p.features || []).forEach(f => addFeatureRow(f));
+      (p.featured_highlights || []).forEach(h => addHighlightRow(h));
+      document.getElementById('deleteProjectBtn').style.display = 'inline-flex';
+      document.getElementById('deleteProjectBtn').onclick = () => deleteProject(p.id);
+    }
+
+    document.getElementById('editorOverlay').classList.add('open');
+  }
+
+  document.getElementById('addProjectBtn').addEventListener('click', () => openEditor(null));
+  document.getElementById('cancelEditorBtn').addEventListener('click', () => {
+    document.getElementById('editorOverlay').classList.remove('open');
+  });
+
+  // ---------- Banner upload ----------
+  document.getElementById('bannerFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    pendingBannerFile = file;
+    document.getElementById('bannerPreview').src = URL.createObjectURL(file);
+    document.getElementById('uploadStatus').textContent = 'Will upload when you save.';
+  });
+
+  async function uploadBannerIfNeeded() {
+    if (!pendingBannerFile) return document.getElementById('f_banner_url').value;
+    const statusEl = document.getElementById('uploadStatus');
+    statusEl.textContent = 'Uploading…';
+    const ext = pendingBannerFile.name.split('.').pop();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await sb.storage.from('project-banners').upload(path, pendingBannerFile, { upsert: true });
+    if (error) {
+      statusEl.textContent = 'Upload failed: ' + error.message;
+      throw error;
+    }
+    const { data } = sb.storage.from('project-banners').getPublicUrl(path);
+    statusEl.textContent = 'Uploaded.';
+    return data.publicUrl;
+  }
+
+  // ---------- Save ----------
+  function parseCommaList(str) {
+    return (str || '').split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  function collectFeatures() {
+    return Array.from(document.querySelectorAll('#featuresList .repeat-item')).map(row => ({
+      title: row.querySelector('.feat-title').value.trim(),
+      desc: row.querySelector('.feat-desc').value.trim(),
+      icon: row.querySelector('.feat-icon').value.trim() || 'fa-check',
+      color: row.querySelector('.feat-color').value.trim() || 'var(--primary)'
+    })).filter(f => f.title);
+  }
+
+  function collectHighlights() {
+    return Array.from(document.querySelectorAll('#highlightsList .repeat-item')).map(row => ({
+      icon: row.querySelector('.hl-icon').value.trim() || 'fa-check',
+      text: row.querySelector('.hl-text').value.trim()
+    })).filter(h => h.text);
+  }
+
+  document.getElementById('editorForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const saveBtn = document.getElementById('saveProjectBtn');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Saving…';
+    try {
+      const bannerUrl = await uploadBannerIfNeeded();
+      const id = document.getElementById('f_id').value;
+      const title = document.getElementById('f_title').value.trim();
+      const slug = (id ? currentProjects.find(p => p.id === id)?.slug : null)
+        || title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') + '_' + Date.now().toString(36);
+
+      const payload = {
+        slug,
+        title,
+        card_desc: document.getElementById('f_card_desc').value.trim(),
+        modal_desc: document.getElementById('f_modal_desc').value.trim(),
+        tagline: document.getElementById('f_tagline').value.trim(),
+        icon: document.getElementById('f_icon').value.trim() || 'fa-diagram-project',
+        icon_style: document.getElementById('f_icon_style').value,
+        badge_class: document.getElementById('f_badge_class').value,
+        badge_text: document.getElementById('f_badge_text').value.trim(),
+        banner_url: bannerUrl,
+        tech: parseCommaList(document.getElementById('f_tech').value),
+        stepper: parseCommaList(document.getElementById('f_stepper').value),
+        features: collectFeatures(),
+        featured_highlights: collectHighlights(),
+        github_url: document.getElementById('f_github_url').value.trim() || null,
+        live_url: document.getElementById('f_live_url').value.trim() || null,
+        specs_url: document.getElementById('f_specs_url').value.trim() || null,
+        is_featured: document.getElementById('f_is_featured').checked,
+        is_published: document.getElementById('f_is_published').checked,
+        sort_order: parseInt(document.getElementById('f_sort_order').value, 10) || 0
+      };
+
+      let error;
+      if (id) {
+        ({ error } = await sb.from('projects').update(payload).eq('id', id));
+      } else {
+        ({ error } = await sb.from('projects').insert(payload));
+      }
+      if (error) throw error;
+
+      document.getElementById('editorOverlay').classList.remove('open');
+      showToast(id ? 'Project updated.' : 'Project added.');
+      loadProjectList();
+    } catch (err) {
+      showToast('Could not save: ' + (err.message || err), true);
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = '<i class="fas fa-check"></i> Save Project';
+    }
+  });
+
+  // ---------- Delete ----------
+  async function deleteProject(id) {
+    if (!confirm('Delete this project? This cannot be undone.')) return;
+    const { error } = await sb.from('projects').delete().eq('id', id);
+    if (error) {
+      showToast('Could not delete: ' + error.message, true);
+      return;
+    }
+    document.getElementById('editorOverlay').classList.remove('open');
+    showToast('Project deleted.');
+    loadProjectList();
+  }
+
+  checkSession();
+</script>
+</body>
+</html>

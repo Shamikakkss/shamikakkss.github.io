@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1228,6 +1228,86 @@
       background: var(--warm);
     }
 
+    .skills-focus {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0 40px;
+    }
+
+    .focus-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .focus-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--card-accent, var(--primary)), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .focus-pill:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 0 25px -6px var(--card-accent, var(--primary-glow));
+    }
+
+    .focus-pill:hover::before {
+      opacity: 1;
+    }
+
+    .focus-pill-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .focus-pill:hover .focus-pill-icon {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px var(--card-accent, var(--primary-glow));
+    }
+
+    .focus-pill-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .focus-pill-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 780px) {
+      .skills-focus {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .skill-legend {
       display: flex;
       gap: 16px;
@@ -1311,6 +1391,7 @@
     button:hover i:not(.fa-spin),
     .project-card:hover i:not(.fa-spin),
     .skill-card:hover i:not(.fa-spin),
+    .focus-pill:hover i:not(.fa-spin),
     .cert-card:hover i:not(.fa-spin),
     .exp-card:hover i:not(.fa-spin),
     .highlight-item:hover i:not(.fa-spin),
@@ -2142,7 +2223,9 @@
     }
 
     .gallery-slide:hover .gallery-slide-overlay,
-    .gallery-slide:focus-visible .gallery-slide-overlay {
+    .gallery-slide:focus-visible .gallery-slide-overlay,
+    .uiux-slide:hover .gallery-slide-overlay,
+    .uiux-slide:focus-visible .gallery-slide-overlay {
       opacity: 1;
       transform: translateY(0);
     }
@@ -2247,6 +2330,74 @@
       .gallery-nav-btn {
         width: 36px;
         height: 36px;
+      }
+    }
+
+    /* ─── UI/UX DESIGN GALLERY ─── */
+    #uiux {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0 100px;
+    }
+
+    .uiux-intro-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .uiux-fidelity-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      background: var(--primary-dim);
+      border: 1px solid rgba(110, 231, 183, 0.25);
+      color: var(--primary);
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    .uiux-slide {
+      flex-shrink: 0;
+      width: 300px;
+      height: 420px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #05050a;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .uiux-slide:hover {
+      border-color: rgba(110, 231, 183, 0.35);
+      transform: translateY(-4px);
+    }
+
+    .uiux-slide-image {
+      position: absolute;
+      inset: 0;
+    }
+
+    .uiux-slide-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      .uiux-slide {
+        width: 240px;
+        height: 340px;
       }
     }
 
@@ -2386,6 +2537,171 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 2px;
+    }
+
+    /* ─── MODULES STUDIED ─── */
+    .modules-block {
+      margin-top: 60px;
+    }
+
+    .sem-accordion-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .sem-accordion-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .sem-accordion-btn .sem-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-faint);
+      margin-left: 10px;
+    }
+
+    .sem-gpa-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid rgba(110, 231, 183, 0.25);
+      white-space: nowrap;
+      margin-left: auto;
+      margin-right: 14px;
+    }
+
+    .sem-gpa-badge.pending {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-faint);
+      border: 1px solid var(--border);
+      font-weight: 400;
+    }
+
+    .sem-accordion-btn-inner {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .cgpa-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .cgpa-summary-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .cgpa-summary-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .cgpa-summary-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 260px;
+    }
+
+    .sem-accordion-btn .chevron {
+      color: var(--text-faint);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .sem-accordion-item.open .chevron {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .sem-accordion-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .sem-accordion-item.open .sem-accordion-panel {
+      max-height: 900px;
+    }
+
+    .sem-module-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .sem-module-table th {
+      text-align: left;
+      padding: 10px 22px;
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-top: 1px solid var(--border);
+      font-weight: 400;
+    }
+
+    .sem-module-table td {
+      padding: 10px 22px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .sem-module-table td.mod-code {
+      font-family: var(--font-mono);
+      color: var(--text);
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .sem-module-table {
+        font-size: 0.74rem;
+      }
+
+      .sem-module-table th,
+      .sem-module-table td {
+        padding: 8px 12px;
+      }
     }
 
     /* ─── CONTACT ─── */
@@ -3477,6 +3793,7 @@
       <li><a href="#about" onclick="closeMenu()">About</a></li>
       <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
       <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+      <li><a href="#uiux" onclick="closeMenu()">UI/UX Design</a></li>
       <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
       <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
       <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
@@ -3537,6 +3854,10 @@
         <div class="stat-item">
           <div class="stat-num" style="font-size:1.6rem;">Global</div>
           <div class="stat-label">Freelance Clients</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3.7+</div>
+          <div class="stat-label">HNDIT GPA</div>
         </div>
       </div>
     </div>
@@ -3743,6 +4064,36 @@
       <p class="section-desc">Technologies I use to build production-ready applications across frontend, backend,
         databases, cloud services, and secure integrations.</p>
 
+      <div class="skills-focus">
+        <div class="focus-pill reveal" style="--card-accent: var(--primary);">
+          <div class="focus-pill-icon" style="background: var(--primary-dim); color: var(--primary);">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">Full-Stack Development</div>
+            <div class="focus-pill-desc">React, Next.js, Node.js, PHP/MySQL &amp; cloud-connected systems end-to-end.</div>
+          </div>
+        </div>
+        <div class="focus-pill reveal" style="--card-accent: var(--warm);">
+          <div class="focus-pill-icon" style="background: rgba(251,191,36,0.1); color: var(--warm);">
+            <i class="fas fa-swatchbook"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">UI/UX &amp; Product Design</div>
+            <div class="focus-pill-desc">Figma-driven interfaces, design systems, and clean user-first layouts.</div>
+          </div>
+        </div>
+        <div class="focus-pill reveal" style="--card-accent: var(--accent);">
+          <div class="focus-pill-icon" style="background: var(--accent-dim); color: var(--accent);">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div>
+            <div class="focus-pill-title">IT Support &amp; Assistance</div>
+            <div class="focus-pill-desc">Hands-on troubleshooting, PC setup, and everyday tech support.</div>
+          </div>
+        </div>
+      </div>
+
       <div class="skill-legend">
         <div class="legend-item">
           <div class="legend-dot main"></div> Main / Heavy Use
@@ -3921,6 +4272,26 @@
           </div>
         </div>
 
+        <!-- ACADEMIC FOUNDATION -->
+        <div class="skill-card reveal" style="--card-accent: var(--accent);">
+          <div class="skill-card-icon" style="background: var(--accent-dim); color: var(--accent);">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Academic Foundation (HNDIT Coursework)</h3>
+          <div class="skill-tags">
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Data Structures &amp; Algorithms</span>
+            <span class="skill-tag tag-main"><span class="tag-dot"></span>Database Management Systems</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>System Analysis &amp; Design</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Software Engineering Practices</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Software Quality Assurance</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>Operating Systems</span>
+            <span class="skill-tag tag-core"><span class="tag-dot"></span>IT Project Management</span>
+            <span class="skill-tag">Statistics for IT</span>
+            <span class="skill-tag">Machine Learning Fundamentals</span>
+            <span class="skill-tag">Enterprise Architecture</span>
+          </div>
+        </div>
+
         <!-- AI -->
         <div class="skill-card reveal" style="--card-accent: var(--primary);">
           <div class="skill-card-icon"
@@ -3990,6 +4361,8 @@
               Analytics</div>
             <div class="featured-feature-item"><i class="fas fa-shield-halved"></i> Role-Based Auth &amp; Order Security
             </div>
+            <div class="featured-feature-item"><i class="fas fa-swatchbook"></i> Custom UI/UX Design &amp; Client-Facing
+              Flows</div>
           </div>
 
           <div class="project-tech" style="gap: 8px;">
@@ -4010,6 +4383,7 @@
             <span class="tech-tag">REST APIs</span>
             <span class="tech-tag">Role-Based Security (RBAC)</span>
             <span class="tech-tag">Real-Time Chat</span>
+            <span class="tech-tag">UI/UX Design</span>
           </div>
 
           <div class="featured-action-btns">
@@ -4058,6 +4432,7 @@
             <span class="tech-tag">Clerk Auth</span>
             <span class="tech-tag">Leaflet Maps</span>
             <span class="tech-tag">PWA</span>
+            <span class="tech-tag">UI/UX Design</span>
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -4099,6 +4474,7 @@
             <span class="tech-tag">Express.js</span>
             <span class="tech-tag">MongoDB</span>
             <span class="tech-tag">REST APIs</span>
+            <span class="tech-tag">UI/UX Design</span>
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -4202,8 +4578,9 @@
             <span class="project-badge badge-personal">Personal Portfolio</span>
           </div>
           <h3>My Professional Portfolio</h3>
-          <p class="project-desc">This very portfolio website you're viewing — built with HTML, CSS, JavaScript &amp;
-            Supabase for hosting &amp; database storage.</p>
+          <p class="project-desc">This very portfolio website you're viewing — UI/UX and visual design planned and
+            styled directly in code, then built with HTML, CSS, JavaScript &amp; Supabase for hosting &amp; database
+            storage.</p>
           <div class="project-tech">
             <span class="tech-tag">HTML</span>
             <span class="tech-tag">CSS</span>
@@ -4211,6 +4588,7 @@
             <span class="tech-tag">Supabase</span>
             <span class="tech-tag">SEO</span>
             <span class="tech-tag">Responsive</span>
+            <span class="tech-tag">UI/UX Design</span>
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -4239,13 +4617,14 @@
             <span class="project-badge badge-personal">Personal</span>
           </div>
           <h3>RuuGraphics Portfolio</h3>
-          <p class="project-desc">A secondary showcase of creative and branding work that complements my communication
-            and presentation skills.</p>
+          <p class="project-desc">A secondary showcase of creative and branding work that complements my communication,
+            presentation, and UI/UX design skills.</p>
           <div class="project-tech">
             <span class="tech-tag">HTML</span>
             <span class="tech-tag">CSS</span>
             <span class="tech-tag">JavaScript</span>
             <span class="tech-tag">Responsive</span>
+            <span class="tech-tag">UI/UX Design</span>
           </div>
           <div class="project-link-row"
             style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -4324,10 +4703,48 @@
     </div>
   </section>
 
+  <!-- UI/UX DESIGN -->
+  <section id="uiux" aria-label="UI/UX Design Work">
+    <div class="section-inner" style="padding-bottom: 0;">
+      <div class="section-label">04 — UI/UX Design</div>
+      <div class="uiux-intro-row">
+        <div>
+          <h2 class="section-title">Final Year Project <span class="grad-text">UI/UX</span></h2>
+          <p class="section-desc">User-side design for RuuGraphics — from low-fidelity wireframes to high-fidelity,
+            production-ready screens, designed directly in Figma.</p>
+        </div>
+        <span class="uiux-fidelity-tag"><i class="fas fa-layer-group"></i> High-Fidelity Mockups</span>
+      </div>
+    </div>
+    <div class="section-inner" style="padding-top: 24px;">
+      <div class="gallery-row">
+        <button class="gallery-nav-btn" id="uiuxPrev" aria-label="Previous">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="gallery-track-wrap">
+          <div class="gallery-track" id="uiuxTrack">
+            <!-- Slides are loaded dynamically from Supabase Storage (see initUiuxGallery script below) -->
+          </div>
+        </div>
+        <button class="gallery-nav-btn" id="uiuxNext" aria-label="Next">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- UI/UX LIGHTBOX -->
+  <div class="gallery-lightbox" id="uiuxLightbox">
+    <button class="gallery-lightbox-close" id="uiuxLightboxClose" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="uiuxLightboxImg" src="" alt="Full-size UI/UX mockup">
+  </div>
+
   <!-- EXPERIENCE -->
   <section id="experience" aria-label="Work Experience">
     <div class="section-inner">
-      <div class="section-label">04 — Experience</div>
+      <div class="section-label">05 — Experience</div>
       <h2 class="section-title">Professional <span class="grad-text">Work</span></h2>
       <p class="section-desc">Real-world client and engineering experience across full-stack product development.</p>
 
@@ -4380,6 +4797,23 @@
             style="display:inline-flex; margin-top:24px; align-self:flex-start; text-decoration:none;">
             <i class="fab fa-github"></i> View My GitHub
           </a>
+        </div>
+      </div>
+
+      <div class="exp-card reveal" itemscope itemtype="https://schema.org/WorkExperience" style="margin-top:24px;">
+        <div class="exp-icon"
+          style="background: var(--accent-dim); border-color: rgba(167,139,250,0.2); color: var(--accent);">
+          <i class="fas fa-screwdriver-wrench"></i>
+        </div>
+        <div>
+          <div class="exp-period" style="color: var(--accent);">5+ Years Practical Experience</div>
+          <h3 class="exp-title">IT Support &amp; Hardware Troubleshooting</h3>
+          <p class="exp-company">Personal &amp; Hands-on Experience · System &amp; Network Maintenance</p>
+          <ul class="exp-achievements">
+            <li>Diagnosed and resolved PC/laptop hardware and software issues, including OS installation/recovery, driver setups, and fault-finding.</li>
+            <li>Configured home Wi-Fi networks, routers, IP settings, and resolved local network connectivity issues.</li>
+            <li>Developed strong systematic analytical skills and technical patience when debugging hardware and environment-level failures.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -4552,7 +4986,7 @@
   <!-- EDUCATION -->
   <section id="education" aria-label="Education and Certifications">
     <div class="section-inner">
-      <div class="section-label">05 — Education</div>
+      <div class="section-label">06 — Education</div>
       <h2 class="section-title">Academic <span class="grad-text">Journey</span></h2>
 
       <div class="edu-timeline">
@@ -4608,6 +5042,211 @@
           </div>
         </div>
       </div>
+
+      <!-- MODULES STUDIED -->
+      <div class="modules-block">
+        <div class="section-label">HNDIT Modules Studied</div>
+
+        <div class="cgpa-summary reveal">
+          <div>
+            <div class="cgpa-summary-label">HNDIT Cumulative GPA — Semester I–III</div>
+            <div class="cgpa-summary-value">3.70</div>
+          </div>
+          <div class="cgpa-summary-note">Average across 3 completed semesters. Semester IV result is pending.</div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem1">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem1')">
+            <span class="sem-accordion-btn-inner">Semester I <span class="sem-count">6 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.90</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT1012</td>
+                  <td>Visual Application Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1022</td>
+                  <td>Web Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1032</td>
+                  <td>Computer and Network Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1042</td>
+                  <td>Information Management and Information Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1052</td>
+                  <td>ICT Project (Individual)</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT1062</td>
+                  <td>Communication Skills</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem2">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem2')">
+            <span class="sem-accordion-btn-inner">Semester II <span class="sem-count">8 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.65</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT2012</td>
+                  <td>Fundamentals of Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2022</td>
+                  <td>Software Development</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2032</td>
+                  <td>System Analysis and Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2042</td>
+                  <td>Data Communication and Computer Networks</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2052</td>
+                  <td>Principles of User Interface Design</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2062</td>
+                  <td>ICT Project (Group)</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2072</td>
+                  <td>Technical Writing</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT2082</td>
+                  <td>Human Value &amp; Professional Ethics</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem3">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem3')">
+            <span class="sem-accordion-btn-inner">Semester III <span class="sem-count">7 Modules</span></span>
+            <span class="sem-gpa-badge">GPA 3.54</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT3012</td>
+                  <td>Object Oriented Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3022</td>
+                  <td>Web Programming</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3032</td>
+                  <td>Data Structures and Algorithms</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3042</td>
+                  <td>Database Management Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3052</td>
+                  <td>Operating Systems</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3062</td>
+                  <td>Information and Computer Security</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT3072</td>
+                  <td>Statistics for IT</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sem-accordion-item reveal" id="sem4">
+          <button class="sem-accordion-btn" onclick="toggleSemester('sem4')">
+            <span class="sem-accordion-btn-inner">Semester IV <span class="sem-count">7 Modules</span></span>
+            <span class="sem-gpa-badge pending">Result Pending</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="sem-accordion-panel">
+            <table class="sem-module-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mod-code">HNDIT4012</td>
+                  <td>Software Engineering</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4022</td>
+                  <td>Software Quality Assurance</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4032</td>
+                  <td>IT Project Management</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4042</td>
+                  <td>Professional World</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4052</td>
+                  <td>Programming Individual Project</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4212</td>
+                  <td>Machine Learning</td>
+                </tr>
+                <tr>
+                  <td class="mod-code">HNDIT4232</td>
+                  <td>Enterprise Architecture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -4640,7 +5279,7 @@
   <!-- CONTACT -->
   <section id="contact" aria-label="Contact Sachintha Shyamika">
     <div class="section-inner">
-      <div class="section-label">06 — Contact</div>
+      <div class="section-label">07 — Contact</div>
       <h2 class="section-title">Let's Work <span class="grad-text">Together</span></h2>
       <p class="section-desc">Open to Internship, Software Engineer, Full-Stack Developer, and Web Developer
         opportunities. Let's talk.</p>
@@ -5263,6 +5902,194 @@ Always open to new projects, collaborations, and opportunities — let's connect
       });
     })();
 
+    // ── UI/UX Design Gallery: images fetched from Supabase Storage (separate "uiux" bucket) ──
+    (async function initUiuxGallery() {
+      const track = document.getElementById('uiuxTrack');
+      const prevBtn = document.getElementById('uiuxPrev');
+      const nextBtn = document.getElementById('uiuxNext');
+      const lightbox = document.getElementById('uiuxLightbox');
+      const lightboxImg = document.getElementById('uiuxLightboxImg');
+      const lightboxClose = document.getElementById('uiuxLightboxClose');
+      if (!track) return;
+
+      const SUPABASE_URL = 'https://tvwxoexhhjgtqbhcfvwn.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d3hvZXhoaGpndHFiaGNmdnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5OTMwMTEsImV4cCI6MjA5OTU2OTAxMX0.-LmxwsMvjA_lEfzbGEAQlK4MTtwvwyi4uBP8UuKpt2I';
+      const BUCKET = 'uiux';
+
+      async function fetchImages() {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/storage/v1/object/list/${BUCKET}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ prefix: '', limit: 100, sortBy: { column: 'name', order: 'asc' } })
+          });
+
+          if (!res.ok) throw new Error(`Supabase list failed: ${res.status}`);
+          const files = await res.json();
+
+          return (files || [])
+            .filter(f => f.name && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name))
+            .map(f => ({ name: f.name, url: `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${f.name}` }));
+        } catch (err) {
+          console.error('UI/UX gallery load error:', err);
+          return null;
+        }
+      }
+
+      // Optional: put a "captions.json" file in the same bucket to give each
+      // image a custom title + small tag, shown on hover, e.g.
+      // { "01-landing-page.png": { "title": "Landing Page", "description": "Home" } }
+      async function fetchCaptions() {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/captions.json`, { cache: 'no-store' });
+          if (!res.ok) return {};
+          return await res.json();
+        } catch (err) {
+          return {};
+        }
+      }
+
+      function prettifyName(fileName) {
+        return fileName
+          .replace(/\.[^/.]+$/, '')
+          .replace(/^\d+[-_]*/, '')
+          .replace(/[-_]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .replace(/\b\w/g, c => c.toUpperCase());
+      }
+
+      const [images, captions] = await Promise.all([fetchImages(), fetchCaptions()]);
+
+      if (images === null) {
+        track.innerHTML = `<div style="padding:20px; color:var(--text-faint); font-family:var(--font-mono); font-size:0.8rem;">Couldn't load UI/UX designs right now.</div>`;
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+      }
+      if (images.length === 0) {
+        track.innerHTML = `<div style="padding:20px; color:var(--text-faint); font-family:var(--font-mono); font-size:0.8rem;">No images found in the "uiux" bucket yet.</div>`;
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+      }
+
+      // Build slides — duplicate the set once so the loop can wrap seamlessly
+      track.innerHTML = '';
+      function buildSlide(item) {
+        const meta = captions[item.name] || {};
+        const title = meta.title || prettifyName(item.name);
+        const tag = meta.description || meta.tag || '';
+
+        const slide = document.createElement('div');
+        slide.className = 'uiux-slide';
+        slide.tabIndex = 0;
+        slide.innerHTML = `
+          <div class="uiux-slide-image">
+            <img src="${item.url}" alt="${title}" loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--surface2), #1e1e2e)'; this.parentElement.querySelector('.gallery-slide-fallback').style.display='flex';">
+            <div class="gallery-slide-fallback"
+              style="display:none; position:absolute; inset:0; align-items:center; justify-content:center;">
+              <i class="fas fa-image" style="font-size:2rem; color:var(--text-faint);"></i>
+            </div>
+          </div>
+          <div class="gallery-slide-overlay">
+            ${tag ? `<div class="gallery-slide-tag">${tag}</div>` : ''}
+            <div class="gallery-slide-title">${title}</div>
+          </div>`;
+        slide.addEventListener('click', () => openLightbox(item.url));
+        return slide;
+      }
+      images.forEach(item => track.appendChild(buildSlide(item)));
+      images.forEach(item => track.appendChild(buildSlide(item))); // duplicate for seamless wrap
+
+      // ── Size cards so exactly N fit in the visible area — no partial/peeking card ──
+      const GAP = 20;
+      function visibleCount() {
+        const w = window.innerWidth;
+        if (w >= 1100) return 3;
+        if (w >= 760) return 2;
+        return 1;
+      }
+      function applySlideSizing() {
+        const wrapWidth = track.parentElement.getBoundingClientRect().width;
+        const count = visibleCount();
+        const cardWidth = (wrapWidth - GAP * (count - 1)) / count;
+        track.querySelectorAll('.uiux-slide').forEach(s => {
+          s.style.width = `${cardWidth}px`;
+        });
+      }
+
+      // ── Continuous left-moving rotation, one slide at a time ──
+      let offset = 0; // index into the doubled track
+      function slideWidth() {
+        const firstSlide = track.querySelector('.uiux-slide');
+        if (!firstSlide) return 300;
+        return firstSlide.getBoundingClientRect().width + GAP;
+      }
+
+      function render(withTransition = true) {
+        track.style.transition = withTransition ? 'transform 0.6s cubic-bezier(0.25, 0.8, 0.35, 1)' : 'none';
+        track.style.transform = `translateX(${-offset * slideWidth()}px)`;
+      }
+
+      function step() {
+        offset += 1;
+        render(true);
+
+        // Once we've scrolled past the first full set, snap back to the start
+        // instantly (on the duplicated, identical slide) so it loops forever.
+        if (offset >= images.length) {
+          setTimeout(() => {
+            offset = 0;
+            render(false);
+          }, 620);
+        }
+      }
+
+      let autoTimer = setInterval(step, 6500);
+
+      prevBtn.addEventListener('click', () => {
+        clearInterval(autoTimer);
+        offset = offset > 0 ? offset - 1 : images.length - 1;
+        render(true);
+        autoTimer = setInterval(step, 3500);
+      });
+      nextBtn.addEventListener('click', () => {
+        clearInterval(autoTimer);
+        step();
+        autoTimer = setInterval(step, 3500);
+      });
+      window.addEventListener('resize', () => {
+        applySlideSizing();
+        render(false);
+      });
+
+      applySlideSizing();
+      render(false);
+
+      // ——— Lightbox (click image to view full size) ———
+      function openLightbox(url) {
+        lightboxImg.src = url;
+        lightbox.classList.add('is-open');
+      }
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightboxImg.src = '';
+      }
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+      });
+    })();
+
     // Mobile menu toggle & drawer handler
     function toggleMenu() {
       const links = document.getElementById('navLinks');
@@ -5418,8 +6245,9 @@ Always open to new projects, collaborations, and opportunities — let's connect
         badge: "Ongoing Project",
         badgeClass: "badge-active",
         banner: "workmate-banner.png",
-        descEn: "Workmate.lk is a state-of-the-art, location-based, on-demand service marketplace designed specifically for Sri Lanka. It connects clients who need urgent or routine repair, maintenance, and technical services with skilled local professionals in real time.",
+        descEn: "Workmate.lk is a state-of-the-art, location-based, on-demand service marketplace designed specifically for Sri Lanka. It connects clients who need urgent or routine repair, maintenance, and technical services with skilled local professionals in real time. Every screen — from the SOS dispatch flow to the multi-role dashboards — was designed directly in code, iterating on layout, colour, and interaction until the experience felt fast and intuitive.",
         features: [
+          { icon: "fa-swatchbook", color: "var(--warm)", title: "🎨 UI/UX Design", desc: "User flows and dashboard layouts for Client, Worker, and Admin roles, designed and refined directly in code." },
           { icon: "fa-bell", color: "#f87171", title: "🚨 SOS Emergency Dispatch", desc: "Instant high-priority alerts to nearby workers for urgent short circuits or burst pipes." },
           { icon: "fa-map-location-dot", color: "var(--primary)", title: "📍 GPS & Leaflet Live Mapping", desc: "Interactive Leaflet maps with exact GPS coordinates and real-time distance calculation." },
           { icon: "fa-list-check", color: "var(--accent)", title: "📊 PickMe-Style Live Status Stepper", desc: "Real-time status tracking: Posted ➔ Assigned ➔ On The Way ➔ Started ➔ Completed." },
@@ -5428,7 +6256,7 @@ Always open to new projects, collaborations, and opportunities — let's connect
           { icon: "fa-user-shield", color: "var(--accent)", title: "🔐 Clerk Multi-Role Auth", desc: "Multi-tenant access control for Client, Worker, Employer, and Admin portals." }
         ],
         stepper: ["Job Posted", "Worker Assigned", "On The Way", "In Progress", "Completed & Reviewed"],
-        tech: ["Next.js 16 (App Router)", "React 19", "TypeScript 5", "Tailwind CSS v4", "Prisma ORM 6.19", "Neon Postgres", "Clerk Auth", "Leaflet 1.9", "OpenStreetMap", "PWA (Manifest)"],
+        tech: ["Next.js 16 (App Router)", "React 19", "TypeScript 5", "Tailwind CSS v4", "Prisma ORM 6.19", "Neon Postgres", "Clerk Auth", "Leaflet 1.9", "OpenStreetMap", "PWA (Manifest)", "UI/UX Design"],
         github: "https://github.com/Shamikakkss/workmate-lk",
         live: null
       },
@@ -5438,15 +6266,16 @@ Always open to new projects, collaborations, and opportunities — let's connect
         badge: "Flagship Final Year Project",
         badgeClass: "featured-badge",
         banner: "RuuGraphics-banner.png",
-        descEn: "An industry-standard full-stack ERP & Order Management System custom-built for a real commercial client (RuuGraphics) as my final year project at SLIATE. Engineered to handle high-volume creative service orders, real-time client-admin communication, automated order workflows, secure cloud file delivery, and live revenue analytics.",
+        descEn: "An industry-standard full-stack ERP & Order Management System custom-built for a real commercial client (RuuGraphics) as my final year project at SLIATE. Engineered to handle high-volume creative service orders, real-time client-admin communication, automated order workflows, secure cloud file delivery, and live revenue analytics. The client-facing and admin UI/UX was designed directly in code, prioritising clarity for non-technical business users.",
         features: [
+          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Client-facing order flow and admin dashboard designed and styled directly in code for a non-technical business user." },
           { icon: "fa-bolt", color: "var(--primary)", title: "Real-Time Firestore Chat", desc: "Instant messaging and live order status timeline between client and admin." },
           { icon: "fa-credit-card", color: "var(--warm)", title: "PayHere Payment Gateway", desc: "Seamless online payments for design and print orders." },
           { icon: "fa-cloud-arrow-up", color: "var(--accent)", title: "Supabase Secure Storage", desc: "Encrypted cloud delivery for high-res artwork files." },
           { icon: "fa-chart-line", color: "var(--primary)", title: "Financial Analytics", desc: "Live revenue dashboards and order status metrics for admin." }
         ],
         stepper: ["Order Placed", "Payment Approved", "Design In Progress", "Client Review", "Files Delivered"],
-        tech: ["Serverless Architecture", "JavaScript (ES6+)", "HTML5/CSS3", "Firebase BaaS", "Cloud Firestore", "Supabase Storage", "PayHere Gateway", "EmailJS Notifications", "OTP Auth", "REST APIs"],
+        tech: ["Serverless Architecture", "JavaScript (ES6+)", "HTML5/CSS3", "Firebase BaaS", "Cloud Firestore", "Supabase Storage", "PayHere Gateway", "EmailJS Notifications", "OTP Auth", "REST APIs", "UI/UX Design"],
         github: "https://github.com/Shamikakkss/RuuGraphics---Admin",
         live: "http://shamikakkss.me/RuuGraphics---User/"
       },
@@ -5456,14 +6285,15 @@ Always open to new projects, collaborations, and opportunities — let's connect
         badge: "Ongoing Project",
         badgeClass: "badge-active",
         banner: "EkamuthuERP-banner.png",
-        descEn: "A cloud-based ERP and mutual aid society management platform built on the MERN stack. Designed for community organizations to streamline member profiles, monthly payment & dues tracking, fund allocation ledgers, contribution tracking, and automated financial reporting.",
+        descEn: "A cloud-based ERP and mutual aid society management platform built on the MERN stack. Designed for community organizations to streamline member profiles, monthly payment & dues tracking, fund allocation ledgers, contribution tracking, and automated financial reporting. Interface layouts were planned and styled directly in code, keeping the dashboards simple for community volunteers.",
         features: [
+          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Simple, volunteer-friendly dashboard layouts designed directly in code." },
           { icon: "fa-users", color: "var(--primary)", title: "Member Directory", desc: "Complete digital profile management and membership status tracking." },
           { icon: "fa-wallet", color: "var(--warm)", title: "Dues & Contributions", desc: "Automated monthly payment collection ledgers and receipt tracking." },
           { icon: "fa-file-invoice-dollar", color: "var(--accent)", title: "Financial Reports", desc: "Instant financial ledger generation and audit reports." }
         ],
         stepper: ["Member Registered", "Dues Logged", "Ledger Updated", "Report Generated"],
-        tech: ["MERN Stack", "React.js", "Node.js", "Express.js", "MongoDB", "REST APIs"],
+        tech: ["MERN Stack", "React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "UI/UX Design"],
         github: "https://github.com/Shamikakkss/ekamuthu-erp",
         live: null
       },
@@ -5490,13 +6320,14 @@ Always open to new projects, collaborations, and opportunities — let's connect
         badge: "Personal Portfolio",
         badgeClass: "badge-personal",
         banner: "Portfolio-banner.png",
-        descEn: "My live personal portfolio website, custom-built to present branding work, project showcases, interactive design galleries, and contact channels in a sleek modern layout.",
+        descEn: "My live personal portfolio website, custom-built to present branding work, project showcases, interactive design galleries, and contact channels in a sleek modern layout. The dark theme, layout, and micro-interactions were designed directly in code rather than from a separate mockup, iterating live in the browser.",
         features: [
+          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX &amp; Visual Design", desc: "Dark theme, glassmorphic cards, and animations designed directly in code, iterating live in the browser." },
           { icon: "fa-globe", color: "var(--primary)", title: "SEO Optimised", desc: "Complete JSON-LD schema integration for search engines." },
           { icon: "fa-mobile-screen", color: "var(--accent)", title: "Responsive Glassmorphic UI", desc: "Mobile-first layout with smooth CSS animations." }
         ],
-        stepper: ["UI Design", "Clean Code Implementation", "SEO Integration", "Live Deployment"],
-        tech: ["HTML5", "CSS3", "JavaScript", "Supabase", "SEO", "Responsive Design"],
+        stepper: ["UI/UX Design", "Clean Code Implementation", "SEO Integration", "Live Deployment"],
+        tech: ["HTML5", "CSS3", "JavaScript", "Supabase", "SEO", "Responsive Design", "UI/UX Design"],
         github: "https://github.com/Shamikakkss/shamikakkss.github.io",
         live: "https://shamikakkss.me/"
       },
@@ -5506,13 +6337,14 @@ Always open to new projects, collaborations, and opportunities — let's connect
         badge: "Personal Portfolio",
         badgeClass: "badge-personal",
         banner: "RuuGraphics-Design-banner.png",
-        descEn: "Designed and coded my graphic design portfolio website from scratch. Features interactive work galleries, logo showcases, and WhatsApp contact integration.",
+        descEn: "Designed and coded my graphic design portfolio website from scratch. Layout, typography, and gallery interactions were designed directly in code. Features interactive work galleries, logo showcases, and WhatsApp contact integration.",
         features: [
+          { icon: "fa-swatchbook", color: "var(--warm)", title: "UI/UX Design", desc: "Gallery-first layout and navigation designed directly in code to keep the visual work front and centre." },
           { icon: "fa-palette", color: "var(--warm)", title: "Design Gallery", desc: "Smooth slider showcasing logo designs and branding work." },
           { icon: "fa-whatsapp", color: "var(--primary)", title: "Instant WhatsApp Direct", desc: "One-click WhatsApp chat for client design inquiries." }
         ],
-        stepper: ["Branding Concept", "Gallery Build", "Live Deployment"],
-        tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+        stepper: ["UI/UX Design", "Branding Concept", "Gallery Build", "Live Deployment"],
+        tech: ["HTML", "CSS", "JavaScript", "Responsive Design", "UI/UX Design"],
         github: null,
         live: "https://shamikakkss.me/RuuGraphics/"
       },
@@ -5634,6 +6466,14 @@ Always open to new projects, collaborations, and opportunities — let's connect
       // Open Modal
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+    }
+
+    function toggleSemester(id) {
+      const item = document.getElementById(id);
+      if (!item) return;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.sem-accordion-item.open').forEach(el => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
     }
 
     function closeProjectModal() {
