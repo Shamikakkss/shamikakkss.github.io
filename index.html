@@ -5606,9 +5606,6 @@ Always open to new projects, collaborations, and opportunities — let's connect
       if (p.live_url) {
         links.push(`<a class="project-link" href="${escapeHtml(p.live_url)}" target="_blank" rel="noopener noreferrer">Visit Live Project</a>`);
       }
-      if (p.github_url) {
-        links.push(`<a class="project-link" href="${escapeHtml(p.github_url)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>`);
-      }
       if (!links.length) return '';
       return `<div class="project-link-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">${links.join('')}</div>`;
     }
@@ -5640,7 +5637,6 @@ Always open to new projects, collaborations, and opportunities — let's connect
       const highlights = (p.featured_highlights || []).map(h => `<div class="featured-feature-item"><i class="fas ${escapeHtml(h.icon || 'fa-check')}"></i> ${escapeHtml(h.text || '')}</div>`).join('');
       const btns = [];
       if (p.live_url) btns.push(`<a class="btn-accent" href="${escapeHtml(p.live_url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Live Project</a>`);
-      if (p.github_url) btns.push(`<a class="btn-outline" href="${escapeHtml(p.github_url)}" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Repository</a>`);
       if (p.specs_url) btns.push(`<a class="btn-outline" href="${escapeHtml(p.specs_url)}" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-alt"></i> View Specifications</a>`);
       return `
         <div class="project-card featured-project reveal">
@@ -5746,9 +5742,6 @@ Always open to new projects, collaborations, and opportunities — let's connect
 
       const footerWrap = modal.querySelector('.project-modal-footer');
       let footerHtml = '';
-      if (data.github_url) {
-        footerHtml += `<a href="${escapeHtml(data.github_url)}" target="_blank" rel="noopener noreferrer" class="btn-primary"><i class="fab fa-github"></i> View GitHub Repository</a>`;
-      }
       if (data.live_url) {
         footerHtml += `<a href="${escapeHtml(data.live_url)}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background:var(--accent); border-color:var(--accent);"><i class="fas fa-external-link-alt"></i> Live Project Portal</a>`;
       }
