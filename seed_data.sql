@@ -193,8 +193,8 @@ INSERT INTO public.portfolio_profile_settings (
   'Available for Hire',
   'Sachintha',
   'IT Professional & Full-Stack Developer.',
-  ARRAY['IT Professional.', 'Full-Stack Developer.', 'IT Support Specialist.', 'Software Engineer.', 'IT Assistant.', 'IT Executive.', 'UI/UX Designer.', 'Web Developer.', 'Problem Solver.', 'Freelancer.'],
-  'IT undergraduate skilled in Full-Stack Web Development and IT Support. I build production web systems, troubleshoot hardware/software issues, and apply network fundamentals to deliver practical technical solutions.',
+  ARRAY['Full-Stack Developer.', 'Software Engineer.', 'UI/UX Designer.', 'Web Developer.', 'IT Professional.', 'IT Support Specialist.', 'IT Assistant.', 'Problem Solver.', 'Content Creator.', 'Graphic Designer.', 'Freelancer.'],
+  'IT undergraduate focused on Full-Stack Development and Software Engineering. I build production-ready web systems end-to-end — from database design to deployment. Also experienced in IT Support, hardware troubleshooting, and network fundamentals.',
   '3+',
   '6+',
   '40+ Global',
@@ -296,6 +296,7 @@ INSERT INTO public.portfolio_experience (
   true,
   2
 ),
+
 (
   '5+ Years Practical Experience',
   'IT Support & Hardware Troubleshooting',
