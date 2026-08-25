@@ -1,239 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Manage Projects</title>
-<meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="config.js"></script>
-<style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #16161f;
-    --border: rgba(255, 255, 255, 0.09);
-    --primary: #6ee7b7;
-    --primary-dim: rgba(110, 231, 183, 0.12);
-    --accent: #a78bfa;
-    --accent-dim: rgba(167, 139, 250, 0.12);
-    --warm: #fbbf24;
-    --danger: #f87171;
-    --danger-dim: rgba(248, 113, 113, 0.12);
-    --text: #f0f0f5;
-    --text-muted: #8888aa;
-    --text-faint: #5a5a72;
-    --font-display: 'Plus Jakarta Sans', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --radius: 14px;
-    --radius-sm: 8px;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    min-height: 100vh;
-  }
-  h1, h2, h3, .brand { font-family: var(--font-display); }
-  a { color: inherit; }
-  ::selection { background: var(--primary-dim); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin Control Panel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <style>
+    :root {
+      --bg: #07070b;
+      --surface: #0f0f17;
+      --surface2: #161622;
+      --surface3: #1e1e2d;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(110, 231, 183, 0.25);
+      --primary: #6ee7b7;
+      --primary-dim: rgba(110, 231, 183, 0.12);
+      --accent: #a78bfa;
+      --accent-dim: rgba(167, 139, 250, 0.12);
+      --warm: #fbbf24;
+      --warm-dim: rgba(251, 191, 36, 0.12);
+      --danger: #f87171;
+      --danger-dim: rgba(248, 113, 113, 0.12);
+      --text: #f1f1f6;
+      --text-muted: #8c8ea3;
+      --text-faint: #5a5c73;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      --radius-lg: 18px;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
 
-  /* ---------- Login screen ---------- */
-  #loginScreen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background:
-      radial-gradient(circle at 15% 10%, rgba(167,139,250,0.12), transparent 45%),
-      radial-gradient(circle at 85% 90%, rgba(110,231,183,0.10), transparent 45%),
-      var(--bg);
-  }
-  .login-card {
-    width: 100%;
-    max-width: 380px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 36px 30px;
-  }
-  .login-card .lock-badge {
-    width: 46px; height: 46px;
-    border-radius: 12px;
-    background: var(--primary-dim);
-    color: var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.15rem;
-    margin-bottom: 18px;
-  }
-  .login-card h1 { font-size: 1.3rem; font-weight: 800; margin: 0 0 4px; }
-  .login-card p.sub { color: var(--text-muted); font-size: 0.88rem; margin: 0 0 24px; }
-  label { display: block; font-size: 0.78rem; color: var(--text-muted); margin: 0 0 6px; font-weight: 600; }
-  input, textarea, select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: var(--radius-sm);
-    padding: 11px 13px;
-    font-family: var(--font-body);
-    font-size: 0.92rem;
-    outline: none;
-    transition: border-color .15s;
-  }
-  input:focus, textarea:focus, select:focus { border-color: var(--primary); }
-  .field { margin-bottom: 16px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    border: none; border-radius: var(--radius-sm);
-    padding: 11px 18px;
-    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
-    cursor: pointer;
-    transition: transform .12s, opacity .12s;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--primary); color: #06140e; width: 100%; }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-  .btn-danger { background: var(--danger-dim); color: var(--danger); }
-  .btn-danger:hover { background: var(--danger); color: #2a0a0a; }
-  .btn-sm { padding: 7px 12px; font-size: 0.8rem; }
-  #loginError {
-    display: none;
-    background: var(--danger-dim); color: var(--danger);
-    border-radius: var(--radius-sm); padding: 10px 12px;
-    font-size: 0.82rem; margin-bottom: 16px;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  /* ---------- Dashboard ---------- */
-  #dashboard { display: none; }
-  header.topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 28px;
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; background: rgba(10,10,15,0.9); backdrop-filter: blur(10px);
-    z-index: 20;
-  }
-  .brand { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
-  .brand i { color: var(--primary); }
-  main { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
-  .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
-  .page-head h2 { margin: 0 0 4px; font-size: 1.4rem; }
-  .page-head p { margin: 0; color: var(--text-muted); font-size: 0.88rem; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+    }
 
-  .project-row {
-    display: flex; align-items: center; gap: 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .project-row img {
-    width: 64px; height: 44px; object-fit: cover; border-radius: 8px;
-    background: var(--surface2); flex-shrink: 0;
-  }
-  .project-row .info { flex: 1; min-width: 0; }
-  .project-row .info .title-line { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .project-row .info h3 { margin: 0; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .project-row .info .meta { color: var(--text-faint); font-size: 0.76rem; margin-top: 3px; }
-  .pill { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
-  .pill-featured { background: var(--warm); color: #2a1c00; }
-  .pill-draft { background: var(--danger-dim); color: var(--danger); }
-  .row-actions { display: flex; gap: 6px; flex-shrink: 0; }
-  .icon-btn {
-    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--surface2); color: var(--text-muted); cursor: pointer;
-    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
-  }
-  .icon-btn:hover { color: var(--primary); border-color: var(--primary); }
-  .icon-btn.danger:hover { color: var(--danger); border-color: var(--danger); }
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand {
+      font-family: var(--font-display);
+    }
 
-  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-  .empty-state i { font-size: 2rem; color: var(--text-faint); margin-bottom: 12px; display: block; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-  /* ---------- Editor modal ---------- */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(5,5,8,0.75); backdrop-filter: blur(4px);
-    display: none; align-items: flex-start; justify-content: center;
-    padding: 30px 16px; overflow-y: auto; z-index: 100;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-box {
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-    width: 100%; max-width: 640px; padding: 26px 24px 24px;
-  }
-  .modal-box h2 { margin: 0 0 4px; font-size: 1.15rem; }
-  .modal-box .modal-sub { color: var(--text-muted); font-size: 0.82rem; margin: 0 0 22px; }
-  .section-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--primary); font-weight: 700; margin: 22px 0 12px; }
-  .section-title:first-of-type { margin-top: 0; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-  .hint { color: var(--text-faint); font-size: 0.74rem; margin-top: 5px; }
-  .checkbox-row { display: flex; align-items: center; gap: 8px; }
-  .checkbox-row input { width: auto; }
-  .checkbox-row label { margin: 0; }
+    ::selection {
+      background: var(--primary-dim);
+      color: var(--primary);
+    }
 
-  .repeat-list { display: flex; flex-direction: column; gap: 8px; }
-  .repeat-item {
-    display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start;
-    background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px;
-  }
-  .repeat-item .fields { display: grid; gap: 6px; }
-  .repeat-item .fields.two-col { grid-template-columns: 1fr 1fr; }
-  .repeat-remove { background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 0.9rem; padding: 4px; }
-  .repeat-remove:hover { color: var(--danger); }
-  .add-row-btn { align-self: flex-start; }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
 
-  .modal-footer { display: flex; justify-content: space-between; gap: 10px; margin-top: 26px; }
-  .modal-footer .right { display: flex; gap: 10px; }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
 
-  .banner-upload { display: flex; align-items: center; gap: 12px; }
-  .banner-preview {
-    width: 96px; height: 60px; border-radius: 8px; object-fit: cover;
-    background: var(--surface2); border: 1px solid var(--border);
-  }
-  .toast {
-    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
-    background: var(--surface); border: 1px solid var(--primary); color: var(--text);
-    padding: 12px 20px; border-radius: 10px; font-size: 0.88rem;
-    display: none; z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  }
-  .toast.error { border-color: var(--danger); }
-  .spin { animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 4px;
+    }
 
-  @media (max-width: 560px) {
-    .grid-2, .grid-3, .repeat-item .fields.two-col { grid-template-columns: 1fr; }
-  }
-</style>
+    /* Login screen */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(167, 139, 250, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(110, 231, 183, 0.12), transparent 45%),
+        var(--bg);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(15, 15, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .login-brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-brand-text .title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #fff;
+    }
+
+    .login-brand-text .sub {
+      font-size: 0.75rem;
+      color: var(--primary);
+      font-family: var(--font-mono);
+    }
+
+    .login-card h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .login-card p.sub {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin: 0 0 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 11px 13px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, opacity .15s;
+    }
+
+    input:disabled,
+    textarea:disabled,
+    select:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: rgba(22, 22, 34, 0.6);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.1);
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #05140d;
+    }
+
+    .btn-primary:hover {
+      background: #86efac;
+      box-shadow: 0 0 15px rgba(110, 231, 183, 0.3);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #120a2a;
+    }
+
+    .btn-accent:hover {
+      background: #c4b5fd;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-danger {
+      background: var(--danger-dim);
+      color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #2a0a0a;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    #loginError {
+      display: none;
+      background: var(--danger-dim);
+      color: var(--danger);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    /* Dashboard Layout */
+    #dashboard {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    header.topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 28px;
+      min-height: 76px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(7, 7, 11, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 50;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo-obj {
+      height: 68px;
+      width: auto;
+      pointer-events: none;
+    }
+
+    .topbar-center {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--primary);
+      font-family: var(--font-display);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 0 15px rgba(110, 231, 183, 0.3);
+    }
+
+    /* Dashboard Main Container */
+    .admin-container {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 76px);
+    }
+
+    /* Navigation Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .nav-group-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-faint);
+      margin: 16px 12px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+
+    .nav-item i {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-item:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid rgba(110, 231, 183, 0.25);
+      font-weight: 600;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 28px 32px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn .2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .page-head h2 {
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    /* Data Cards & Rows */
+    .card-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .data-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: border-color .15s;
+    }
+
+    .data-row:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .data-row img {
+      width: 68px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .data-row .info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .data-row .info h3 {
+      margin: 0;
+      font-size: 0.96rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .data-row .info .meta {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 4px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-featured {
+      background: var(--warm-dim);
+      color: var(--warm);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .pill-draft {
+      background: var(--danger-dim);
+      color: var(--danger);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .pill-pub {
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid rgba(110, 231, 183, 0.3);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all .15s ease;
+    }
+
+    .icon-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-dim);
+    }
+
+    .icon-btn.danger:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+      background: var(--danger-dim);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 2.2rem;
+      color: var(--text-faint);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 3, 6, 0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 30px 16px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 680px;
+      padding: 30px 28px 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-box h2 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .modal-box .modal-sub {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin: 0 0 22px;
+    }
+
+    .section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--primary);
+      font-weight: 700;
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hint {
+      color: var(--text-faint);
+      font-size: 0.75rem;
+      margin-top: 5px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-row input {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-row label {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--primary);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: none;
+      z-index: 200;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .toast.error {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .spin {
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+      }
+
+      .nav-group-label {
+        display: none;
+      }
+
+      .main-content {
+        padding: 20px 16px;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-center {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
   <!-- LOGIN -->
   <div id="loginScreen">
     <div class="login-card">
-      <div class="lock-badge"><i class="fas fa-lock"></i></div>
-      <h1>Admin Login</h1>
-      <p class="sub">Sign in to manage your portfolio projects.</p>
+      <div class="login-brand">
+        <object data="logo-animated.svg" type="image/svg+xml" style="height:64px; width:auto; pointer-events:none;">
+          <img src="logo.png" alt="Logo" style="height:48px; width:auto;" onerror="this.src='logo-static.svg'">
+        </object>
+        <div class="login-brand-text">
+          <span class="title">Sachintha Shyamika</span>
+          <span class="sub">Portfolio CMS Admin</span>
+        </div>
+      </div>
+      <h1>Welcome Back</h1>
+      <p class="sub">Sign in to manage your portfolio content.</p>
       <div id="loginError"></div>
       <form id="loginForm">
         <div class="field">
-          <label for="email">Email</label>
-          <input type="email" id="email" required autocomplete="username">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required placeholder="admin@domain.com" autocomplete="username">
         </div>
         <div class="field">
           <label for="password">Password</label>
-          <input type="password" id="password" required autocomplete="current-password">
+          <input type="password" id="password" required placeholder="••••••••" autocomplete="current-password">
         </div>
-        <button type="submit" class="btn btn-primary" id="loginBtn">
-          <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+        <button type="submit" class="btn btn-primary" id="loginBtn" style="width:100%; margin-top:8px;">
+          <i class="fas fa-arrow-right-to-bracket"></i> Sign In to Dashboard
         </button>
       </form>
     </div>
@@ -242,149 +752,610 @@
   <!-- DASHBOARD -->
   <div id="dashboard">
     <header class="topbar">
-      <div class="brand"><i class="fas fa-layer-group"></i> Portfolio Admin</div>
+      <div class="brand-wrap">
+        <a href="index.html" target="_blank" title="Go to website">
+          <object data="logo-animated.svg" type="image/svg+xml" class="brand-logo-obj" aria-hidden="true">
+            <img src="logo.png" alt="Sachintha Shyamika Logo" style="height:52px; width:auto;"
+              onerror="this.src='logo-static.svg'">
+          </object>
+        </a>
+      </div>
+
+      <div class="topbar-center">
+        <i class="fas fa-shield-halved"></i>
+        <span>Portfolio Admin Panel</span>
+      </div>
+
       <div style="display:flex; gap:10px; align-items:center;">
-        <a href="index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> View Site</a>
+        <a href="index.html" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-external-link-alt"></i>
+          View Site</a>
         <button class="btn btn-outline btn-sm" id="logoutBtn"><i class="fas fa-right-from-bracket"></i> Log Out</button>
       </div>
     </header>
-    <main>
-      <div class="page-head">
-        <div>
-          <h2>Projects</h2>
-          <p>Add, edit, reorder, or hide the projects shown on your portfolio.</p>
-        </div>
-        <button class="btn btn-primary" id="addProjectBtn"><i class="fas fa-plus"></i> Add Project</button>
-      </div>
-      <div id="projectsList"></div>
-    </main>
-  </div>
 
-  <!-- EDITOR MODAL -->
-  <div class="modal-overlay" id="editorOverlay">
-    <div class="modal-box">
-      <h2 id="editorTitle">Add Project</h2>
-      <p class="modal-sub">Fields marked with a title are required. Everything else is optional.</p>
-      <form id="editorForm">
-        <input type="hidden" id="f_id">
+    <div class="admin-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="nav-group-label">General</div>
+        <div class="nav-item active" data-tab="tab-profile"><i class="fas fa-user-gear"></i> Profile & Status</div>
 
-        <div class="section-title">Basics</div>
-        <div class="field">
-          <label>Title *</label>
-          <input type="text" id="f_title" required placeholder="e.g. Workmate.lk — Skilled Worker Marketplace">
-        </div>
-        <div class="field">
-          <label>Short card description (shown on the project card)</label>
-          <textarea id="f_card_desc" rows="2" placeholder="One or two sentences summarizing the project."></textarea>
-        </div>
-        <div class="field">
-          <label>Full description (shown when someone clicks the card)</label>
-          <textarea id="f_modal_desc" rows="4" placeholder="A longer description of what the project does and how it was built."></textarea>
-        </div>
-        <div class="field">
-          <label>Tagline (shown as a subtitle in the detail popup)</label>
-          <input type="text" id="f_tagline" placeholder="e.g. MERN Stack Community ERP System">
-        </div>
+        <div class="nav-group-label">Content Sections</div>
+        <div class="nav-item" data-tab="tab-skills"><i class="fas fa-screwdriver-wrench"></i> Technical Skills</div>
+        <div class="nav-item" data-tab="tab-projects"><i class="fas fa-code-branch"></i> Software Projects</div>
+        <div class="nav-item" data-tab="tab-uiux"><i class="fas fa-pen-nib"></i> UI/UX Case Studies</div>
+        <div class="nav-item" data-tab="tab-graphics"><i class="fas fa-palette"></i> Graphic Design</div>
+        <div class="nav-item" data-tab="tab-experience"><i class="fas fa-briefcase"></i> Work Experience</div>
+        <div class="nav-item" data-tab="tab-education"><i class="fas fa-graduation-cap"></i> Semester GPAs</div>
+        <div class="nav-item" data-tab="tab-certifications"><i class="fas fa-certificate"></i> Certifications</div>
+      </aside>
 
-        <div class="section-title">Card Appearance</div>
-        <div class="grid-3">
-          <div class="field">
-            <label>Icon (Font Awesome class)</label>
-            <input type="text" id="f_icon" placeholder="fa-diagram-project">
-          </div>
-          <div class="field">
-            <label>Icon Color</label>
-            <select id="f_icon_style">
-              <option value="primary">Mint</option>
-              <option value="accent">Violet</option>
-              <option value="warm">Amber</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Badge Style</label>
-            <select id="f_badge_class">
-              <option value="badge-active">Active (blue)</option>
-              <option value="badge-complete">Completed (green)</option>
-              <option value="badge-personal">Personal (grey)</option>
-              <option value="featured-badge">Featured (gold)</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label>Badge Text</label>
-          <input type="text" id="f_badge_text" placeholder="e.g. Ongoing Project">
-        </div>
-        <div class="field">
-          <label>Banner Image</label>
-          <div class="banner-upload">
-            <img id="bannerPreview" class="banner-preview" src="" alt="">
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+
+        <!-- TAB 1: PROFILE & STATUS SETTINGS -->
+        <div class="tab-panel active" id="tab-profile">
+          <div class="page-head">
             <div>
-              <input type="file" id="bannerFile" accept="image/*">
-              <div class="hint" id="uploadStatus"></div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <h2>Profile & Availability Settings</h2>
+                <span class="pill pill-draft" id="profileLockBadge"><i class="fas fa-lock"></i> Read Only</span>
+              </div>
+              <p>Control hero badge status, typing roles animation, bio, and auto-computed stats.</p>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-outline" id="autoCalcBtn" onclick="autoCalculateStats()"><i
+                  class="fas fa-wand-magic-sparkles"></i> Auto Calculate Stats</button>
+              <button class="btn btn-outline" id="toggleProfileEditBtn" onclick="toggleProfileEditMode()"><i
+                  class="fas fa-pen"></i> Edit Profile Settings</button>
+              <button class="btn btn-primary" id="saveProfileBtn" disabled><i class="fas fa-check"></i> Save Profile
+                Settings</button>
             </div>
           </div>
-          <input type="hidden" id="f_banner_url">
+
+          <div class="card-box">
+            <div class="section-title"><i class="fas fa-pen-to-square"></i> Availability & Hero Header</div>
+            <div class="field">
+              <label>Availability Status Text (Shown in Hero Badge)</label>
+              <input type="text" id="prof_availability_status" disabled
+                placeholder="e.g. Open for Internship & Full-Time Opportunities">
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label>Main Display Name</label>
+                <input type="text" id="prof_hero_title_name" disabled placeholder="Sachintha">
+              </div>
+              <div class="field">
+                <label>Static Primary Title</label>
+                <input type="text" id="prof_hero_title_role" disabled placeholder="Full-Stack Developer.">
+              </div>
+            </div>
+            <div class="field">
+              <label>Typing Animation Roles (Comma Separated for Hero Section)</label>
+              <input type="text" id="prof_hero_roles" disabled
+                placeholder="Full-Stack Developer., Software Engineer., UI/UX Designer., Web Developer.">
+            </div>
+            <div class="field">
+              <label>Hero Subtitle / Bio Description</label>
+              <textarea id="prof_hero_subtitle" rows="3" disabled></textarea>
+            </div>
+
+            <div class="section-title"><i class="fas fa-chart-line"></i> Stats Counters & Academic Summary</div>
+            <div class="grid-3">
+              <div class="field">
+                <label>Years Experience</label>
+                <input type="text" id="prof_years_exp" disabled placeholder="3+">
+              </div>
+              <div class="field">
+                <label>Deployed Systems (Auto-computable)</label>
+                <input type="text" id="prof_deployed_systems" disabled placeholder="6+">
+              </div>
+              <div class="field">
+                <label>Freelance Clients</label>
+                <input type="text" id="prof_freelance_clients" disabled placeholder="Global">
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label>Cumulative GPA Value (Auto-computed average)</label>
+                <input type="text" id="prof_cgpa_value" disabled placeholder="3.70">
+              </div>
+              <div class="field">
+                <label>CGPA Summary Note</label>
+                <input type="text" id="prof_cgpa_note" disabled
+                  placeholder="Average across 3 completed semesters. Semester IV result is pending.">
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="section-title">Tech Stack</div>
+        <!-- TAB SKILLS -->
+        <div class="tab-panel" id="tab-skills">
+          <div class="page-head">
+            <div>
+              <h2>Technical Skills & Categories</h2>
+              <p>Add, edit, or reorder technical skill cards and skill badge tags.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openSkillModal(null)"><i class="fas fa-plus"></i> Add Skill
+              Category</button>
+          </div>
+          <div id="skillsList"></div>
+        </div>
+
+        <!-- TAB 2: PROJECTS -->
+        <div class="tab-panel" id="tab-projects">
+          <div class="page-head">
+            <div>
+              <h2>Software Projects</h2>
+              <p>Reorder, add, edit, or publish software projects.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openProjectModal(null)"><i class="fas fa-plus"></i> Add
+              Project</button>
+          </div>
+          <div id="projectsList"></div>
+        </div>
+
+        <!-- TAB 3: UI/UX -->
+        <div class="tab-panel" id="tab-uiux">
+          <div class="page-head">
+            <div>
+              <h2>UI/UX Case Studies</h2>
+              <p>Reorder and manage UI/UX mobile and web app case studies.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openUiuxModal(null)"><i class="fas fa-plus"></i> Add UI/UX
+              Design</button>
+          </div>
+          <div id="uiuxList"></div>
+        </div>
+
+        <!-- TAB 4: GRAPHICS -->
+        <div class="tab-panel" id="tab-graphics">
+          <div class="page-head">
+            <div>
+              <h2>Graphic Design Showcase</h2>
+              <p>Reorder and manage branding kits and promotional graphics.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openGraphicModal(null)"><i class="fas fa-plus"></i> Add Graphic
+              Item</button>
+          </div>
+          <div id="graphicsList"></div>
+        </div>
+
+        <!-- TAB 5: EXPERIENCE -->
+        <div class="tab-panel" id="tab-experience">
+          <div class="page-head">
+            <div>
+              <h2>Work & Practical Experience</h2>
+              <p>Reorder work experience cards and calculate working durations.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openExpModal(null)"><i class="fas fa-plus"></i> Add Experience
+              Item</button>
+          </div>
+          <div id="experienceList"></div>
+        </div>
+
+        <!-- TAB 6: EDUCATION & GPAS -->
+        <div class="tab-panel" id="tab-education">
+          <div class="page-head">
+            <div>
+              <h2>Semester GPAs & Modules</h2>
+              <p>Manage HNDIT Semester I - IV GPA badges and result pending statuses.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openEduModal(null)"><i class="fas fa-plus"></i> Add Semester
+              Record</button>
+          </div>
+          <div id="educationList"></div>
+        </div>
+
+        <!-- TAB 7: CERTIFICATIONS -->
+        <div class="tab-panel" id="tab-certifications">
+          <div class="page-head">
+            <div>
+              <h2>Certifications & Achievements</h2>
+              <p>Manage verified certifications, diplomas, and digital credentials.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openCertModal(null)"><i class="fas fa-plus"></i> Add
+              Certification</button>
+          </div>
+          <div id="certificationsList"></div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- CERTIFICATION EDITOR MODAL -->
+  <div class="modal-overlay" id="certModalOverlay">
+    <div class="modal-box">
+      <h2 id="certEditorTitle">Add Certification</h2>
+      <p class="modal-sub">Add diploma, course certificate, or verified achievement credential.</p>
+      <form id="certForm">
+        <input type="hidden" id="c_id">
         <div class="field">
-          <label>Technologies (comma separated)</label>
-          <input type="text" id="f_tech" placeholder="React, Node.js, Supabase, Tailwind CSS">
+          <label>Certification Title *</label>
+          <input type="text" id="c_title" required
+            placeholder="e.g. Higher National Diploma in Information Technology (HNDIT)">
         </div>
-
-        <div class="section-title">Detail Popup — Features</div>
-        <div class="repeat-list" id="featuresList"></div>
-        <button type="button" class="btn btn-outline btn-sm add-row-btn" id="addFeatureBtn" style="margin-top:8px;"><i class="fas fa-plus"></i> Add Feature</button>
-
-        <div class="section-title">Detail Popup — Workflow Steps</div>
-        <div class="field">
-          <label>Steps (comma separated, in order)</label>
-          <input type="text" id="f_stepper" placeholder="Order Placed, Payment Approved, In Progress, Delivered">
-        </div>
-
-        <div class="section-title">Links</div>
-        <div class="grid-3">
+        <div class="grid-2">
           <div class="field">
-            <label>GitHub URL</label>
-            <input type="url" id="f_github_url" placeholder="https://github.com/...">
+            <label>Issuing Organization *</label>
+            <input type="text" id="c_issuer" required placeholder="e.g. SLIATE / NextGen Campus">
           </div>
           <div class="field">
-            <label>Live Project URL</label>
-            <input type="url" id="f_live_url" placeholder="https://...">
-          </div>
-          <div class="field">
-            <label>Specs Page URL</label>
-            <input type="text" id="f_specs_url" placeholder="Preview/example.html">
+            <label>Issue Date / Period</label>
+            <input type="text" id="c_issue_date" placeholder="e.g. 2024 or 2023 — 2025">
           </div>
         </div>
-
-        <div class="section-title">Visibility & Order</div>
-        <div class="grid-3">
+        <div class="grid-2">
+          <div class="field">
+            <label>Credential Verification URL</label>
+            <input type="url" id="c_credential_url" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label>Badge Icon (FontAwesome)</label>
+            <input type="text" id="c_badge_icon" placeholder="fa-certificate">
+          </div>
+        </div>
+        <div class="grid-2">
           <div class="field checkbox-row">
-            <input type="checkbox" id="f_is_featured">
-            <label for="f_is_featured">Featured (flagship card)</label>
-          </div>
-          <div class="field checkbox-row">
-            <input type="checkbox" id="f_is_published" checked>
-            <label for="f_is_published">Published (visible on site)</label>
+            <input type="checkbox" id="c_is_published" checked>
+            <label for="c_is_published">Published</label>
           </div>
           <div class="field">
-            <label>Sort Order (lower = first)</label>
-            <input type="number" id="f_sort_order" value="0">
+            <label>Sort Order</label>
+            <input type="number" id="c_sort_order" value="0">
           </div>
         </div>
-
-        <div id="featuredHighlightsSection" style="display:none;">
-          <div class="section-title">Featured Card — Highlight Chips</div>
-          <div class="repeat-list" id="highlightsList"></div>
-          <button type="button" class="btn btn-outline btn-sm add-row-btn" id="addHighlightBtn" style="margin-top:8px;"><i class="fas fa-plus"></i> Add Highlight</button>
-        </div>
-
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" id="deleteProjectBtn" style="display:none;"><i class="fas fa-trash"></i> Delete</button>
+          <button type="button" class="btn btn-danger" id="deleteCertBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
           <div class="right">
-            <button type="button" class="btn btn-outline" id="cancelEditorBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="saveProjectBtn"><i class="fas fa-check"></i> Save Project</button>
+            <button type="button" class="btn btn-outline" onclick="closeModal('certModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Certification</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SKILL EDITOR MODAL -->
+  <div class="modal-overlay" id="skillModalOverlay">
+    <div class="modal-box">
+      <h2 id="skillEditorTitle">Add Skill Category</h2>
+      <p class="modal-sub">Add or edit skill category card and badge tags.</p>
+      <form id="skillForm">
+        <input type="hidden" id="s_id">
+        <div class="grid-2">
+          <div class="field">
+            <label>Category Title *</label>
+            <input type="text" id="s_title" required placeholder="e.g. Frontend & Frameworks">
+          </div>
+          <div class="field">
+            <label>Icon Class (FontAwesome)</label>
+            <input type="text" id="s_icon" placeholder="fa-layer-group">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Accent Theme</label>
+            <select id="s_theme_accent">
+              <option value="primary">Primary (Neon Green)</option>
+              <option value="accent">Accent (Purple)</option>
+              <option value="warm">Warm (Yellow)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Sort Order</label>
+            <input type="number" id="s_sort_order" value="0">
+          </div>
+        </div>
+        <div class="field">
+          <label>Skill Tags (Comma separated with optional tag markers: [main], [core], [learning]) *</label>
+          <textarea id="s_tags" rows="4" required
+            placeholder="JavaScript (ES6+) [main], HTML5 / CSS3 [main], TypeScript [core], Docker (Learning) [learning], Leaflet Maps"></textarea>
+          <div class="hint">Use [main] for featured green dot, [core] for purple dot, or [learning] for yellow dot tag.
+          </div>
+        </div>
+        <div class="field checkbox-row">
+          <input type="checkbox" id="s_is_published" checked>
+          <label for="s_is_published">Published</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteSkillBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('skillModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Skill Category</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROJECT EDITOR MODAL -->
+  <div class="modal-overlay" id="projectModalOverlay">
+    <div class="modal-box">
+      <h2 id="projEditorTitle">Add Project</h2>
+      <p class="modal-sub">Fill in the software project details below.</p>
+      <form id="projectForm">
+        <input type="hidden" id="p_id">
+        <div class="field">
+          <label>Title *</label>
+          <input type="text" id="p_title" required placeholder="e.g. Workmate.lk">
+        </div>
+        <div class="field">
+          <label>Card Short Description</label>
+          <textarea id="p_card_desc" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Modal Full Description</label>
+          <textarea id="p_modal_desc" rows="3"></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Badge Text</label>
+            <input type="text" id="p_badge_text" placeholder="Ongoing Project">
+          </div>
+          <div class="field">
+            <label>Banner Image</label>
+            <div class="banner-upload">
+              <img id="p_banner_preview" class="banner-preview" src="" alt="">
+              <div>
+                <input type="file" id="p_banner_file" accept="image/*">
+                <div class="hint" id="p_upload_status"></div>
+              </div>
+            </div>
+            <input type="hidden" id="p_banner_url">
+          </div>
+        </div>
+        <div class="field">
+          <label>Technologies (Comma separated)</label>
+          <input type="text" id="p_tech" placeholder="React, Node.js, Supabase">
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>GitHub URL</label><input type="url" id="p_github_url"></div>
+          <div class="field"><label>Live URL</label><input type="url" id="p_live_url"></div>
+          <div class="field"><label>Specs URL</label><input type="text" id="p_specs_url"></div>
+        </div>
+        <div class="grid-3">
+          <div class="field checkbox-row"><input type="checkbox" id="p_is_featured"><label
+              for="p_is_featured">Featured</label></div>
+          <div class="field checkbox-row"><input type="checkbox" id="p_is_published" checked><label
+              for="p_is_published">Published</label></div>
+          <div class="field"><label>Sort Order</label><input type="number" id="p_sort_order" value="0"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteProjectBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('projectModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Project</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- UIUX EDITOR MODAL -->
+  <div class="modal-overlay" id="uiuxModalOverlay">
+    <div class="modal-box">
+      <h2 id="uiuxEditorTitle">Add UI/UX Design</h2>
+      <p class="modal-sub">Add UI/UX case study and screens gallery.</p>
+      <form id="uiuxForm">
+        <input type="hidden" id="u_id">
+        <div class="grid-2">
+          <div class="field">
+            <label>Title *</label>
+            <input type="text" id="u_title" required placeholder="e.g. Food Delivery App">
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <input type="text" id="u_category" placeholder="Mobile App / Web Dashboard">
+          </div>
+        </div>
+        <div class="field">
+          <label>Card Description</label>
+          <textarea id="u_card_desc" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Tools Used (Comma separated)</label>
+          <input type="text" id="u_tools" placeholder="Figma, Adobe XD">
+        </div>
+        <div class="field">
+          <label>Figma / External Prototype URL</label>
+          <input type="url" id="u_external_url" placeholder="https://www.figma.com/...">
+        </div>
+        <div class="field">
+          <label>Upload Banner Preview Image</label>
+          <div class="banner-upload">
+            <img id="u_banner_preview" class="banner-preview" src="" alt="">
+            <div>
+              <input type="file" id="u_banner_file" accept="image/*">
+              <div class="hint" id="u_upload_status">Upload banner/cover image to Supabase Storage bucket</div>
+            </div>
+          </div>
+          <input type="hidden" id="u_banner_url">
+        </div>
+        <div class="field">
+          <label>Upload Case Study Gallery / App Screens (Multiple Files)</label>
+          <input type="file" id="u_gallery_files" multiple accept="image/*">
+          <div class="hint" id="u_gallery_status">Select 1 or more screen images to upload automatically to bucket</div>
+          <textarea id="u_images_urls" rows="3" placeholder="Gallery Image Public URLs (one per line)" style="margin-top:8px; font-family:var(--font-mono); font-size:0.8rem;"></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field checkbox-row"><input type="checkbox" id="u_is_published" checked><label
+              for="u_is_published">Published</label></div>
+          <div class="field"><label>Sort Order</label><input type="number" id="u_sort_order" value="0"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteUiuxBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('uiuxModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Case Study</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GRAPHICS EDITOR MODAL -->
+  <div class="modal-overlay" id="graphicModalOverlay">
+    <div class="modal-box">
+      <h2 id="graphicEditorTitle">Add Graphic Design Item</h2>
+      <p class="modal-sub">Add graphic design assets and promotional flyers.</p>
+      <form id="graphicForm">
+        <input type="hidden" id="g_id">
+        <div class="grid-2">
+          <div class="field">
+            <label>Title *</label>
+            <input type="text" id="g_title" required placeholder="e.g. RuuGraphics Promotional Flyer">
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <input type="text" id="g_category" placeholder="Banner / Flyer / Logo / Poster">
+          </div>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="g_card_desc" rows="2"></textarea>
+        </div>
+        <div class="field">
+          <label>Upload Main Cover Graphic File</label>
+          <div class="banner-upload">
+            <img id="g_image_preview" class="banner-preview" src="" alt="">
+            <div>
+              <input type="file" id="g_image_file" accept="image/*">
+              <div class="hint" id="g_upload_status">Upload main cover image to Supabase Storage bucket</div>
+            </div>
+          </div>
+          <input type="hidden" id="g_image_url">
+        </div>
+        <div class="field">
+          <label>Upload Branding Kit / Gallery Assets (Multiple Files)</label>
+          <input type="file" id="g_gallery_files" multiple accept="image/*">
+          <div class="hint" id="g_gallery_status">Select 1 or more branding assets to upload automatically to bucket</div>
+          <textarea id="g_gallery_urls" rows="3" placeholder="Gallery Image Public URLs (one per line)" style="margin-top:8px; font-family:var(--font-mono); font-size:0.8rem;"></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field checkbox-row"><input type="checkbox" id="g_is_published" checked><label
+              for="g_is_published">Published</label></div>
+          <div class="field"><label>Sort Order</label><input type="number" id="g_sort_order" value="0"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteGraphicBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('graphicModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Graphic</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE EDITOR MODAL -->
+  <div class="modal-overlay" id="expModalOverlay">
+    <div class="modal-box">
+      <h2 id="expEditorTitle">Add Experience Item</h2>
+      <p class="modal-sub">Add timeline work experience or freelance credentials with duration auto-calculator.</p>
+      <form id="expForm">
+        <input type="hidden" id="e_id">
+        <div class="grid-2">
+          <div class="field">
+            <label>Job Title *</label>
+            <input type="text" id="e_title" required placeholder="e.g. Level 1 Fiverr Freelance Designer">
+          </div>
+          <div class="field">
+            <label>Company / Platform</label>
+            <input type="text" id="e_company" placeholder="Fiverr.com · Remote / Worldwide">
+          </div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-calendar-days"></i> Employment Period & Duration Calculator</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Start Date (Month & Year)</label>
+            <input type="month" id="e_start_date" onchange="calculateWorkDuration()">
+          </div>
+          <div class="field">
+            <label>End Date (Month & Year)</label>
+            <input type="month" id="e_end_date" onchange="calculateWorkDuration()">
+          </div>
+        </div>
+        <div class="field checkbox-row">
+          <input type="checkbox" id="e_is_current" checked onchange="calculateWorkDuration()">
+          <label for="e_is_current">Currently Working Here (Present)</label>
+        </div>
+
+        <div class="field">
+          <label>Display Period & Duration Text *</label>
+          <input type="text" id="e_period" required placeholder="e.g. 2023 Jan — Present · 2 yrs 7 mos">
+          <div class="hint" id="e_duration_preview" style="color:var(--primary); font-weight:600; margin-top:4px;">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Achievements (One per line)</label>
+          <textarea id="e_achievements" rows="4"
+            placeholder="Handled end-to-end client communication.&#10;Maintained Level 1 Seller status."></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label>Link Label</label><input type="text" id="e_link_label"
+              placeholder="Visit Fiverr Profile"></div>
+          <div class="field"><label>Link URL</label><input type="url" id="e_link_url"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field checkbox-row"><input type="checkbox" id="e_is_published" checked><label
+              for="e_is_published">Published</label></div>
+          <div class="field"><label>Sort Order</label><input type="number" id="e_sort_order" value="0"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteExpBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('expModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Experience</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDUCATION & GPA EDITOR MODAL -->
+  <div class="modal-overlay" id="eduModalOverlay">
+    <div class="modal-box">
+      <h2 id="eduEditorTitle">Add Semester Record</h2>
+      <p class="modal-sub">Edit semester GPA badge and module table items.</p>
+      <form id="eduForm">
+        <input type="hidden" id="ed_id">
+        <div class="grid-2">
+          <div class="field">
+            <label>Semester Key *</label>
+            <input type="text" id="ed_semester_key" required placeholder="e.g. sem1">
+          </div>
+          <div class="field">
+            <label>Semester Title *</label>
+            <input type="text" id="ed_semester_title" required placeholder="e.g. Semester I">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>GPA Badge Text *</label>
+            <input type="text" id="ed_gpa_text" required placeholder="GPA 3.90 or Result Pending">
+          </div>
+          <div class="field checkbox-row" style="margin-top:24px;">
+            <input type="checkbox" id="ed_is_pending">
+            <label for="ed_is_pending">Mark as Result Pending</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="deleteEduBtn" style="display:none;"><i
+              class="fas fa-trash"></i> Delete</button>
+          <div class="right">
+            <button type="button" class="btn btn-outline" onclick="closeModal('eduModalOverlay')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save Semester</button>
           </div>
         </div>
       </form>
@@ -393,315 +1364,957 @@
 
   <div class="toast" id="toast"></div>
 
-<script>
-  const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-  let currentProjects = [];
-  let pendingBannerFile = null;
+  <script>
+    const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
-  // ---------- Toast ----------
-  function showToast(msg, isError) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast' + (isError ? ' error' : '');
-    t.style.display = 'block';
-    setTimeout(() => { t.style.display = 'none'; }, 3200);
-  }
+    let projectsData = [];
+    let skillsData = [];
+    let certsData = [];
+    let uiuxData = [];
+    let graphicsData = [];
+    let expData = [];
+    let eduData = [];
+    let isProfileEditUnlocked = false;
 
-  // ---------- Auth ----------
-  async function checkSession() {
-    const { data } = await sb.auth.getSession();
-    if (data.session) {
+    // ---------- Toast ----------
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast' + (isError ? ' error' : '');
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3200);
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+    }
+
+    // ---------- Navigation Tabs ----------
+    document.querySelectorAll('.sidebar .nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.sidebar .nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        item.classList.add('active');
+        const target = item.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // ---------- Auth ----------
+    async function checkSession() {
+      const { data } = await sb.auth.getSession();
+      if (data.session) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    }
+
+    function showLogin() {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'flex';
+      loadAllData();
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errBox = document.getElementById('loginError');
+      const btn = document.getElementById('loginBtn');
+      errBox.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Signing in…';
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> Sign In to Dashboard';
+      if (error) {
+        errBox.textContent = error.message;
+        errBox.style.display = 'block';
+        return;
+      }
       showDashboard();
-    } else {
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await sb.auth.signOut();
       showLogin();
+    });
+
+    function loadAllData() {
+      loadProfileSettings();
+      loadSkillsList();
+      loadProjectsList();
+      loadUiuxList();
+      loadGraphicsList();
+      loadExpList();
+      loadEduList();
+      loadCertificationsList();
     }
-  }
 
-  function showLogin() {
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('dashboard').style.display = 'none';
-  }
+    // ---------- PROFILE SETTINGS & EDIT TOGGLE ----------
+    function setProfileFieldsState(enabled) {
+      isProfileEditUnlocked = enabled;
+      const inputs = document.querySelectorAll('#tab-profile input, #tab-profile textarea');
+      inputs.forEach(el => el.disabled = !enabled);
 
-  function showDashboard() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadProjectList();
-  }
+      const toggleBtn = document.getElementById('toggleProfileEditBtn');
+      const saveBtn = document.getElementById('saveProfileBtn');
+      const badge = document.getElementById('profileLockBadge');
 
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const errBox = document.getElementById('loginError');
-    const btn = document.getElementById('loginBtn');
-    errBox.style.display = 'none';
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Signing in…';
-    const { error } = await sb.auth.signInWithPassword({ email, password });
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> Sign In';
-    if (error) {
-      errBox.textContent = error.message;
-      errBox.style.display = 'block';
-      return;
+      if (enabled) {
+        toggleBtn.innerHTML = '<i class="fas fa-xmark"></i> Cancel Editing';
+        toggleBtn.className = 'btn btn-outline';
+        saveBtn.disabled = false;
+        badge.className = 'pill pill-pub';
+        badge.innerHTML = '<i class="fas fa-lock-open"></i> Editing Unlocked';
+      } else {
+        toggleBtn.innerHTML = '<i class="fas fa-pen"></i> Edit Profile Settings';
+        toggleBtn.className = 'btn btn-outline';
+        saveBtn.disabled = true;
+        badge.className = 'pill pill-draft';
+        badge.innerHTML = '<i class="fas fa-lock"></i> Read Only';
+      }
     }
-    showDashboard();
-  });
 
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await sb.auth.signOut();
-    showLogin();
-  });
+    function toggleProfileEditMode() {
+      if (isProfileEditUnlocked) {
+        setProfileFieldsState(false);
+        loadProfileSettings();
+        showToast('Profile editing cancelled.');
+      } else {
+        setProfileFieldsState(true);
+        showToast('Profile fields unlocked for editing!');
+      }
+    }
 
-  // ---------- List ----------
-  async function loadProjectList() {
-    const list = document.getElementById('projectsList');
-    list.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading…</p>';
-    const { data, error } = await sb.from('projects').select('*').order('is_featured', { ascending: false }).order('sort_order', { ascending: true });
-    if (error) {
-      list.innerHTML = `<p style="color:var(--danger);">Could not load projects: ${error.message}</p>`;
-      return;
+    async function loadProfileSettings() {
+      const { data } = await sb.from('portfolio_profile_settings').select('*').eq('id', 'main_profile').single();
+      if (data) {
+        document.getElementById('prof_availability_status').value = data.availability_status || '';
+        document.getElementById('prof_hero_title_name').value = data.hero_title_name || '';
+        document.getElementById('prof_hero_title_role').value = data.hero_title_role || '';
+        document.getElementById('prof_hero_roles').value = (data.hero_roles || []).join(', ');
+        document.getElementById('prof_hero_subtitle').value = data.hero_subtitle || '';
+        document.getElementById('prof_years_exp').value = data.years_exp || '';
+        document.getElementById('prof_deployed_systems').value = data.deployed_systems || '';
+        document.getElementById('prof_freelance_clients').value = data.freelance_clients || '';
+        document.getElementById('prof_cgpa_value').value = data.cgpa_value || '';
+        document.getElementById('prof_cgpa_note').value = data.cgpa_note || '';
+      }
+      setProfileFieldsState(false);
     }
-    currentProjects = data || [];
-    if (!currentProjects.length) {
-      list.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i>No projects yet. Click "Add Project" to create your first one.</div>`;
-      return;
+
+    async function autoCalculateStats() {
+      if (!isProfileEditUnlocked) {
+        setProfileFieldsState(true);
+      }
+      try {
+        let pubCount = projectsData.filter(p => p.is_published !== false).length;
+        if (pubCount > 0) {
+          document.getElementById('prof_deployed_systems').value = `${pubCount}+`;
+        }
+
+        let sumGpa = 0;
+        let countSem = 0;
+        eduData.forEach(ed => {
+          if (!ed.is_pending && ed.gpa_text) {
+            const match = ed.gpa_text.match(/\d+(\.\d+)?/);
+            if (match) {
+              sumGpa += parseFloat(match[0]);
+              countSem++;
+            }
+          }
+        });
+
+        if (countSem > 0) {
+          const avgGpa = (sumGpa / countSem).toFixed(2);
+          document.getElementById('prof_cgpa_value').value = avgGpa;
+          document.getElementById('prof_cgpa_note').value = `Average across ${countSem} completed semesters.`;
+        }
+
+        showToast(`Stats auto-computed: ${pubCount}+ systems, CGPA ${countSem > 0 ? (sumGpa / countSem).toFixed(2) : ''}`);
+      } catch (err) {
+        showToast('Could not calculate stats: ' + err.message, true);
+      }
     }
-    list.innerHTML = currentProjects.map(p => `
-      <div class="project-row">
-        <img src="${p.banner_url || ''}" onerror="this.style.visibility='hidden'" alt="">
+
+    document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+      if (!confirm('Are you sure you want to save these profile changes to the database?')) return;
+      const payload = {
+        id: 'main_profile',
+        availability_status: document.getElementById('prof_availability_status').value.trim(),
+        hero_title_name: document.getElementById('prof_hero_title_name').value.trim(),
+        hero_title_role: document.getElementById('prof_hero_title_role').value.trim(),
+        hero_roles: document.getElementById('prof_hero_roles').value.split(',').map(s => s.trim()).filter(Boolean),
+        hero_subtitle: document.getElementById('prof_hero_subtitle').value.trim(),
+        years_exp: document.getElementById('prof_years_exp').value.trim(),
+        deployed_systems: document.getElementById('prof_deployed_systems').value.trim(),
+        freelance_clients: document.getElementById('prof_freelance_clients').value.trim(),
+        cgpa_value: document.getElementById('prof_cgpa_value').value.trim(),
+        cgpa_note: document.getElementById('prof_cgpa_note').value.trim()
+      };
+      const { error } = await sb.from('portfolio_profile_settings').upsert(payload);
+      if (error) {
+        showToast('Could not save profile: ' + error.message, true);
+      } else {
+        showToast('Profile settings saved successfully!');
+        setProfileFieldsState(false);
+      }
+    });
+
+    // ---------- REORDERING / SORTING HELPER ----------
+    async function moveItem(tableName, listArray, index, direction, refreshFunc) {
+      const targetIdx = index + direction;
+      if (targetIdx < 0 || targetIdx >= listArray.length) return;
+
+      const currItem = listArray[index];
+      const targetItem = listArray[targetIdx];
+
+      const tempOrder = currItem.sort_order || index;
+      currItem.sort_order = targetItem.sort_order || targetIdx;
+      targetItem.sort_order = tempOrder;
+
+      showToast('Reordering item…');
+
+      try {
+        await sb.from(tableName).update({ sort_order: currItem.sort_order }).eq('id', currItem.id);
+        await sb.from(tableName).update({ sort_order: targetItem.sort_order }).eq('id', targetItem.id);
+        showToast('Order saved!');
+        refreshFunc();
+      } catch (err) {
+        showToast('Could not reorder: ' + err.message, true);
+      }
+    }
+
+    // ---------- TECHNICAL SKILLS LIST ----------
+    async function loadSkillsList() {
+      const container = document.getElementById('skillsList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading skills…</p>';
+      const { data, error } = await sb.from('portfolio_skills').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-database" style="color:var(--warm);"></i>
+          <h3>Table Missing in Supabase</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); max-width:480px; margin:8px auto 16px;">
+            The <code>portfolio_skills</code> table needs to be created in your Supabase project.
+          </p>
+          <p style="font-size:0.82rem; color:var(--primary);">
+            👉 Please run the updated <strong>seed_data.sql</strong> file in your Supabase SQL Editor.
+          </p>
+        </div>`;
+        return;
+      }
+      skillsData = data || [];
+      if (!skillsData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-screwdriver-wrench"></i>No skill categories yet.</div>`;
+        return;
+      }
+      container.innerHTML = skillsData.map((s, idx) => `
+      <div class="data-row">
         <div class="info">
-          <div class="title-line">
-            <h3>${escapeHtml(p.title)}</h3>
-            ${p.is_featured ? '<span class="pill pill-featured">Featured</span>' : ''}
-            ${!p.is_published ? '<span class="pill pill-draft">Draft</span>' : ''}
-          </div>
-          <div class="meta">${escapeHtml(p.badge_text || '')} · order ${p.sort_order}</div>
+          <h3><i class="fas ${escapeHtml(s.icon || 'fa-code')}" style="color:var(--primary); margin-right:8px;"></i> ${escapeHtml(s.title)}</h3>
+          <div class="meta"><span>Tags: ${escapeHtml(s.tags)}</span></div>
         </div>
         <div class="row-actions">
-          <button class="icon-btn" title="Edit" onclick="openEditor('${p.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_skills', skillsData, ${idx}, -1, loadSkillsList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_skills', skillsData, ${idx}, 1, loadSkillsList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openSkillModal('${s.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteSkill('${s.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    function openSkillModal(id) {
+      const s = id ? skillsData.find(x => x.id === id) : null;
+      document.getElementById('skillEditorTitle').textContent = s ? 'Edit Skill Category' : 'Add Skill Category';
+      document.getElementById('s_id').value = s ? s.id : '';
+      document.getElementById('s_title').value = s ? s.title : '';
+      document.getElementById('s_icon').value = s ? (s.icon || 'fa-code') : 'fa-code';
+      document.getElementById('s_theme_accent').value = s ? (s.theme_accent || 'primary') : 'primary';
+      document.getElementById('s_tags').value = s ? (s.tags || '') : '';
+      document.getElementById('s_is_published').checked = s ? (s.is_published !== false) : true;
+      document.getElementById('s_sort_order').value = s ? (s.sort_order || 0) : 0;
+      document.getElementById('deleteSkillBtn').style.display = s ? 'inline-flex' : 'none';
+      document.getElementById('skillModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('skillForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const id = document.getElementById('s_id').value;
+        const payload = {
+          title: document.getElementById('s_title').value.trim(),
+          icon: document.getElementById('s_icon').value.trim(),
+          theme_accent: document.getElementById('s_theme_accent').value,
+          tags: document.getElementById('s_tags').value.trim(),
+          is_published: document.getElementById('s_is_published').checked,
+          sort_order: parseInt(document.getElementById('s_sort_order').value, 10) || 0
+        };
+        const { error } = id ? await sb.from('portfolio_skills').update(payload).eq('id', id) : await sb.from('portfolio_skills').insert(payload);
+        if (error) throw error;
+        closeModal('skillModalOverlay');
+        showToast('Skill category saved!');
+        loadSkillsList();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteSkill(id) {
+      if (!confirm('Are you sure you want to delete this skill category?')) return;
+      await sb.from('portfolio_skills').delete().eq('id', id);
+      showToast('Deleted skill category.');
+      loadSkillsList();
+    }
+
+    // ---------- CERTIFICATIONS LIST ----------
+    async function loadCertificationsList() {
+      const container = document.getElementById('certificationsList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading certifications…</p>';
+      const { data, error } = await sb.from('portfolio_certifications').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-certificate"></i>No Certifications table in database yet. Run seed_data.sql script.</div>`;
+        return;
+      }
+      certsData = data || [];
+      if (!certsData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-certificate"></i>No certifications added yet.</div>`;
+        return;
+      }
+      container.innerHTML = certsData.map((c, idx) => `
+      <div class="data-row">
+        <div class="info">
+          <h3><i class="fas ${escapeHtml(c.badge_icon || 'fa-certificate')}" style="color:var(--primary); margin-right:8px;"></i> ${escapeHtml(c.title)}</h3>
+          <div class="meta"><span>${escapeHtml(c.issuer)}</span> · <span>${escapeHtml(c.issue_date || '')}</span></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_certifications', certsData, ${idx}, -1, loadCertificationsList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_certifications', certsData, ${idx}, 1, loadCertificationsList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openCertModal('${c.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteCert('${c.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    function openCertModal(id) {
+      const c = id ? certsData.find(x => x.id === id) : null;
+      document.getElementById('certEditorTitle').textContent = c ? 'Edit Certification' : 'Add Certification';
+      document.getElementById('c_id').value = c ? c.id : '';
+      document.getElementById('c_title').value = c ? c.title : '';
+      document.getElementById('c_issuer').value = c ? c.issuer : '';
+      document.getElementById('c_issue_date').value = c ? (c.issue_date || '') : '';
+      document.getElementById('c_credential_url').value = c ? (c.credential_url || '') : '';
+      document.getElementById('c_badge_icon').value = c ? (c.badge_icon || 'fa-certificate') : 'fa-certificate';
+      document.getElementById('c_is_published').checked = c ? (c.is_published !== false) : true;
+      document.getElementById('c_sort_order').value = c ? (c.sort_order || 0) : 0;
+      document.getElementById('deleteCertBtn').style.display = c ? 'inline-flex' : 'none';
+      document.getElementById('certModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('certForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const id = document.getElementById('c_id').value;
+        const payload = {
+          title: document.getElementById('c_title').value.trim(),
+          issuer: document.getElementById('c_issuer').value.trim(),
+          issue_date: document.getElementById('c_issue_date').value.trim() || null,
+          credential_url: document.getElementById('c_credential_url').value.trim() || null,
+          badge_icon: document.getElementById('c_badge_icon').value.trim() || 'fa-certificate',
+          is_published: document.getElementById('c_is_published').checked,
+          sort_order: parseInt(document.getElementById('c_sort_order').value, 10) || 0
+        };
+        const { error } = id ? await sb.from('portfolio_certifications').update(payload).eq('id', id) : await sb.from('portfolio_certifications').insert(payload);
+        if (error) throw error;
+        closeModal('certModalOverlay');
+        showToast('Certification saved!');
+        loadCertificationsList();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteCert(id) {
+      if (!confirm('Are you sure you want to delete this certification?')) return;
+      await sb.from('portfolio_certifications').delete().eq('id', id);
+      showToast('Deleted certification.');
+      loadCertificationsList();
+    }
+
+    // ---------- PROJECTS LIST ----------
+    async function loadProjectsList() {
+      const container = document.getElementById('projectsList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading projects…</p>';
+
+      let { data, error } = await sb.from('portfolio_projects').select('*').order('sort_order', { ascending: true });
+      if (error || !data) {
+        ({ data, error } = await sb.from('projects').select('*').order('sort_order', { ascending: true }));
+      }
+
+      if (error) {
+        container.innerHTML = `<p style="color:var(--danger);">Error loading projects: ${error.message}</p>`;
+        return;
+      }
+
+      projectsData = data || [];
+      if (!projectsData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i>No projects found in database.</div>`;
+        return;
+      }
+
+      container.innerHTML = projectsData.map((p, idx) => `
+      <div class="data-row">
+        <img src="${p.banner_url || ''}" onerror="this.style.visibility='hidden'" alt="">
+        <div class="info">
+          <h3>${escapeHtml(p.title)}</h3>
+          <div class="meta">
+            ${p.is_featured ? '<span class="pill pill-featured">Featured</span>' : ''}
+            ${p.is_published ? '<span class="pill pill-pub">Published</span>' : '<span class="pill pill-draft">Draft</span>'}
+            <span>Order: ${p.sort_order}</span>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_projects', projectsData, ${idx}, -1, loadProjectsList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_projects', projectsData, ${idx}, 1, loadProjectsList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openProjectModal('${p.id}')"><i class="fas fa-pen"></i></button>
           <button class="icon-btn danger" title="Delete" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     `).join('');
-  }
+    }
 
-  function escapeHtml(str) {
-    if (str === null || str === undefined) return '';
-    return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-  }
+    let pFile = null;
+    document.getElementById('p_banner_file').addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (f) {
+        pFile = f;
+        document.getElementById('p_banner_preview').src = URL.createObjectURL(f);
+        document.getElementById('p_upload_status').textContent = 'Will upload on save.';
+      }
+    });
 
-  // ---------- Repeatable field groups (Features / Highlights) ----------
-  function addFeatureRow(data) {
-    data = data || {};
-    const wrap = document.createElement('div');
-    wrap.className = 'repeat-item';
-    wrap.innerHTML = `
-      <div class="fields">
-        <input type="text" class="feat-title" placeholder="Feature title" value="${escapeHtml(data.title || '')}">
-        <input type="text" class="feat-desc" placeholder="Short description" value="${escapeHtml(data.desc || '')}">
-        <div class="fields two-col">
-          <input type="text" class="feat-icon" placeholder="Icon e.g. fa-bolt" value="${escapeHtml(data.icon || '')}">
-          <input type="text" class="feat-color" placeholder="Color e.g. var(--primary)" value="${escapeHtml(data.color || '')}">
+    function openProjectModal(id) {
+      const p = id ? projectsData.find(x => x.id === id) : null;
+      document.getElementById('projEditorTitle').textContent = p ? 'Edit Project' : 'Add Project';
+      document.getElementById('p_id').value = p ? p.id : '';
+      document.getElementById('p_title').value = p ? p.title : '';
+      document.getElementById('p_card_desc').value = p ? (p.card_desc || '') : '';
+      document.getElementById('p_modal_desc').value = p ? (p.modal_desc || '') : '';
+      document.getElementById('p_badge_text').value = p ? (p.badge_text || '') : '';
+      document.getElementById('p_banner_url').value = p ? (p.banner_url || '') : '';
+      document.getElementById('p_banner_preview').src = p ? (p.banner_url || '') : '';
+      document.getElementById('p_tech').value = p ? (p.tech || []).join(', ') : '';
+      document.getElementById('p_github_url').value = p ? (p.github_url || '') : '';
+      document.getElementById('p_live_url').value = p ? (p.live_url || '') : '';
+      document.getElementById('p_specs_url').value = p ? (p.specs_url || '') : '';
+      document.getElementById('p_is_featured').checked = p ? !!p.is_featured : false;
+      document.getElementById('p_is_published').checked = p ? (p.is_published !== false) : true;
+      document.getElementById('p_sort_order').value = p ? (p.sort_order || 0) : 0;
+      document.getElementById('deleteProjectBtn').style.display = p ? 'inline-flex' : 'none';
+      pFile = null;
+      document.getElementById('projectModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        let bannerUrl = document.getElementById('p_banner_url').value;
+        if (pFile) {
+          const ext = pFile.name.split('.').pop();
+          const path = `proj-${Date.now()}.${ext}`;
+          const { error: upErr } = await sb.storage.from('project-banners').upload(path, pFile, { upsert: true });
+          if (!upErr) {
+            const { data } = sb.storage.from('project-banners').getPublicUrl(path);
+            bannerUrl = data.publicUrl;
+          }
+        }
+        const id = document.getElementById('p_id').value;
+        const title = document.getElementById('p_title').value.trim();
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') + '_' + Date.now().toString(36);
+        const payload = {
+          title, slug,
+          card_desc: document.getElementById('p_card_desc').value.trim(),
+          modal_desc: document.getElementById('p_modal_desc').value.trim(),
+          badge_text: document.getElementById('p_badge_text').value.trim(),
+          banner_url: bannerUrl,
+          tech: document.getElementById('p_tech').value.split(',').map(s => s.trim()).filter(Boolean),
+          github_url: document.getElementById('p_github_url').value.trim() || null,
+          live_url: document.getElementById('p_live_url').value.trim() || null,
+          specs_url: document.getElementById('p_specs_url').value.trim() || null,
+          is_featured: document.getElementById('p_is_featured').checked,
+          is_published: document.getElementById('p_is_published').checked,
+          sort_order: parseInt(document.getElementById('p_sort_order').value, 10) || 0
+        };
+
+        let error;
+        if (id) {
+          ({ error } = await sb.from('portfolio_projects').update(payload).eq('id', id));
+          if (error) ({ error } = await sb.from('projects').update(payload).eq('id', id));
+        } else {
+          ({ error } = await sb.from('portfolio_projects').insert(payload));
+          if (error) ({ error } = await sb.from('projects').insert(payload));
+        }
+        if (error) throw error;
+        closeModal('projectModalOverlay');
+        showToast('Project saved!');
+        loadProjectsList();
+      } catch (err) {
+        showToast('Could not save: ' + err.message, true);
+      }
+    });
+
+    async function deleteProject(id) {
+      if (!confirm('Are you sure you want to delete this project?')) return;
+      let { error } = await sb.from('portfolio_projects').delete().eq('id', id);
+      if (error) ({ error } = await sb.from('projects').delete().eq('id', id));
+      showToast('Project deleted.');
+      loadProjectsList();
+    }
+
+    // ---------- UI/UX LIST ----------
+    async function loadUiuxList() {
+      const container = document.getElementById('uiuxList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading UI/UX items…</p>';
+      const { data, error } = await sb.from('portfolio_uiux').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `<p style="color:var(--text-muted);">No UI/UX database table found yet.</p>`;
+        return;
+      }
+      uiuxData = data || [];
+      if (!uiuxData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-pen-nib"></i>No UI/UX case studies yet.</div>`;
+        return;
+      }
+      container.innerHTML = uiuxData.map((u, idx) => `
+      <div class="data-row">
+        <img src="${u.banner_url || ''}" onerror="this.style.visibility='hidden'" alt="">
+        <div class="info">
+          <h3>${escapeHtml(u.title)}</h3>
+          <div class="meta"><span>Category: ${escapeHtml(u.category || 'App')}</span></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_uiux', uiuxData, ${idx}, -1, loadUiuxList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_uiux', uiuxData, ${idx}, 1, loadUiuxList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openUiuxModal('${u.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteUiux('${u.id}')"><i class="fas fa-trash"></i></button>
         </div>
       </div>
-      <button type="button" class="repeat-remove"><i class="fas fa-xmark"></i></button>
-    `;
-    wrap.querySelector('.repeat-remove').addEventListener('click', () => wrap.remove());
-    document.getElementById('featuresList').appendChild(wrap);
-  }
-
-  function addHighlightRow(data) {
-    data = data || {};
-    const wrap = document.createElement('div');
-    wrap.className = 'repeat-item';
-    wrap.innerHTML = `
-      <div class="fields two-col">
-        <input type="text" class="hl-icon" placeholder="Icon e.g. fa-bolt" value="${escapeHtml(data.icon || '')}">
-        <input type="text" class="hl-text" placeholder="Highlight text" value="${escapeHtml(data.text || '')}">
-      </div>
-      <button type="button" class="repeat-remove"><i class="fas fa-xmark"></i></button>
-    `;
-    wrap.querySelector('.repeat-remove').addEventListener('click', () => wrap.remove());
-    document.getElementById('highlightsList').appendChild(wrap);
-  }
-
-  document.getElementById('addFeatureBtn').addEventListener('click', () => addFeatureRow());
-  document.getElementById('addHighlightBtn').addEventListener('click', () => addHighlightRow());
-
-  document.getElementById('f_is_featured').addEventListener('change', (e) => {
-    document.getElementById('featuredHighlightsSection').style.display = e.target.checked ? 'block' : 'none';
-  });
-
-  // ---------- Editor open/close ----------
-  function resetForm() {
-    document.getElementById('editorForm').reset();
-    document.getElementById('f_id').value = '';
-    document.getElementById('f_banner_url').value = '';
-    document.getElementById('bannerPreview').src = '';
-    document.getElementById('uploadStatus').textContent = '';
-    document.getElementById('featuresList').innerHTML = '';
-    document.getElementById('highlightsList').innerHTML = '';
-    document.getElementById('featuredHighlightsSection').style.display = 'none';
-    document.getElementById('deleteProjectBtn').style.display = 'none';
-    document.getElementById('f_is_published').checked = true;
-    pendingBannerFile = null;
-  }
-
-  function openEditor(id) {
-    resetForm();
-    const p = id ? currentProjects.find(x => x.id === id) : null;
-    document.getElementById('editorTitle').textContent = p ? 'Edit Project' : 'Add Project';
-
-    if (p) {
-      document.getElementById('f_id').value = p.id;
-      document.getElementById('f_title').value = p.title || '';
-      document.getElementById('f_card_desc').value = p.card_desc || '';
-      document.getElementById('f_modal_desc').value = p.modal_desc || '';
-      document.getElementById('f_tagline').value = p.tagline || '';
-      document.getElementById('f_icon').value = p.icon || '';
-      document.getElementById('f_icon_style').value = p.icon_style || 'primary';
-      document.getElementById('f_badge_class').value = p.badge_class || 'badge-active';
-      document.getElementById('f_badge_text').value = p.badge_text || '';
-      document.getElementById('f_banner_url').value = p.banner_url || '';
-      document.getElementById('bannerPreview').src = p.banner_url || '';
-      document.getElementById('f_tech').value = (p.tech || []).join(', ');
-      document.getElementById('f_stepper').value = (p.stepper || []).join(', ');
-      document.getElementById('f_github_url').value = p.github_url || '';
-      document.getElementById('f_live_url').value = p.live_url || '';
-      document.getElementById('f_specs_url').value = p.specs_url || '';
-      document.getElementById('f_is_featured').checked = !!p.is_featured;
-      document.getElementById('f_is_published').checked = p.is_published !== false;
-      document.getElementById('f_sort_order').value = p.sort_order || 0;
-      document.getElementById('featuredHighlightsSection').style.display = p.is_featured ? 'block' : 'none';
-      (p.features || []).forEach(f => addFeatureRow(f));
-      (p.featured_highlights || []).forEach(h => addHighlightRow(h));
-      document.getElementById('deleteProjectBtn').style.display = 'inline-flex';
-      document.getElementById('deleteProjectBtn').onclick = () => deleteProject(p.id);
+    `).join('');
     }
 
-    document.getElementById('editorOverlay').classList.add('open');
-  }
-
-  document.getElementById('addProjectBtn').addEventListener('click', () => openEditor(null));
-  document.getElementById('cancelEditorBtn').addEventListener('click', () => {
-    document.getElementById('editorOverlay').classList.remove('open');
-  });
-
-  // ---------- Banner upload ----------
-  document.getElementById('bannerFile').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    pendingBannerFile = file;
-    document.getElementById('bannerPreview').src = URL.createObjectURL(file);
-    document.getElementById('uploadStatus').textContent = 'Will upload when you save.';
-  });
-
-  async function uploadBannerIfNeeded() {
-    if (!pendingBannerFile) return document.getElementById('f_banner_url').value;
-    const statusEl = document.getElementById('uploadStatus');
-    statusEl.textContent = 'Uploading…';
-    const ext = pendingBannerFile.name.split('.').pop();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error } = await sb.storage.from('project-banners').upload(path, pendingBannerFile, { upsert: true });
-    if (error) {
-      statusEl.textContent = 'Upload failed: ' + error.message;
-      throw error;
-    }
-    const { data } = sb.storage.from('project-banners').getPublicUrl(path);
-    statusEl.textContent = 'Uploaded.';
-    return data.publicUrl;
-  }
-
-  // ---------- Save ----------
-  function parseCommaList(str) {
-    return (str || '').split(',').map(s => s.trim()).filter(Boolean);
-  }
-
-  function collectFeatures() {
-    return Array.from(document.querySelectorAll('#featuresList .repeat-item')).map(row => ({
-      title: row.querySelector('.feat-title').value.trim(),
-      desc: row.querySelector('.feat-desc').value.trim(),
-      icon: row.querySelector('.feat-icon').value.trim() || 'fa-check',
-      color: row.querySelector('.feat-color').value.trim() || 'var(--primary)'
-    })).filter(f => f.title);
-  }
-
-  function collectHighlights() {
-    return Array.from(document.querySelectorAll('#highlightsList .repeat-item')).map(row => ({
-      icon: row.querySelector('.hl-icon').value.trim() || 'fa-check',
-      text: row.querySelector('.hl-text').value.trim()
-    })).filter(h => h.text);
-  }
-
-  document.getElementById('editorForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const saveBtn = document.getElementById('saveProjectBtn');
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Saving…';
-    try {
-      const bannerUrl = await uploadBannerIfNeeded();
-      const id = document.getElementById('f_id').value;
-      const title = document.getElementById('f_title').value.trim();
-      const slug = (id ? currentProjects.find(p => p.id === id)?.slug : null)
-        || title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') + '_' + Date.now().toString(36);
-
-      const payload = {
-        slug,
-        title,
-        card_desc: document.getElementById('f_card_desc').value.trim(),
-        modal_desc: document.getElementById('f_modal_desc').value.trim(),
-        tagline: document.getElementById('f_tagline').value.trim(),
-        icon: document.getElementById('f_icon').value.trim() || 'fa-diagram-project',
-        icon_style: document.getElementById('f_icon_style').value,
-        badge_class: document.getElementById('f_badge_class').value,
-        badge_text: document.getElementById('f_badge_text').value.trim(),
-        banner_url: bannerUrl,
-        tech: parseCommaList(document.getElementById('f_tech').value),
-        stepper: parseCommaList(document.getElementById('f_stepper').value),
-        features: collectFeatures(),
-        featured_highlights: collectHighlights(),
-        github_url: document.getElementById('f_github_url').value.trim() || null,
-        live_url: document.getElementById('f_live_url').value.trim() || null,
-        specs_url: document.getElementById('f_specs_url').value.trim() || null,
-        is_featured: document.getElementById('f_is_featured').checked,
-        is_published: document.getElementById('f_is_published').checked,
-        sort_order: parseInt(document.getElementById('f_sort_order').value, 10) || 0
-      };
-
-      let error;
-      if (id) {
-        ({ error } = await sb.from('projects').update(payload).eq('id', id));
-      } else {
-        ({ error } = await sb.from('projects').insert(payload));
+    let uFile = null;
+    let uGalleryFiles = null;
+    document.getElementById('u_banner_file').addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (f) {
+        uFile = f;
+        document.getElementById('u_banner_preview').src = URL.createObjectURL(f);
       }
-      if (error) throw error;
+    });
+    document.getElementById('u_gallery_files').addEventListener('change', e => {
+      uGalleryFiles = e.target.files;
+      if (uGalleryFiles && uGalleryFiles.length > 0) {
+        document.getElementById('u_gallery_status').textContent = `${uGalleryFiles.length} screen image(s) selected for upload.`;
+      }
+    });
 
-      document.getElementById('editorOverlay').classList.remove('open');
-      showToast(id ? 'Project updated.' : 'Project added.');
-      loadProjectList();
-    } catch (err) {
-      showToast('Could not save: ' + (err.message || err), true);
-    } finally {
-      saveBtn.disabled = false;
-      saveBtn.innerHTML = '<i class="fas fa-check"></i> Save Project';
+    function openUiuxModal(id) {
+      const u = id ? uiuxData.find(x => x.id === id) : null;
+      document.getElementById('uiuxEditorTitle').textContent = u ? 'Edit UI/UX' : 'Add UI/UX';
+      document.getElementById('u_id').value = u ? u.id : '';
+      document.getElementById('u_title').value = u ? u.title : '';
+      document.getElementById('u_category').value = u ? (u.category || '') : 'Mobile App';
+      document.getElementById('u_card_desc').value = u ? (u.card_desc || '') : '';
+      document.getElementById('u_tools').value = u ? (u.tools || []).join(', ') : 'Figma';
+      document.getElementById('u_external_url').value = u ? (u.external_url || '') : '';
+      document.getElementById('u_banner_url').value = u ? (u.banner_url || '') : '';
+      document.getElementById('u_banner_preview').src = u ? (u.banner_url || '') : '';
+      document.getElementById('u_images_urls').value = u ? (u.images || []).join('\n') : '';
+      document.getElementById('u_is_published').checked = u ? (u.is_published !== false) : true;
+      document.getElementById('u_sort_order').value = u ? (u.sort_order || 0) : 0;
+      document.getElementById('deleteUiuxBtn').style.display = u ? 'inline-flex' : 'none';
+      uFile = null;
+      uGalleryFiles = null;
+      document.getElementById('u_gallery_files').value = '';
+      document.getElementById('u_gallery_status').textContent = 'Select 1 or more screen images to upload automatically to bucket';
+      document.getElementById('uiuxModalOverlay').classList.add('open');
     }
-  });
 
-  // ---------- Delete ----------
-  async function deleteProject(id) {
-    if (!confirm('Delete this project? This cannot be undone.')) return;
-    const { error } = await sb.from('projects').delete().eq('id', id);
-    if (error) {
-      showToast('Could not delete: ' + error.message, true);
-      return;
+    document.getElementById('uiuxForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        let bannerUrl = document.getElementById('u_banner_url').value;
+        if (uFile) {
+          showToast('Uploading cover banner image…');
+          const ext = uFile.name.split('.').pop();
+          const path = `uiux-${Date.now()}.${ext}`;
+          const { error: upErr } = await sb.storage.from('uiux-showcase').upload(path, uFile, { upsert: true });
+          if (!upErr) {
+            const { data } = sb.storage.from('uiux-showcase').getPublicUrl(path);
+            bannerUrl = data.publicUrl;
+          }
+        }
+
+        let imagesArray = document.getElementById('u_images_urls').value.split('\n').map(s => s.trim()).filter(Boolean);
+        if (uGalleryFiles && uGalleryFiles.length > 0) {
+          showToast(`Uploading ${uGalleryFiles.length} screen image(s)…`);
+          for (let i = 0; i < uGalleryFiles.length; i++) {
+            const f = uGalleryFiles[i];
+            const ext = f.name.split('.').pop();
+            const path = `screen-${Date.now()}-${i}.${ext}`;
+            const { error: upErr } = await sb.storage.from('uiux-showcase').upload(path, f, { upsert: true });
+            if (!upErr) {
+              const { data } = sb.storage.from('uiux-showcase').getPublicUrl(path);
+              imagesArray.push(data.publicUrl);
+            }
+          }
+        }
+
+        const id = document.getElementById('u_id').value;
+        const title = document.getElementById('u_title').value.trim();
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now().toString(36);
+        const payload = {
+          title, slug,
+          category: document.getElementById('u_category').value.trim(),
+          card_desc: document.getElementById('u_card_desc').value.trim(),
+          tools: document.getElementById('u_tools').value.split(',').map(s => s.trim()).filter(Boolean),
+          external_url: document.getElementById('u_external_url').value.trim() || null,
+          banner_url: bannerUrl,
+          images: imagesArray,
+          is_published: document.getElementById('u_is_published').checked,
+          sort_order: parseInt(document.getElementById('u_sort_order').value, 10) || 0
+        };
+        const { error } = id ? await sb.from('portfolio_uiux').update(payload).eq('id', id) : await sb.from('portfolio_uiux').insert(payload);
+        if (error) throw error;
+        closeModal('uiuxModalOverlay');
+        showToast('UI/UX design saved!');
+        loadUiuxList();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteUiux(id) {
+      if (!confirm('Are you sure you want to delete this UI/UX case study?')) return;
+      await sb.from('portfolio_uiux').delete().eq('id', id);
+      showToast('Deleted UI/UX item.');
+      loadUiuxList();
     }
-    document.getElementById('editorOverlay').classList.remove('open');
-    showToast('Project deleted.');
-    loadProjectList();
-  }
 
-  checkSession();
-</script>
+    // ---------- GRAPHICS LIST ----------
+    async function loadGraphicsList() {
+      const container = document.getElementById('graphicsList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading Graphic Design items…</p>';
+      const { data, error } = await sb.from('portfolio_graphics').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `<p style="color:var(--text-muted);">No Graphic Design database table found yet.</p>`;
+        return;
+      }
+      graphicsData = data || [];
+      if (!graphicsData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-palette"></i>No graphic design items yet.</div>`;
+        return;
+      }
+      container.innerHTML = graphicsData.map((g, idx) => `
+      <div class="data-row">
+        <img src="${g.image_url || ''}" onerror="this.style.visibility='hidden'" alt="">
+        <div class="info">
+          <h3>${escapeHtml(g.title)}</h3>
+          <div class="meta"><span>${escapeHtml(g.category || 'Graphic')}</span></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_graphics', graphicsData, ${idx}, -1, loadGraphicsList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_graphics', graphicsData, ${idx}, 1, loadGraphicsList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openGraphicModal('${g.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteGraphic('${g.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    let gFile = null;
+    let gGalleryFiles = null;
+    document.getElementById('g_image_file').addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (f) {
+        gFile = f;
+        document.getElementById('g_image_preview').src = URL.createObjectURL(f);
+      }
+    });
+    document.getElementById('g_gallery_files').addEventListener('change', e => {
+      gGalleryFiles = e.target.files;
+      if (gGalleryFiles && gGalleryFiles.length > 0) {
+        document.getElementById('g_gallery_status').textContent = `${gGalleryFiles.length} asset image(s) selected for upload.`;
+      }
+    });
+
+    function openGraphicModal(id) {
+      const g = id ? graphicsData.find(x => x.id === id) : null;
+      document.getElementById('graphicEditorTitle').textContent = g ? 'Edit Graphic' : 'Add Graphic';
+      document.getElementById('g_id').value = g ? g.id : '';
+      document.getElementById('g_title').value = g ? g.title : '';
+      document.getElementById('g_category').value = g ? (g.category || '') : 'Flyer';
+      document.getElementById('g_card_desc').value = g ? (g.card_desc || '') : '';
+      document.getElementById('g_image_url').value = g ? (g.image_url || '') : '';
+      document.getElementById('g_image_preview').src = g ? (g.image_url || '') : '';
+      document.getElementById('g_gallery_urls').value = g ? (g.gallery_urls || []).join('\n') : '';
+      document.getElementById('g_is_published').checked = g ? (g.is_published !== false) : true;
+      document.getElementById('g_sort_order').value = g ? (g.sort_order || 0) : 0;
+      document.getElementById('deleteGraphicBtn').style.display = g ? 'inline-flex' : 'none';
+      gFile = null;
+      gGalleryFiles = null;
+      document.getElementById('g_gallery_files').value = '';
+      document.getElementById('g_gallery_status').textContent = 'Select 1 or more branding assets to upload automatically to bucket';
+      document.getElementById('graphicModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('graphicForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        let imageUrl = document.getElementById('g_image_url').value;
+        if (gFile) {
+          showToast('Uploading main cover graphic file…');
+          const ext = gFile.name.split('.').pop();
+          const path = `gfx-${Date.now()}.${ext}`;
+          const { error: upErr } = await sb.storage.from('graphics-showcase').upload(path, gFile, { upsert: true });
+          if (!upErr) {
+            const { data } = sb.storage.from('graphics-showcase').getPublicUrl(path);
+            imageUrl = data.publicUrl;
+          }
+        }
+
+        let galleryUrlsArray = document.getElementById('g_gallery_urls').value.split('\n').map(s => s.trim()).filter(Boolean);
+        if (gGalleryFiles && gGalleryFiles.length > 0) {
+          showToast(`Uploading ${gGalleryFiles.length} gallery asset(s)…`);
+          for (let i = 0; i < gGalleryFiles.length; i++) {
+            const f = gGalleryFiles[i];
+            const ext = f.name.split('.').pop();
+            const path = `gfx-asset-${Date.now()}-${i}.${ext}`;
+            const { error: upErr } = await sb.storage.from('graphics-showcase').upload(path, f, { upsert: true });
+            if (!upErr) {
+              const { data } = sb.storage.from('graphics-showcase').getPublicUrl(path);
+              galleryUrlsArray.push(data.publicUrl);
+            }
+          }
+        }
+
+        const id = document.getElementById('g_id').value;
+        const title = document.getElementById('g_title').value.trim();
+        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now().toString(36);
+        const payload = {
+          title, slug,
+          category: document.getElementById('g_category').value.trim(),
+          card_desc: document.getElementById('g_card_desc').value.trim(),
+          image_url: imageUrl,
+          gallery_urls: galleryUrlsArray,
+          is_published: document.getElementById('g_is_published').checked,
+          sort_order: parseInt(document.getElementById('g_sort_order').value, 10) || 0
+        };
+        const { error } = id ? await sb.from('portfolio_graphics').update(payload).eq('id', id) : await sb.from('portfolio_graphics').insert(payload);
+        if (error) throw error;
+        closeModal('graphicModalOverlay');
+        showToast('Graphic item saved!');
+        loadGraphicsList();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteGraphic(id) {
+      if (!confirm('Are you sure you want to delete this graphic design item?')) return;
+      await sb.from('portfolio_graphics').delete().eq('id', id);
+      showToast('Deleted graphic item.');
+      loadGraphicsList();
+    }
+
+    // ---------- EXPERIENCE & WORK DURATION CALCULATOR ----------
+    function calculateWorkDuration() {
+      const startVal = document.getElementById('e_start_date').value;
+      const isCurrent = document.getElementById('e_is_current').checked;
+      const endInput = document.getElementById('e_end_date');
+      endInput.disabled = isCurrent;
+
+      if (!startVal) return;
+
+      const startDate = new Date(startVal + '-01');
+      const endDate = isCurrent ? new Date() : (endInput.value ? new Date(endInput.value + '-01') : new Date());
+
+      let totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+      if (totalMonths < 0) totalMonths = 0;
+
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      let durationText = '';
+      if (years > 0 && months > 0) {
+        durationText = `${years} yr${years > 1 ? 's' : ''} ${months} mo${months > 1 ? 's' : ''}`;
+      } else if (years > 0) {
+        durationText = `${years} yr${years > 1 ? 's' : ''}`;
+      } else {
+        durationText = `${months} mo${months > 1 ? 's' : ''}`;
+      }
+
+      const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const startFormatted = `${startDate.getFullYear()} ${monthsArr[startDate.getMonth()]}`;
+      const endFormatted = isCurrent ? 'Present' : `${endDate.getFullYear()} ${monthsArr[endDate.getMonth()]}`;
+
+      const fullPeriod = `${startFormatted} — ${endFormatted} · ${durationText}`;
+      document.getElementById('e_period').value = fullPeriod;
+      document.getElementById('e_duration_preview').textContent = `Auto Computed Period: ${fullPeriod}`;
+    }
+
+    async function loadExpList() {
+      const container = document.getElementById('experienceList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading experience…</p>';
+      const { data, error } = await sb.from('portfolio_experience').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `<p style="color:var(--text-muted);">No Experience table found yet.</p>`;
+        return;
+      }
+      expData = data || [];
+      if (!expData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-briefcase"></i>No experience items yet.</div>`;
+        return;
+      }
+      container.innerHTML = expData.map((e, idx) => `
+      <div class="data-row">
+        <div class="info">
+          <h3>${escapeHtml(e.title)}</h3>
+          <div class="meta"><span>${escapeHtml(e.period)}</span> · <span>${escapeHtml(e.company)}</span></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_experience', expData, ${idx}, -1, loadExpList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_experience', expData, ${idx}, 1, loadExpList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openExpModal('${e.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteExp('${e.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    function openExpModal(id) {
+      const e = id ? expData.find(x => x.id === id) : null;
+      document.getElementById('expEditorTitle').textContent = e ? 'Edit Experience' : 'Add Experience';
+      document.getElementById('e_id').value = e ? e.id : '';
+      document.getElementById('e_title').value = e ? e.title : '';
+      document.getElementById('e_company').value = e ? (e.company || '') : '';
+      document.getElementById('e_period').value = e ? (e.period || '') : '';
+      document.getElementById('e_duration_preview').textContent = e ? `Period: ${e.period}` : '';
+      document.getElementById('e_achievements').value = e ? (e.achievements || []).join('\n') : '';
+      document.getElementById('e_link_label').value = e ? (e.link_label || '') : '';
+      document.getElementById('e_link_url').value = e ? (e.link_url || '') : '';
+      document.getElementById('e_is_published').checked = e ? (e.is_published !== false) : true;
+      document.getElementById('e_sort_order').value = e ? (e.sort_order || 0) : 0;
+      document.getElementById('deleteExpBtn').style.display = e ? 'inline-flex' : 'none';
+      document.getElementById('expModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('expForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const id = document.getElementById('e_id').value;
+        const payload = {
+          period: document.getElementById('e_period').value.trim(),
+          title: document.getElementById('e_title').value.trim(),
+          company: document.getElementById('e_company').value.trim(),
+          achievements: document.getElementById('e_achievements').value.split('\n').map(s => s.trim()).filter(Boolean),
+          link_label: document.getElementById('e_link_label').value.trim() || null,
+          link_url: document.getElementById('e_link_url').value.trim() || null,
+          is_published: document.getElementById('e_is_published').checked,
+          sort_order: parseInt(document.getElementById('e_sort_order').value, 10) || 0
+        };
+        const { error } = id ? await sb.from('portfolio_experience').update(payload).eq('id', id) : await sb.from('portfolio_experience').insert(payload);
+        if (error) throw error;
+        closeModal('expModalOverlay');
+        showToast('Experience saved!');
+        loadExpList();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteExp(id) {
+      if (!confirm('Are you sure you want to delete this experience item?')) return;
+      await sb.from('portfolio_experience').delete().eq('id', id);
+      showToast('Deleted experience item.');
+      loadExpList();
+    }
+
+    // ---------- EDUCATION / GPAS LIST ----------
+    async function loadEduList() {
+      const container = document.getElementById('educationList');
+      container.innerHTML = '<p style="color:var(--text-muted);"><i class="fas fa-circle-notch spin"></i> Loading education…</p>';
+      const { data, error } = await sb.from('portfolio_education').select('*').order('sort_order', { ascending: true });
+      if (error) {
+        container.innerHTML = `<p style="color:var(--text-muted);">No Education table found yet.</p>`;
+        return;
+      }
+      eduData = data || [];
+      if (!eduData.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-graduation-cap"></i>No semester records yet.</div>`;
+        return;
+      }
+      container.innerHTML = eduData.map((ed, idx) => `
+      <div class="data-row">
+        <div class="info">
+          <h3>${escapeHtml(ed.semester_title)}</h3>
+          <div class="meta"><span>Badge: ${escapeHtml(ed.gpa_text)}</span></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" title="Move Up" onclick="moveItem('portfolio_education', eduData, ${idx}, -1, loadEduList)"><i class="fas fa-arrow-up"></i></button>
+          <button class="icon-btn" title="Move Down" onclick="moveItem('portfolio_education', eduData, ${idx}, 1, loadEduList)"><i class="fas fa-arrow-down"></i></button>
+          <button class="icon-btn" title="Edit" onclick="openEduModal('${ed.id}')"><i class="fas fa-pen"></i></button>
+          <button class="icon-btn danger" title="Delete" onclick="deleteEdu('${ed.id}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    function openEduModal(id) {
+      const ed = id ? eduData.find(x => x.id === id) : null;
+      document.getElementById('eduEditorTitle').textContent = ed ? 'Edit Semester' : 'Add Semester';
+      document.getElementById('ed_id').value = ed ? ed.id : '';
+      document.getElementById('ed_semester_key').value = ed ? ed.semester_key : 'sem1';
+      document.getElementById('ed_semester_title').value = ed ? ed.semester_title : 'Semester I';
+      document.getElementById('ed_gpa_text').value = ed ? ed.gpa_text : 'GPA 3.90';
+      document.getElementById('ed_is_pending').checked = ed ? !!ed.is_pending : false;
+      document.getElementById('deleteEduBtn').style.display = ed ? 'inline-flex' : 'none';
+      document.getElementById('eduModalOverlay').classList.add('open');
+    }
+
+    document.getElementById('eduForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const id = document.getElementById('ed_id').value;
+        const payload = {
+          semester_key: document.getElementById('ed_semester_key').value.trim(),
+          semester_title: document.getElementById('ed_semester_title').value.trim(),
+          gpa_text: document.getElementById('ed_gpa_text').value.trim(),
+          is_pending: document.getElementById('ed_is_pending').checked
+        };
+        const { error } = id ? await sb.from('portfolio_education').update(payload).eq('id', id) : await sb.from('portfolio_education').insert(payload);
+        if (error) throw error;
+        closeModal('eduModalOverlay');
+        showToast('Semester record saved!');
+        loadEduList();
+        autoCalculateStats();
+      } catch (err) { showToast('Could not save: ' + err.message, true); }
+    });
+
+    async function deleteEdu(id) {
+      if (!confirm('Are you sure you want to delete this semester record?')) return;
+      await sb.from('portfolio_education').delete().eq('id', id);
+      showToast('Deleted semester record.');
+      loadEduList();
+      autoCalculateStats();
+    }
+
+    checkSession();
+  </script>
 </body>
+
 </html>

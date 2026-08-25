@@ -1,0 +1,9 @@
+{
+  "01-landing-page.png": { "title": "Landing Page", "description": "Home" },
+  "02-sign-in.png": { "title": "Sign In", "description": "Auth" },
+  "03-create-account.png": { "title": "Create Account", "description": "Auth" },
+  "04-place-order.png": { "title": "Place New Order", "description": "Client Flow" },
+  "05-my-orders.png": { "title": "My Orders Dashboard", "description": "Client Flow" },
+  "06-order-conversation.png": { "title": "Order Conversation", "description": "Client Flow" },
+  "07-support-chat.png": { "title": "Support Chat Widget", "description": "Support" }
+}
