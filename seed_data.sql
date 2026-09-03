@@ -196,13 +196,14 @@ INSERT INTO public.portfolio_profile_settings (
   ARRAY['Full-Stack Developer.', 'Software Engineer.', 'UI/UX Designer.', 'Web Developer.', 'IT Professional.', 'IT Support Specialist.', 'IT Assistant.', 'Problem Solver.', 'Content Creator.', 'Graphic Designer.', 'Freelancer.'],
   'IT undergraduate focused on Full-Stack Development and Software Engineering. I build production-ready web systems end-to-end — from database design to deployment. Also experienced in IT Support, hardware troubleshooting, and network fundamentals.',
   '3+',
-  '6+',
-  '40+ Global',
-  '3.70',
-  'HNDIT Cumulative GPA — Semester I–III',
+  '10+',
+  '40+',
+  '3.70+',
+  'HNDIT GPA',
   'Average across 3 completed semesters. Semester IV result is pending.'
 ) ON CONFLICT (id) DO UPDATE SET
   availability_status = EXCLUDED.availability_status,
+  availability_badge = EXCLUDED.availability_badge,
   hero_title_name = EXCLUDED.hero_title_name,
   hero_title_role = EXCLUDED.hero_title_role,
   hero_roles = EXCLUDED.hero_roles,
@@ -211,6 +212,7 @@ INSERT INTO public.portfolio_profile_settings (
   deployed_systems = EXCLUDED.deployed_systems,
   freelance_clients = EXCLUDED.freelance_clients,
   cgpa_value = EXCLUDED.cgpa_value,
+  cgpa_label = EXCLUDED.cgpa_label,
   cgpa_note = EXCLUDED.cgpa_note;
 
 

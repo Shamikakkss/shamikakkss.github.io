@@ -852,14 +852,18 @@
               </div>
               <div class="field">
                 <label>Freelance Clients</label>
-                <input type="text" id="prof_freelance_clients" disabled placeholder="Global">
+                <input type="text" id="prof_freelance_clients" disabled placeholder="40+">
               </div>
             </div>
 
-            <div class="grid-2">
+            <div class="grid-3">
               <div class="field">
-                <label>Cumulative GPA Value (Auto-computed average)</label>
-                <input type="text" id="prof_cgpa_value" disabled placeholder="3.70">
+                <label>Cumulative GPA Value</label>
+                <input type="text" id="prof_cgpa_value" disabled placeholder="3.70+">
+              </div>
+              <div class="field">
+                <label>GPA Label / Degree</label>
+                <input type="text" id="prof_cgpa_label" disabled placeholder="HNDIT GPA">
               </div>
               <div class="field">
                 <label>CGPA Summary Note</label>
@@ -1510,6 +1514,8 @@
         document.getElementById('prof_deployed_systems').value = data.deployed_systems || '';
         document.getElementById('prof_freelance_clients').value = data.freelance_clients || '';
         document.getElementById('prof_cgpa_value').value = data.cgpa_value || '';
+        const gpaLbl = document.getElementById('prof_cgpa_label');
+        if (gpaLbl) gpaLbl.value = data.cgpa_label || '';
         document.getElementById('prof_cgpa_note').value = data.cgpa_note || '';
       }
       setProfileFieldsState(false);
@@ -1539,11 +1545,11 @@
 
         if (countSem > 0) {
           const avgGpa = (sumGpa / countSem).toFixed(2);
-          document.getElementById('prof_cgpa_value').value = avgGpa;
+          document.getElementById('prof_cgpa_value').value = `${avgGpa}+`;
           document.getElementById('prof_cgpa_note').value = `Average across ${countSem} completed semesters.`;
         }
 
-        showToast(`Stats auto-computed: ${pubCount}+ systems, CGPA ${countSem > 0 ? (sumGpa / countSem).toFixed(2) : ''}`);
+        showToast(`Stats auto-computed: ${pubCount}+ systems, CGPA ${countSem > 0 ? (sumGpa / countSem).toFixed(2) + '+' : ''}`);
       } catch (err) {
         showToast('Could not calculate stats: ' + err.message, true);
       }
@@ -1551,6 +1557,7 @@
 
     document.getElementById('saveProfileBtn').addEventListener('click', async () => {
       if (!confirm('Are you sure you want to save these profile changes to the database?')) return;
+      const gpaLbl = document.getElementById('prof_cgpa_label');
       const payload = {
         id: 'main_profile',
         availability_status: document.getElementById('prof_availability_status').value.trim(),
@@ -1562,6 +1569,7 @@
         deployed_systems: document.getElementById('prof_deployed_systems').value.trim(),
         freelance_clients: document.getElementById('prof_freelance_clients').value.trim(),
         cgpa_value: document.getElementById('prof_cgpa_value').value.trim(),
+        cgpa_label: gpaLbl ? gpaLbl.value.trim() : 'HNDIT GPA',
         cgpa_note: document.getElementById('prof_cgpa_note').value.trim()
       };
       const { error } = await sb.from('portfolio_profile_settings').upsert(payload);

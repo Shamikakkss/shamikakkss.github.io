@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -4502,11 +4502,11 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-num" data-count="3" data-suffix="+">0+</div>
+          <div class="stat-num" data-count="3" data-suffix="+">3+</div>
           <div class="stat-label">Years Experience</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num" data-count="6" data-suffix="+">0+</div>
+          <div class="stat-num" data-count="6" data-suffix="+">6+</div>
           <div class="stat-label">Deployed Systems</div>
         </div>
         <div class="stat-item">
@@ -4514,7 +4514,7 @@
           <div class="stat-label">Global Freelance Clients</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">3.7+</div>
+          <div class="stat-num" data-count="3.70" data-suffix="+">3.70+</div>
           <div class="stat-label">HNDIT GPA</div>
         </div>
       </div>
@@ -6013,22 +6013,35 @@
     }
 
     // Animated number counters
+    function animateCounterElement(el) {
+      const rawTarget = el.getAttribute('data-count');
+      if (!rawTarget) return;
+      const target = parseFloat(rawTarget);
+      if (isNaN(target)) return;
+      const suffix = el.getAttribute('data-suffix') || '';
+      const isDecimal = rawTarget.includes('.');
+      const decimals = isDecimal ? (rawTarget.split('.')[1] || '').length : 0;
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        if (isDecimal) {
+          el.textContent = (eased * target).toFixed(decimals || 2) + suffix;
+        } else {
+          el.textContent = Math.round(eased * target) + suffix;
+        }
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
     const counters = document.querySelectorAll('.stat-num[data-count]');
     const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          const target = parseFloat(el.getAttribute('data-count'));
-          const suffix = el.getAttribute('data-suffix') || '';
-          const duration = 1200;
-          const start = performance.now();
-          function tick(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.round(eased * target) + suffix;
-            if (progress < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
+          animateCounterElement(el);
           counterObserver.unobserve(el);
         }
       });
@@ -6821,13 +6834,17 @@ Always open to new projects, collaborations, and opportunities — let's connect
     async function loadProfileSettings() {
       if (!supabaseClient) return;
       try {
-        const { data } = await supabaseClient
+        const { data, error } = await supabaseClient
           .from('portfolio_profile_settings')
           .select('*')
           .eq('id', 'main_profile')
           .single();
 
-        if (!data) return;
+        if (error || !data) {
+          console.warn('Profile settings DB fallback:', error);
+          autoComputeHeroStats();
+          return;
+        }
 
         if (data.hero_roles && data.hero_roles.length > 0) {
           window.HERO_ROLES = data.hero_roles;
@@ -6843,23 +6860,39 @@ Always open to new projects, collaborations, and opportunities — let's connect
 
         const statItems = document.querySelectorAll('.hero-stats .stat-item');
         if (statItems && statItems.length >= 4) {
-          if (data.years_exp) {
-            const statExp = statItems[0].querySelector('.stat-num');
-            if (statExp) statExp.textContent = data.years_exp.includes('+') ? data.years_exp : `${data.years_exp}+`;
-          }
-          if (data.deployed_systems) {
-            const statSys = statItems[1].querySelector('.stat-num');
-            if (statSys) statSys.textContent = data.deployed_systems.includes('+') ? data.deployed_systems : `${data.deployed_systems}+`;
-          }
-          if (data.freelance_clients) {
-            const statCli = statItems[2].querySelector('.stat-num');
-            if (statCli) statCli.textContent = data.freelance_clients;
-          }
+          const applyStat = (elIndex, rawValue, defaultLabel) => {
+            if (!rawValue || !statItems[elIndex]) return;
+            const numEl = statItems[elIndex].querySelector('.stat-num');
+            const labelEl = statItems[elIndex].querySelector('.stat-label');
+            if (defaultLabel && labelEl) {
+              labelEl.textContent = defaultLabel;
+            }
+            if (!numEl) return;
+            const strVal = String(rawValue).trim();
+            const match = strVal.match(/^([0-9.]+)(.*)$/);
+            if (match) {
+              const numVal = match[1];
+              const suffix = match[2] || (strVal.includes('+') ? '+' : '');
+              numEl.setAttribute('data-count', numVal);
+              numEl.setAttribute('data-suffix', suffix);
+              if (typeof animateCounterElement === 'function') {
+                animateCounterElement(numEl);
+              } else {
+                numEl.textContent = strVal;
+              }
+            } else {
+              numEl.removeAttribute('data-count');
+              numEl.textContent = strVal;
+            }
+          };
+
+          if (data.years_exp) applyStat(0, data.years_exp, 'Years Experience');
+          if (data.deployed_systems) applyStat(1, data.deployed_systems, 'Deployed Systems');
+          if (data.freelance_clients) applyStat(2, data.freelance_clients, 'Global Freelance Clients');
           if (data.cgpa_value) {
-            const statGpa = statItems[3].querySelector('.stat-num');
-            if (statGpa) statGpa.textContent = data.cgpa_value.includes('+') ? data.cgpa_value : `${data.cgpa_value}+`;
+            applyStat(3, data.cgpa_value, data.cgpa_label || 'HNDIT GPA');
             const val = document.querySelector('.cgpa-summary-value');
-            if (val) val.textContent = data.cgpa_value;
+            if (val) val.textContent = data.cgpa_value.replace('+', '');
           }
         }
 
@@ -6868,7 +6901,8 @@ Always open to new projects, collaborations, and opportunities — let's connect
           if (note) note.textContent = data.cgpa_note;
         }
       } catch (err) {
-        console.log('Profile settings fallback');
+        console.warn('Profile settings error:', err);
+        autoComputeHeroStats();
       }
     }
 
@@ -7382,7 +7416,6 @@ Always open to new projects, collaborations, and opportunities — let's connect
 
     document.addEventListener('DOMContentLoaded', () => {
       loadProfileSettings();
-      autoComputeHeroStats();
       loadSkills();
       loadProjects();
       loadUiuxDesigns();
