@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /supabase-check.html
 
 Sitemap: https://shamikakkss.me/sitemap.xml

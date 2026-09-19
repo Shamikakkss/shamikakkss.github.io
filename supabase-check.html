@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Supabase Health Check — shamikakkss.me</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --line: rgba(255, 255, 255, .08);
+      --text: #e8e8ef;
+      --muted: #8b8b9e;
+      --ok: #6ee7b7;
+      --bad: #f87171;
+      --warn: #fbbf24;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 40px 20px 80px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .wrap { max-width: 880px; margin: 0 auto; }
+
+    h1 { font-size: 1.5rem; margin: 0 0 6px; }
+
+    .sub { color: var(--muted); font-size: .9rem; margin-bottom: 28px; }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+
+    .panel h2 {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      margin: 0 0 14px;
+      font-weight: 600;
+    }
+
+    .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .row:first-of-type { border-top: none; }
+
+    .pill {
+      flex: 0 0 auto;
+      font-family: var(--mono);
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-top: 2px;
+      letter-spacing: .06em;
+    }
+
+    .pill.ok { background: rgba(110, 231, 183, .12); color: var(--ok); }
+    .pill.bad { background: rgba(248, 113, 113, .12); color: var(--bad); }
+    .pill.warn { background: rgba(251, 191, 36, .12); color: var(--warn); }
+    .pill.run { background: rgba(255, 255, 255, .07); color: var(--muted); }
+
+    .name { font-family: var(--mono); font-size: .86rem; }
+
+    .note { color: var(--muted); font-size: .8rem; }
+
+    .note code {
+      font-family: var(--mono);
+      background: rgba(255, 255, 255, .06);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .score {
+      font-family: var(--mono);
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+    .thumbs img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+
+    .hint {
+      font-size: .82rem;
+      color: var(--muted);
+      border-left: 2px solid var(--line);
+      padding-left: 14px;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Supabase Health Check</h1>
+    <div class="sub">
+      Open this page from the same folder as <code>index.html</code>. It runs exactly the same queries the
+      portfolio runs, using the same anon key, and reports what the browser actually gets back.
+    </div>
+
+    <div class="panel">
+      <h2>Connection</h2>
+      <div id="conn"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Tables</h2>
+      <div id="tables"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Storage — "gallery" bucket</h2>
+      <div id="storage"></div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="hint">
+      Anything red usually means one of three things: the table does not exist, RLS has no anonymous
+      SELECT policy, or every row has <code>is_published = false</code>.
+      Running <code>supabase-schema.sql</code> in the SQL Editor fixes the first two.
+      <br><br>
+      This file is only a diagnostic — delete it from the repo once everything is green.
+    </div>
+  </div>
+
+  <script>
+    // Each entry mirrors a loader inside index.html.
+    const CHECKS = [
+      {
+        table: 'portfolio_profile_settings', label: 'Hero text + stat numbers',
+        filter: q => q.eq('id', 'main_profile'),
+        required: ['id'],
+        emptyHint: 'No row with id = "main_profile". Insert one, or the page falls back to auto-computed stats.'
+      },
+      {
+        table: 'portfolio_projects', label: 'Projects section',
+        filter: q => q.eq('is_published', true),
+        required: ['slug', 'title', 'card_desc', 'is_featured', 'sort_order']
+      },
+      {
+        table: 'portfolio_skills', label: 'Skills section',
+        filter: q => q.eq('is_published', true),
+        required: ['title', 'tags', 'sort_order']
+      },
+      {
+        table: 'portfolio_experience', label: 'Experience timeline',
+        filter: q => q.eq('is_published', true),
+        required: ['title', 'company', 'period', 'sort_order']
+      },
+      {
+        table: 'portfolio_certifications', label: 'Certifications grid',
+        filter: q => q.eq('is_published', true),
+        required: ['title', 'issuer', 'sort_order']
+      },
+      {
+        table: 'portfolio_uiux', label: 'UI/UX showcase',
+        filter: q => q.eq('is_published', true),
+        required: ['slug', 'title', 'images', 'sort_order']
+      },
+      {
+        table: 'portfolio_graphics', label: 'Graphic design showcase',
+        filter: q => q.eq('is_published', true),
+        required: ['slug', 'title', 'sort_order']
+      },
+      {
+        table: 'portfolio_education', label: 'GPA average (hero stat)',
+        filter: q => q,
+        required: ['gpa_text', 'is_pending']
+      },
+      {
+        table: 'portfolio_reviews', label: 'Reviews section',
+        filter: q => q.eq('is_published', true),
+        required: ['reviewer_name', 'quote', 'rating', 'sort_order'],
+        emptyHint: 'No published rows. Run seed-reviews.sql, or add your own — the section stays hidden until then.'
+      }
+    ];
+
+    const $ = id => document.getElementById(id);
+
+    function row(container, state, name, note) {
+      const el = document.createElement('div');
+      el.className = 'row';
+      el.innerHTML =
+        `<span class="pill ${state}">${state === 'ok' ? 'PASS' : state === 'bad' ? 'FAIL' : state === 'warn' ? 'WARN' : '...'}</span>
+         <div><div class="name">${name}</div><div class="note">${note || ''}</div></div>`;
+      container.appendChild(el);
+      return el;
+    }
+
+    const url = window.SUPABASE_URL;
+    const key = window.SUPABASE_ANON_KEY;
+
+    if (!url || !key) {
+      row($('conn'), 'bad', 'config.js', 'SUPABASE_URL / SUPABASE_ANON_KEY not found. Is config.js next to this file?');
+    } else if (!window.supabase) {
+      row($('conn'), 'bad', 'supabase-js', 'The CDN script did not load. Check the network tab.');
+    } else {
+      row($('conn'), 'ok', 'config.js + supabase-js', `Project: <code>${url.replace('https://', '').split('.')[0]}</code>`);
+      runAll();
+    }
+
+    async function runAll() {
+      const client = window.supabase.createClient(url, key);
+      const box = $('tables');
+
+      for (const chk of CHECKS) {
+        const el = row(box, 'run', chk.table, 'checking…');
+        const set = (state, note) => {
+          el.querySelector('.pill').className = 'pill ' + state;
+          el.querySelector('.pill').textContent =
+            state === 'ok' ? 'PASS' : state === 'bad' ? 'FAIL' : 'WARN';
+          el.querySelector('.note').innerHTML = note;
+        };
+
+        try {
+          const { data, error } = await chk.filter(client.from(chk.table).select('*')).limit(50);
+
+          if (error) {
+            const msg = (error.message || '').toLowerCase();
+            let why = error.message;
+            if (msg.includes('does not exist') || error.code === '42P01') {
+              why = 'Table does not exist. Run supabase-schema.sql.';
+            } else if (msg.includes('permission') || error.code === '42501') {
+              why = 'Blocked by RLS — no anonymous SELECT policy on this table.';
+            }
+            set('bad', `${chk.label} — ${why}`);
+            continue;
+          }
+
+          if (!data || !data.length) {
+            set('warn', `${chk.label} — table reachable but 0 rows returned. ` +
+              (chk.emptyHint || 'Either the table is empty or nothing has <code>is_published = true</code>. This section will be hidden on the site.'));
+            continue;
+          }
+
+          const cols = Object.keys(data[0]);
+          const missing = chk.required.filter(c => !cols.includes(c));
+          if (missing.length) {
+            set('bad', `${chk.label} — ${data.length} row(s), but missing column(s): <code>${missing.join(', ')}</code>. Run supabase-schema.sql.`);
+          } else {
+            set('ok', `${chk.label} — ${data.length} row(s) readable, all required columns present.`);
+          }
+        } catch (e) {
+          set('bad', `${chk.label} — ${e.message}`);
+        }
+      }
+
+      checkStorage();
+    }
+
+    async function checkStorage() {
+      const box = $('storage');
+      const BUCKET = 'gallery';
+
+      const listEl = row(box, 'run', 'object list', 'checking…');
+      const setList = (s, n) => {
+        listEl.querySelector('.pill').className = 'pill ' + s;
+        listEl.querySelector('.pill').textContent = s === 'ok' ? 'PASS' : s === 'bad' ? 'FAIL' : 'WARN';
+        listEl.querySelector('.note').innerHTML = n;
+      };
+
+      let images = [];
+      try {
+        const res = await fetch(`${url}/storage/v1/object/list/${BUCKET}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': key,
+            'Authorization': `Bearer ${key}`
+          },
+          body: JSON.stringify({ prefix: '', limit: 100, sortBy: { column: 'name', order: 'asc' } })
+        });
+
+        if (!res.ok) {
+          setList('bad', `HTTP ${res.status}. The bucket is missing, or storage.objects has no anonymous SELECT policy.`);
+        } else {
+          const files = await res.json();
+          images = (files || []).filter(f => f.name && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name));
+          if (!images.length) {
+            setList('warn', `Bucket reachable but holds no image files. The gallery strip will show an empty message.`);
+          } else {
+            setList('ok', `${images.length} image(s) listed in the bucket.`);
+          }
+        }
+      } catch (e) {
+        setList('bad', e.message);
+      }
+
+      // captions.json
+      const capEl = row(box, 'run', 'captions.json', 'checking…');
+      const setCap = (s, n) => {
+        capEl.querySelector('.pill').className = 'pill ' + s;
+        capEl.querySelector('.pill').textContent = s === 'ok' ? 'PASS' : s === 'bad' ? 'FAIL' : 'WARN';
+        capEl.querySelector('.note').innerHTML = n;
+      };
+
+      try {
+        const res = await fetch(`${url}/storage/v1/object/public/${BUCKET}/captions.json`, { cache: 'no-store' });
+        if (!res.ok) {
+          setCap('warn', `Not found in the bucket (HTTP ${res.status}). Optional — file names are prettified instead.`);
+        } else {
+          const json = await res.json();
+          const keys = Object.keys(json);
+          const named = images.filter(i => keys.includes(i.name)).length;
+          setCap('ok', `${keys.length} caption(s) defined; ${named} of ${images.length} listed image(s) matched by file name.`);
+        }
+      } catch (e) {
+        setCap('warn', 'Present but not valid JSON: ' + e.message);
+      }
+
+      // Public download of one real object
+      if (images.length) {
+        const imgEl = row(box, 'run', 'public image URL', 'checking…');
+        const first = `${url}/storage/v1/object/public/${BUCKET}/${images[0].name}`;
+        const probe = new Image();
+        probe.onload = () => {
+          imgEl.querySelector('.pill').className = 'pill ok';
+          imgEl.querySelector('.pill').textContent = 'PASS';
+          imgEl.querySelector('.note').textContent = 'Images are publicly downloadable.';
+        };
+        probe.onerror = () => {
+          imgEl.querySelector('.pill').className = 'pill bad';
+          imgEl.querySelector('.pill').textContent = 'FAIL';
+          imgEl.querySelector('.note').innerHTML = 'Listing works but the file will not load — set the bucket to <code>public</code>.';
+        };
+        probe.src = first;
+
+        $('thumbs').innerHTML = images.slice(0, 12)
+          .map(i => `<img src="${url}/storage/v1/object/public/${BUCKET}/${i.name}" alt="" loading="lazy">`)
+          .join('');
+      }
+    }
+  </script>
+</body>
+
+</html>
