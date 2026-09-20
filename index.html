@@ -1,9 +1,21 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Theme (light/dark) — set before CSS loads to avoid a flash of the wrong theme -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('uf-theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) { }
+    })();
+  </script>
 
   <title>Sachintha Shyamika | IT Professional &amp; Full-Stack Developer</title>
 
@@ -41,15 +53,16 @@
   <meta property="og:title" content="Sachintha Shyamika | IT Professional &amp; Full-Stack Developer">
   <meta property="og:description"
     content="IT Professional &amp; Full-Stack Developer skilled in Full-Stack Software Engineering, IT Support, Hardware/Systems Troubleshooting and Network Fundamentals.">
-  <meta property="og:image" content="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png">
+  <meta property="og:image"
+    content="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png">
   <meta property="og:site_name" content="Sachintha Shyamika Portfolio">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sachintha Shyamika | IT Professional &amp; Full-Stack Developer">
-  <meta name="twitter:description"
-    content="IT Professional &amp; Full-Stack Developer portfolio from Sri Lanka.">
-  <meta name="twitter:image" content="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png">
+  <meta name="twitter:description" content="IT Professional &amp; Full-Stack Developer portfolio from Sri Lanka.">
+  <meta name="twitter:image"
+    content="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png">
 
   <script type="application/ld+json">
   {
@@ -124,7 +137,8 @@
 
             <div class="col-3">
               <div class="site-logo">
-                <a href="#home-section" class="unslate_co--site-logo" style="display:inline-flex;align-items:center;gap:10px;">
+                <a href="#home-section" class="unslate_co--site-logo"
+                  style="display:inline-flex;align-items:center;gap:10px;">
                   <img src="images/logo-icon.svg" alt="" width="52" height="52" style="border-radius:8px;">
                   <span class="logo-text-col">
                     <span class="logo-name">Sachintha<span class="logo-dot">.</span></span>
@@ -137,9 +151,9 @@
             <div class="col text-right">
               <ul class="site-nav-ul js-clone-nav text-left d-none d-lg-inline-block">
                 <li><a href="#home-section" class="nav-link">Home</a></li>
-                <li><a href="#portfolio-section" class="nav-link">Work</a></li>
                 <li><a href="#about-section" class="nav-link">About</a></li>
-                <li><a href="#journey-section" class="nav-link">Journey</a></li>
+                <li><a href="#portfolio-section" class="nav-link">Projects</a></li>
+                <li><a href="#journey-section" class="nav-link">Education</a></li>
                 <li><a href="#reviews-section" class="nav-link">Reviews</a></li>
                 <li><a href="#gallery-section" class="nav-link">Gallery</a></li>
                 <li><a href="#contact-section" class="nav-link">Contact</a></li>
@@ -161,7 +175,7 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-md-9 mx-auto text-center"><br><br><br>
-<!-- 
+              <!-- 
               <div class="uf-hero-avatar-wrap mb-3">
                 <div class="uf-hero-avatar">
                   <img src="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png" alt="Sachintha Shyamika" class="uf-avatar-img">
@@ -177,7 +191,7 @@
               <h1 class="heading text-white">Sachintha Shyamika</h1>
 
               <h2 class="subheading text-white">
-                 <span id="uf-typed">Full-Stack Developer.</span>
+                <span id="uf-typed">Full-Stack Developer.</span>
               </h2>
 
               <p class="subheading text-white" id="uf-hero-subtitle">
@@ -192,7 +206,8 @@
 
               <ul class="uf-hero-social">
                 <li><a href="https://github.com/Shamikakkss" target="_blank" rel="noopener">GitHub</a></li>
-                <li><a href="https://linkedin.com/in/sachintha-shyamika-459b02338" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="https://linkedin.com/in/sachintha-shyamika-459b02338" target="_blank"
+                    rel="noopener">LinkedIn</a></li>
                 <li><a href="mailto:shamikakkss@gmail.com">Email</a></li>
               </ul>
 
@@ -202,7 +217,7 @@
       </div>
       <!-- END hero -->
 
-            <!-- ============================ COUNTERS ============================ -->
+      <!-- ============================ COUNTERS ============================ -->
       <div class="unslate_co--section section-counter" id="stats-section">
         <div class="container">
           <div class="row">
@@ -256,36 +271,7 @@
       </div>
       <!-- END counters -->
 
-      <!-- ============================ PORTFOLIO =========================== -->
-      <div class="unslate_co--section" id="portfolio-section">
-        <div class="container">
-
-          <div class="portfolio-wrapper">
-
-            <div class="d-flex align-items-center mb-4 gsap-reveal gsap-reveal-filter">
-              <h2 class="mr-auto heading-h2"><span class="gsap-reveal">Systems & Technical Projects</span></h2>
-
-              <a href="#" class="text-white js-filter d-inline-block d-lg-none">Filter</a>
-
-              <div class="filter-wrap">
-                <div class="filter ml-auto" id="filters">
-                  <a href="#" class="active" data-filter="*">All</a>
-                  <a href="#" data-filter=".f-dev">Development</a>
-                  <a href="#" data-filter=".f-uiux">UI/UX</a>
-                  <a href="#" data-filter=".f-graphics">Graphics</a>
-                </div>
-              </div>
-            </div>
-
-            <span class="uf-section-loading" id="uf-portfolio-loading"></span>
-            <div id="posts" class="row gutter-isotope-item"></div>
-
-          </div>
-        </div>
-      </div>
-      <!-- END portfolio -->
-
-      <!-- ============================ ABOUT + SKILLS (combined) ============= -->
+      <!-- ============================ ABOUT ============= -->
       <div class="unslate_co--section" id="about-section">
         <div class="container">
 
@@ -298,7 +284,7 @@
             <div class="col-lg-5 mb-5 mb-lg-0">
               <div class="uf-about-card">
                 <div class="uf-about-img-wrap">
-                  <img src="https://tvwxoexhhjgtqbhcfvwn.supabase.co/storage/v1/object/public/Project%20Banners/profileImage.png" alt="Sachintha Shyamika" class="img-fluid uf-about-img">
+                  <img src="images/aboutme Image.png" alt="Sachintha Shyamika" class="img-fluid uf-about-img">
                   <div class="uf-about-glow"></div>
                 </div>
                 <div class="uf-about-badge-float">
@@ -341,10 +327,46 @@
               </div>
             </div>
           </div>
-          
 
-          <!-- What I Do (Skills) — directly below, same section -->
-          <div class="section-heading-wrap text-center mt-5 pt-5 mb-5">
+        </div>
+      </div>
+      <!-- END about -->
+
+      <!-- ============================ PORTFOLIO =========================== -->
+      <div class="unslate_co--section" id="portfolio-section">
+        <div class="container">
+
+          <div class="portfolio-wrapper">
+
+            <div class="d-flex align-items-center mb-4 gsap-reveal gsap-reveal-filter">
+              <h2 class="mr-auto heading-h2"><span class="gsap-reveal">Systems & Technical Projects</span></h2>
+
+              <a href="#" class="text-white js-filter d-inline-block d-lg-none">Filter</a>
+
+              <div class="filter-wrap">
+                <div class="filter ml-auto" id="filters">
+                  <a href="#" class="active" data-filter="*">All</a>
+                  <a href="#" data-filter=".f-dev">Development</a>
+                  <a href="#" data-filter=".f-uiux">UI/UX</a>
+                  <a href="#" data-filter=".f-graphics">Graphics</a>
+                </div>
+              </div>
+            </div>
+
+            <span class="uf-section-loading" id="uf-portfolio-loading"></span>
+            <div id="posts" class="row gutter-isotope-item"></div>
+
+          </div>
+        </div>
+      </div>
+      <!-- END portfolio -->
+
+      <!-- ============================ SKILLS ============= -->
+      <div class="unslate_co--section" id="skills-section">
+        <div class="container">
+
+          <!-- What I Do (Skills) -->
+          <div class="section-heading-wrap text-center mb-5">
             <h2 class="heading-h2 text-center" id="services-section"><span>What I Do</span></h2>
           </div>
 
@@ -353,7 +375,7 @@
 
         </div>
       </div>
-      <!-- END about + skills -->
+      <!-- END skills -->
 
 
       <!-- ============================ JOURNEY ============================= -->
@@ -378,17 +400,18 @@
               </div>
 
               <div id="uf-panel-academic" style="display:none;">
-                
+
                 <!-- 1. Academic Qualifications Timeline -->
                 <div class="mb-5">
                   <div class="uf-timeline">
-                    
+
                     <div class="uf-tl-item">
                       <span class="uf-tl-period">Aug 2024 — Present</span>
                       <h3>Higher National Diploma in Information Technology</h3>
                       <div class="uf-tl-company">SLIATE — Dehiwala, Sri Lanka</div>
                       <p class="uf-muted mb-2" style="font-size: 13.5px; font-weight: 300;">
-                        Advanced diploma focusing on Software Engineering, Enterprise Web Development, Database Architectures &amp; Networking.
+                        Advanced diploma focusing on Software Engineering, Enterprise Web Development, Database
+                        Architectures &amp; Networking.
                       </p>
                       <div class="uf-tags mt-2">
                         <span class="uf-tag is-main"><span class="uf-dot"></span>Web Development</span>
@@ -404,7 +427,8 @@
                       <h3>Diploma in Cyber Security</h3>
                       <div class="uf-tl-company">NextGen Campus — Sri Lanka</div>
                       <p class="uf-muted mb-2" style="font-size: 13.5px; font-weight: 300;">
-                        Specialized study in cyber defense, vulnerability assessments, network security architectures, and security operations.
+                        Specialized study in cyber defense, vulnerability assessments, network security architectures,
+                        and security operations.
                       </p>
                       <div class="uf-tags mt-2">
                         <span class="uf-tag is-core"><span class="uf-dot"></span>Network Security</span>
@@ -429,8 +453,10 @@
                 <div class="mt-5 pt-3 border-top" style="border-color: rgba(255, 255, 255, 0.08) !important;">
                   <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
                     <div>
-                      <h4 class="text-white mb-1" style="font-size: 19px; font-weight: 700;">HNDIT Semester &amp; Module Breakdown</h4>
-                      <p class="uf-muted mb-0" style="font-size: 13px;">Click any semester card to view module codes and subject details</p>
+                      <h4 class="text-white mb-1" style="font-size: 19px; font-weight: 700;">HNDIT Semester &amp; Module
+                        Breakdown</h4>
+                      <p class="uf-muted mb-0" style="font-size: 13px;">Click any semester card to view module codes and
+                        subject details</p>
                     </div>
                   </div>
 
@@ -548,25 +574,32 @@
           </a>
 
           <div class="uf-footer-socials">
-            <a href="https://github.com/Shamikakkss" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub" title="GitHub">
+            <a href="https://github.com/Shamikakkss" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="GitHub" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
-            <a href="https://linkedin.com/in/sachintha-shyamika-459b02338" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn" title="LinkedIn">
+            <a href="https://linkedin.com/in/sachintha-shyamika-459b02338" target="_blank" rel="noopener noreferrer"
+              class="social-link" aria-label="LinkedIn" title="LinkedIn">
               <i class="fab fa-linkedin-in"></i>
             </a>
-            <a href="https://www.fiverr.com/s_sdesigns" target="_blank" rel="noopener noreferrer" class="social-link footer-fiverr-link" aria-label="Fiverr" title="Fiverr">
+            <a href="https://www.fiverr.com/s_sdesigns" target="_blank" rel="noopener noreferrer"
+              class="social-link footer-fiverr-link" aria-label="Fiverr" title="Fiverr">
               <span class="fiverr-mark" aria-hidden="true"><strong>fi</strong></span>
             </a>
             <a href="mailto:shamikakkss@gmail.com" class="social-link" aria-label="Email" title="Email">
               <i class="fas fa-envelope"></i>
             </a>
-            <a href="https://wa.me/94760835913" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp" title="WhatsApp">
+            <a href="https://wa.me/94760835913" target="_blank" rel="noopener noreferrer" class="social-link"
+              aria-label="WhatsApp" title="WhatsApp">
               <i class="fab fa-whatsapp"></i>
             </a>
           </div>
 
           <p class="uf-footer-copy">
-            <span id="copyBioBtn" style="cursor:pointer;" title="Copy my bio to clipboard">&copy;</span> <script>document.write(new Date().getFullYear());</script> <a href="https://shamikakkss.me/" target="_blank" rel="noopener noreferrer" style="color:var(--uf-accent); text-decoration:none;"><strong>Sachintha Shyamika</strong></a> &bull; All Rights Reserved.
+            <span id="copyBioBtn" style="cursor:pointer;" title="Copy my bio to clipboard">&copy;</span>
+            <script>document.write(new Date().getFullYear());</script> <a href="https://shamikakkss.me/" target="_blank"
+              rel="noopener noreferrer" style="color:var(--uf-accent); text-decoration:none;"><strong>Sachintha
+                Shyamika</strong></a> &bull; All Rights Reserved.
           </p>
 
         </div>
@@ -594,6 +627,32 @@
   </div>
 
   <div id="uf-toasts"></div>
+
+  <!-- ============================ THEME TOGGLE ========================== -->
+  <button id="uf-theme-toggle" class="uf-theme-toggle" type="button" aria-label="Switch between light and dark theme"
+    title="Switch theme">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+  </button>
+  <script>
+    (function () {
+      var btn = document.getElementById('uf-theme-toggle');
+      if (!btn) return;
+      var icon = btn.querySelector('i');
+
+      function apply(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (icon) icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        try { localStorage.setItem('uf-theme', theme); } catch (e) { }
+      }
+
+      apply(document.documentElement.getAttribute('data-theme') || 'dark');
+
+      btn.addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        apply(next);
+      });
+    })();
+  </script>
 
   <!-- Loader -->
   <div id="unslate_co--overlayer"></div>
