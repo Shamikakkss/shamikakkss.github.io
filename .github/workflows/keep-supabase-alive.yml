@@ -1,0 +1,33 @@
+name: Keep Supabase Project Active
+
+on:
+  schedule:
+    # Runs daily at 06:00 UTC (11:30 AM Sri Lanka time)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab anytime
+
+jobs:
+  ping-supabase:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send keep-alive request to Supabase API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://tvwxoexhhjgtqbhcfvwn.supabase.co' }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d3hvZXhoaGpndHFiaGNmdnduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5OTMwMTEsImV4cCI6MjA5OTU2OTAxMX0.-LmxwsMvjA_lEfzbGEAQlK4MTtwvwyi4uBP8UuKpt2I' }}
+        run: |
+          echo "Sending keep-alive ping to Supabase..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/portfolio_profile_settings?select=id&limit=1")
+
+          echo "Response HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            echo "Success! Supabase project is active and activity timer reset."
+            exit 0
+          else
+            echo "Warning: Received unexpected status code $HTTP_STATUS"
+            exit 1
+          fi

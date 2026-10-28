@@ -16,20 +16,50 @@ create table if not exists public.portfolio_profile_settings (
 );
 
 alter table public.portfolio_profile_settings
-  add column if not exists hero_roles          text[],
-  add column if not exists availability_status text,
-  add column if not exists hero_subtitle       text,
-  add column if not exists years_exp           text,
-  add column if not exists deployed_systems    text,
-  add column if not exists freelance_clients   text,
-  add column if not exists cgpa_value          text,
-  add column if not exists cgpa_label          text,
-  add column if not exists cgpa_note           text,
-  add column if not exists reviews_platform_name text,  -- e.g. 'Fiverr'
-  add column if not exists reviews_platform_url  text,  -- link the "View Profile" button opens
-  add column if not exists reviews_total_count   text,  -- e.g. '109' — overrides the raw row count if set
+  add column if not exists hero_title_name         text,
+  add column if not exists hero_title_role         text,
+  add column if not exists hero_roles              text[],
+  add column if not exists availability_status     text,
+  add column if not exists availability_badge      text,
+  add column if not exists hero_subtitle           text,
+  add column if not exists hero_cta_work_label     text,
+  add column if not exists hero_cta_work_url       text,
+  add column if not exists hero_cta_hire_label     text,
+  add column if not exists hero_cta_hire_url       text,
+  add column if not exists years_exp               text,
+  add column if not exists years_exp_label         text,
+  add column if not exists deployed_systems        text,
+  add column if not exists deployed_systems_label  text,
+  add column if not exists freelance_clients       text,
+  add column if not exists freelance_clients_label text,
+  add column if not exists cgpa_value              text,
+  add column if not exists cgpa_label              text,
+  add column if not exists cgpa_note               text,
+  add column if not exists about_badge_icon        text,
+  add column if not exists about_badge_title       text,
+  add column if not exists about_badge_sub         text,
+  add column if not exists about_heading           text,
+  add column if not exists about_paragraphs        text[],
+  add column if not exists about_img_url           text,
+  add column if not exists cv_url                  text,
+  add column if not exists cv_label                text,
+  add column if not exists page_title              text,
+  add column if not exists meta_description        text,
+  add column if not exists meta_keywords           text,
+  add column if not exists about_section_title     text,
+  add column if not exists skills_section_title    text,
+  add column if not exists journey_section_title   text,
+  add column if not exists reviews_section_title   text,
+  add column if not exists reviews_section_desc    text,
+  add column if not exists gallery_section_title   text,
+  add column if not exists contact_section_title   text,
+  add column if not exists show_gallery            boolean default true,
+  add column if not exists show_reviews            boolean default true,
+  add column if not exists reviews_platform_name   text,  -- e.g. 'Fiverr'
+  add column if not exists reviews_platform_url    text,  -- link the "View Profile" button opens
+  add column if not exists reviews_total_count     text,  -- e.g. '109' — overrides the raw row count if set
   add column if not exists reviews_five_star_count text, -- e.g. '103' — shown in the stats meta line
-  add column if not exists updated_at          timestamptz default now();
+  add column if not exists updated_at              timestamptz default now();
 
 -- Seed the single settings row only if it does not exist yet.
 insert into public.portfolio_profile_settings (id, availability_status, cgpa_label)

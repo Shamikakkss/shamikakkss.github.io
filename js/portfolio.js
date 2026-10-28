@@ -91,8 +91,8 @@
   /* ------------------------------------------------------- profile / hero */
 
   var HERO_ROLES = [
-    'Full-Stack Developer.', 'Software Engineer.', 'UI/UX Designer.',
-    'IT Support Specialist.', 'Problem Solver.', 'Graphic Designer.'
+    'IT Support Specialist at Allianz.', 'Full-Stack Developer.', 'Enterprise Systems Support.',
+    'UI/UX & Graphic Designer.', 'IT Operations Associate.', 'Problem Solver.'
   ];
 
   function typeLoop() {
@@ -157,6 +157,33 @@
 
       if (!d) { typeLoop(); autoStats(); return; }
 
+      // Dynamic SEO Meta & Title
+      if (d.page_title) {
+        document.title = d.page_title;
+        var ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute('content', d.page_title);
+        var twTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twTitle) twTitle.setAttribute('content', d.page_title);
+      }
+      if (d.meta_description) {
+        var mDesc = document.querySelector('meta[name="description"]');
+        if (mDesc) mDesc.setAttribute('content', d.meta_description);
+        var ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', d.meta_description);
+        var twDesc = document.querySelector('meta[name="twitter:description"]');
+        if (twDesc) twDesc.setAttribute('content', d.meta_description);
+      }
+      if (d.meta_keywords) {
+        var mKey = document.querySelector('meta[name="keywords"]');
+        if (mKey) mKey.setAttribute('content', d.meta_keywords);
+      }
+
+      // Hero Name
+      if (d.hero_title_name) {
+        var hName = el('uf-hero-name');
+        if (hName) hName.textContent = d.hero_title_name;
+      }
+
       if (d.hero_roles && d.hero_roles.length) HERO_ROLES = d.hero_roles;
       if (d.availability_status) {
         var b = el('uf-availability');
@@ -167,9 +194,26 @@
         if (s) s.textContent = d.hero_subtitle;
       }
 
-      setCounter('stat-years', d.years_exp || '3+', 'Years Client Handling Experience');
-      setCounter('stat-systems', d.deployed_systems || '10+', 'Deployed Systems');
-      setCounter('stat-clients', d.freelance_clients || '40+', 'Global Freelance Clients');
+      // Hero CTA Buttons
+      if (d.hero_cta_work_label) {
+        var ctaW = el('uf-hero-cta-work');
+        if (ctaW) {
+          ctaW.textContent = d.hero_cta_work_label;
+          if (d.hero_cta_work_url) ctaW.setAttribute('href', d.hero_cta_work_url);
+        }
+      }
+      if (d.hero_cta_hire_label) {
+        var ctaH = el('uf-hero-cta-hire');
+        if (ctaH) {
+          ctaH.textContent = d.hero_cta_hire_label;
+          if (d.hero_cta_hire_url) ctaH.setAttribute('href', d.hero_cta_hire_url);
+        }
+      }
+
+      // Stat Counters (Value & Label dynamically from DB)
+      setCounter('stat-years', d.years_exp || '5+', d.years_exp_label || 'Years Technical Experience');
+      setCounter('stat-systems', d.deployed_systems || '10+', d.deployed_systems_label || 'Deployed Systems & Solutions');
+      setCounter('stat-clients', d.freelance_clients || '40+', d.freelance_clients_label || 'Global Clients & Support');
       setCounter('stat-gpa', d.cgpa_value || '3.70', d.cgpa_label || 'HNDIT Cumulative GPA — Semester I–III');
 
       if (d.cgpa_note) {
@@ -177,10 +221,102 @@
         if (n) n.textContent = d.cgpa_note;
       }
 
+      // About Me Section (Heading, Floating badge icon/text, Paragraphs, CV link)
+      if (d.about_heading) {
+        var ah = el('uf-about-heading');
+        if (ah) ah.textContent = d.about_heading;
+      }
+      if (d.about_badge_title) {
+        var abt = el('uf-about-badge-title');
+        if (abt) abt.textContent = d.about_badge_title;
+      }
+      if (d.about_badge_icon) {
+        var abi = el('uf-about-badge-icon');
+        if (abi) {
+          var iconName = d.about_badge_icon.trim();
+          if (iconName.indexOf('fa-') !== 0) iconName = 'fa-' + iconName;
+          abi.innerHTML = '<i class="fas ' + esc(iconName) + '"></i>';
+        }
+      }
+      if (d.about_badge_sub) {
+        var abs = el('uf-about-badge-sub');
+        if (abs) {
+          abs.textContent = d.about_badge_sub;
+          abs.style.display = 'block';
+        }
+      }
+      stopLoader('uf-about-loading');
+      if (d.about_paragraphs && d.about_paragraphs.length) {
+        var abBody = el('uf-about-body');
+        if (abBody) {
+          abBody.innerHTML = d.about_paragraphs.map(function (p, idx) {
+            return (idx === 0 ? '<p class="lead">' : '<p>') + p + '</p>';
+          }).join('');
+        }
+      } else if (d.about_text) {
+        var abBody = el('uf-about-body');
+        if (abBody) abBody.innerHTML = d.about_text;
+      }
+      if (d.about_img_url) {
+        var aImg = el('uf-about-img');
+        if (aImg) aImg.src = d.about_img_url;
+      }
+      if (d.cv_url) {
+        var cvEl = el('uf-cv-link');
+        if (cvEl) cvEl.setAttribute('href', d.cv_url);
+      }
+      if (d.cv_label) {
+        var cvLbl = el('uf-cv-label');
+        if (cvLbl) cvLbl.textContent = d.cv_label;
+      }
+
+      // Dynamic Section Titles
+      if (d.about_section_title) {
+        var sAb = el('uf-section-about-title');
+        if (sAb) sAb.textContent = d.about_section_title;
+      }
+      if (d.skills_section_title) {
+        var sSk = el('uf-section-skills-title');
+        if (sSk) sSk.textContent = d.skills_section_title;
+      }
+      if (d.journey_section_title) {
+        var sJn = el('uf-section-journey-title');
+        if (sJn) sJn.textContent = d.journey_section_title;
+      }
+      if (d.reviews_section_title) {
+        var sRv = el('uf-section-reviews-title');
+        if (sRv) sRv.textContent = d.reviews_section_title;
+      }
+      if (d.reviews_section_desc) {
+        var sRvd = el('uf-section-reviews-desc');
+        if (sRvd) sRvd.textContent = d.reviews_section_desc;
+      }
+      if (d.gallery_section_title) {
+        var sGl = el('uf-section-gallery-title');
+        if (sGl) sGl.textContent = d.gallery_section_title;
+      }
+      if (d.contact_section_title) {
+        var sCt = el('uf-section-contact-title');
+        if (sCt) sCt.textContent = d.contact_section_title;
+      }
+
+      // Section visibility toggles
+      if (d.show_gallery === false) {
+        hideSection('gallery-section');
+        var navGal = el('nav-gallery');
+        if (navGal) navGal.style.display = 'none';
+      }
+      if (d.show_reviews === false) {
+        hideSection('reviews-section');
+        var navRev = el('nav-reviews');
+        if (navRev) navRev.style.display = 'none';
+      }
+
       typeLoop();
       autoStats(d);
     } catch (e) {
       console.warn('[portfolio] profile settings:', e.message);
+      stopLoader('uf-about-loading');
       typeLoop();
       autoStats();
     }
@@ -219,7 +355,7 @@
             var years = (row.period || '').match(/\b(19|20)\d\d\b/g) || [];
             years.forEach(function (y) { if (+y < min) min = +y; });
           });
-          setCounter('stat-years', Math.max(1, new Date().getFullYear() - min) + '+', 'Years Client Handling Experience');
+          setCounter('stat-years', Math.max(1, new Date().getFullYear() - min) + '+', 'Years Practical IT Experience');
         }
       }
     } catch (err) { /* stats stay at their static defaults */ }
@@ -347,7 +483,14 @@
 
     stopLoader('uf-portfolio-loading');
 
-    if (!html) { hideSection('portfolio-section'); return; }
+    var navProj = el('nav-projects');
+    if (!html) {
+      hideSection('portfolio-section');
+      if (navProj) navProj.style.display = 'none';
+      return;
+    } else {
+      if (navProj) navProj.style.display = '';
+    }
 
     el('posts').innerHTML = html;
     initIsotope();
